@@ -3,6 +3,7 @@ import 'dart:math'; // ランダム用
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:convert';
+import 'package:url_launcher/url_launcher.dart'; // 外部リンク用
 
 void main() {
   debugPrint('Starting FishingApp...');
@@ -42,7 +43,7 @@ class HomePage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          debugPrint('FloatingActionButton pressed'); // デバッグログ
+          debugPrint('FloatingActionButton pressed');
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => const SearchPage()),
@@ -93,6 +94,7 @@ class _SearchPageState extends State<SearchPage> {
 
   // 入力条件が変更されたときに呼び出される
   void _onConditionChanged() {
+    debugPrint('_onConditionChanged called');
     if (_debounce?.isActive ?? false) {
       _debounce?.cancel();
     }
@@ -200,18 +202,34 @@ class _SearchPageState extends State<SearchPage> {
             Expanded(
               child: _filteredData.isEmpty
                   ? const Center(
-                      child: Text('一致する結果がありません'),
+                      child: Text(
+                        '一致する条件がありません',
+                        style: TextStyle(fontSize: 18, color: Colors.grey),
+                      ),
                     )
                   : ListView.builder(
                       itemCount: _filteredData.length,
                       itemBuilder: (context, index) {
                         final item = _filteredData[index];
-                        return Card(
-                          margin: const EdgeInsets.symmetric(vertical: 8.0),
-                          child: ListTile(
-                            title: Text(item['name']),
-                            subtitle: Text(
-                                '場所: ${item['location']} | 料金: ${item['price']}円'),
+                        final bool hasWebsite =
+                            item['link'] != null && item['link'].isNotEmpty;
+
+                        return GestureDetector(
+                          onTap: () async {
+                            if (hasWebsite) {
+                              final Uri url = Uri.parse(item['link']);
+                              if (await canLaunchUrl(url)) {
+                                await launchUrl(url);
+                              }
+                            }
+                          },
+                          child: Card(
+                            color: hasWebsite ? Colors.blue : Colors.grey,
+                            child: ListTile(
+                              title: Text(item['name']),
+                              subtitle:
+                                  Text(hasWebsite ? '公式HPあり' : '公式HPなし'),
+                            ),
                           ),
                         );
                       },
@@ -221,13 +239,5 @@ class _SearchPageState extends State<SearchPage> {
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _debounce?.cancel();
-    _nameController.dispose();
-    _locationController.dispose();
-    super.dispose();
   }
 }
