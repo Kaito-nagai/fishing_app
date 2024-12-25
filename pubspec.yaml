@@ -1,37 +1,34 @@
 name: fishing_app
 description: "A new Flutter project."
-# The following line prevents the package from being accidentally published to
-# pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-# The following defines the version and build number for your application.
 version: 1.0.0+1
 
 environment:
-  sdk: ^3.7.0-243.0.dev
+  sdk: ">=3.3.0 <4.0.0"
 
-# Dependencies specify other packages that your package needs in order to work.
 dependencies:
   flutter:
     sdk: flutter
 
-  # iOSスタイルのアイコン
+  shared_preferences: ^2.2.2
   cupertino_icons: ^1.0.8
-  
-  # 外部リンクを開くためのパッケージ
   url_launcher: ^6.2.6
+
+  # アップデートが必要なパッケージ
+  characters: ^1.3.0
+  collection: ^1.19.0
+  material_color_utilities: ^0.11.1
+  meta: ^1.15.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
-  # コード品質向上のためのLintパッケージ
   flutter_lints: ^5.0.0
 
-# Flutter用の設定
+
 flutter:
   uses-material-design: true
 
-  # アセットファイルの指定
   assets:
     - assets/data/sample_data.json

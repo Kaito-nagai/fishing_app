@@ -6,6 +6,8 @@ import 'dart:convert';
 import 'package:url_launcher/url_launcher.dart'; // 外部リンク用
 import 'package:flutter/foundation.dart'; // kDebugMode用
 import 'package:fishing_app/pages/search_form.dart'; // SearchFormをインポート
+import 'models/favorite_manager.dart';
+import 'models/favorite_item.dart';
 
 void main() {
   if (kDebugMode) {
@@ -26,38 +28,178 @@ class FishingApp extends StatelessWidget {
     return MaterialApp(
       title: 'Fishing App',
       theme: ThemeData(primarySwatch: Colors.blue),
-      home: const HomePage(), // ホーム画面を指定
+      home: const SplashScreen(), // ホーム画面を指定
+    );
+  }
+}
+
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
+
+  @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+    _navigateToHome(); // 2秒後にホーム画面に遷移
+  }
+
+  void _navigateToHome() {
+    Future.delayed(const Duration(seconds: 2), () {
+      if (!mounted) return; // 🔑 Stateがまだ有効か確認
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const HomePage()),
+      );
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.blueAccent,
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // 仮のロゴやテキスト（後から差し替え可能）
+            Icon(Icons.sailing, size: 100, color: const Color.fromARGB(255, 224, 68, 68)),
+            const SizedBox(height: 16),
+            const Text(
+              'Fishing App',
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
 
 // ホーム画面
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    if (kDebugMode) {
-      debugPrint('Building HomePage...');
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  List<FavoriteItem> _favoriteItems = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadFavorites();
+  }
+
+  // お気に入りリストを読み込む
+  Future<void> _loadFavorites() async {
+    final favorites = await FavoriteManager.loadFavorites();
+    setState(() {
+      _favoriteItems = favorites;
+    });
+  }
+
+  // お気に入りアイテムを削除
+  Future<void> _removeFavorite(String id) async {
+    await FavoriteManager.removeFavorite(id);
+    _loadFavorites();
+  }
+
+  // リストのアイテムを並び替え
+  void _moveItem(int oldIndex, int newIndex) {
+    setState(() {
+      if (newIndex > oldIndex) {
+        newIndex -= 1;
+      }
+      final item = _favoriteItems.removeAt(oldIndex);
+      _favoriteItems.insert(newIndex, item);
+    });
+    FavoriteManager.saveFavorites(_favoriteItems);
+  }
+
+  // 🟢 URLを開く処理（非同期処理を分離）
+  Future<void> _handleUrlLaunch(Uri url, String link) async {
+    bool canLaunch = false;
+
+    try {
+      canLaunch = await canLaunchUrl(url); // URLの有効性を確認
+      if (canLaunch) {
+        await launchUrl(url); // URLを開く
+        return;
+      }
+    } catch (e) {
+      canLaunch = false;
     }
-    return Scaffold(
-      appBar: AppBar(title: const Text('Fishing App')),
-      body: const Center(child: Text('ようこそ！', style: TextStyle(fontSize: 24))),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          if (kDebugMode) {
-            debugPrint('FloatingActionButton pressed');
-          }
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const SearchPage()),
-          );
-        },
-        child: const Icon(Icons.search),
+
+    // UIの更新はBuildContextが有効な場合のみ実行
+    if (!mounted) return;
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: canLaunch
+            ? Text('リンクを開けませんでした: $link')
+            : Text('エラーが発生しました: $link'),
+        backgroundColor: Colors.red,
       ),
     );
   }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('お気に入りリスト'),
+      ),
+  body: _favoriteItems.isEmpty
+    ? const Center(
+        child: Text(
+          'お気に入りがまだありません',
+          style: TextStyle(fontSize: 18, color: Colors.grey),
+        ),
+      )
+    : ReorderableListView(
+        onReorder: _moveItem,
+        children: _favoriteItems.map((item) {
+          return ListTile(
+            key: ValueKey(item.id),
+            title: Text(item.name),
+            subtitle: Text(item.link),
+            trailing: IconButton(
+              icon: const Icon(Icons.favorite, color: Colors.red),
+              onPressed: () => _removeFavorite(item.id),
+            ),
+            onTap: () {
+              final Uri url = Uri.parse(item.link); // URLをパース
+
+              // 非同期処理をUIから完全に分離
+              _handleUrlLaunch(url, item.link);
+            },
+          );
+        }).toList(),
+      ),
+floatingActionButton: FloatingActionButton(
+  onPressed: () {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const SearchPage()),
+    );
+  },
+  child: const Icon(Icons.search),
+),
+
+    );
+  }
 }
+
 
 // 検索画面
 class SearchPage extends StatefulWidget {
