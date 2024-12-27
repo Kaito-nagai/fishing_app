@@ -5,16 +5,17 @@ import 'package:flutter/services.dart';
 import 'dart:convert';
 import 'package:url_launcher/url_launcher.dart'; // 外部リンク用
 import 'package:flutter/foundation.dart'; // kDebugMode用
-import 'package:fishing_app/pages/search_form.dart'; // SearchFormをインポート
 import 'models/favorite_manager.dart';
 import 'models/favorite_item.dart';
+import 'package:fishing_app/pages/pages.dart';
+
 
 void main() {
-  if (kDebugMode) {
-    debugPrint('Starting FishingApp...');
-  }
-  runApp(const FishingApp());
+  runApp(MaterialApp(
+    home: SplashScreen(), // 初期画面としてSplashScreenを指定
+  ));
 }
+
 
 // アプリ全体のエントリーポイント
 class FishingApp extends StatelessWidget {

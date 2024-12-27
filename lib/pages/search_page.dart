@@ -15,6 +15,7 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
+
   // 🔍 検索条件用コントローラー
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _locationController = TextEditingController();
@@ -33,6 +34,7 @@ void initState() {
   super.initState();
   _loadJsonData(); // JSONデータをロード
   _loadFavorites(); // お気に入りデータをロード
+  print('🔍 初期_favoriteIds: $_favoriteIds'); // お気に入りリストの初期状態を確認
 }
 
   @override
@@ -43,25 +45,25 @@ void initState() {
     super.dispose();
   }
 
-  // 📥 JSONデータをロード
+  // JSONデータをロード
   Future<void> _loadJsonData() async {
   try {
-    debugPrint('📥 JSONデータの読み込みを開始します...'); // 開始メッセージ
+    debugPrint('JSONデータの読み込みを開始します...'); // 開始メッセージ
 
     final String response = await rootBundle.loadString('assets/data/sample_data.json');
-    debugPrint('✅ JSONファイルの内容: $response'); // JSONの生データを表示
+    debugPrint(' JSONファイルの内容: $response'); // JSONの生データを表示
 
     final data = json.decode(response);
-    debugPrint('✅ デコード後のデータ: $data'); // デコード後のデータを表示
+    debugPrint(' デコード後のデータ: $data'); // デコード後のデータを表示
 
     setState(() {
       _data = data;
       _filteredData = data;
-      debugPrint('✅ _dataに格納されたデータ: $_data'); // _dataの内容を表示
-      debugPrint('✅ _filteredDataに格納されたデータ: $_filteredData'); // _filteredDataの内容を表示
+      debugPrint(' _dataに格納されたデータ: $_data'); // _dataの内容を表示
+      debugPrint(' _filteredDataに格納されたデータ: $_filteredData'); // _filteredDataの内容を表示
     });
   } catch (e) {
-    debugPrint('❌ JSONデータの読み込みに失敗しました: $e');
+    debugPrint(' JSONデータの読み込みに失敗しました: $e');
   }
 }
 
@@ -74,15 +76,13 @@ void initState() {
     });
   }
 
-  Future<void> _toggleFavorite(dynamic item) async {
+  Future<void> toggleFavorite(Map<String, dynamic> item) async {
   final id = item['id'];
   setState(() {
     if (_favoriteIds.contains(id)) {
-      // お気に入りから削除
       FavoriteManager.removeFavorite(id);
       _favoriteIds.remove(id);
     } else {
-      // お気に入りに追加
       final favoriteItem = FavoriteItem(
         id: id,
         name: item['name'],
@@ -211,11 +211,7 @@ void initState() {
               ),
               const SizedBox(height: 16),
 
-              // 🔔 Snackbarを安全に表示するメソッド
-
-
-
-// // 📋 検索結果リスト
+// 検索結果リスト
 _filteredData.isEmpty
     ? const Center(child: Text('❌ 一致する条件がありません'))
     : ListView.builder(
@@ -226,6 +222,10 @@ _filteredData.isEmpty
           final item = _filteredData[index];
           final bool isFavorite = _favoriteIds.contains(item['id']);
           final bool hasWebsite = item['link'] != null && item['link'].isNotEmpty;
+
+          // デバッグログを追加
+          print('🔄 itemBuilderが実行されました: ${item['id']}');
+          print('❤️ isFavorite状態: $isFavorite');
 
           return Card(
             elevation: 4,
@@ -245,45 +245,45 @@ _filteredData.isEmpty
                   color: hasWebsite ? Colors.white70 : Colors.black54,
                 ),
               ),
-              trailing: IconButton(
-                icon: Icon(
-                  isFavorite ? Icons.favorite : Icons.favorite_border,
-                  color: isFavorite ? Colors.red : null,
-                ),
-                onPressed: () {
-                  _toggleFavorite(item); // お気に入りの追加・削除を切り替え
-                },
-              ),
-              onTap: () async {
-                if (hasWebsite) {
-                  final Uri url = Uri.parse(item['link']);
-                  try {
-                    if (await canLaunchUrl(url)) {
-                      await launchUrl(url, mode: LaunchMode.externalApplication);
-                    } else {
-                      if (!mounted) return;
-                      _showSnackBar('❌ リンクを開けませんでした: ${item['link']}', Colors.red);
-                    }
-                  } catch (e) {
-                    if (!mounted) return;
-                    _showSnackBar('❌ エラーが発生しました: $e', Colors.red);
-                  }
-                } else {
-                  if (!mounted) return;
-                  _showSnackBar('❌ 公式HPが存在しません', Colors.grey);
-                }
-              },
-            ),
-          );
-        },
-      )
+              trailing: Container(
+  color: Colors.yellow, // 背景色でボタンの領域を可視化
+  padding: EdgeInsets.all(8.0), // スペースを確保
+  child: SizedBox(
+    width: 48, // アイコンボタンの標準的な幅
+    height: 48, // アイコンボタンの標準的な高さ
+    child: IconButton(
+      icon: Icon(
+        isFavorite ? Icons.favorite : Icons.favorite_border,
+        color: Colors.red,
+      ), // Icon
+      onPressed: () {
+        print('❤️ IconButtonが押されました: ${item['id']}');
+        print('🛠️ itemの型: ${item.runtimeType}');
+        print('🛠️ itemの内容: $item');
+        final Map<String, dynamic> currentItem = item as Map<String, dynamic>;
+        toggleFavorite(currentItem); // 明示的に型指定
+      }, // onPressed
+    ), // IconButton
+  ), // SizedBox
+), // Container
 
-
-
-            ],
-          ),
-        ),
-      ),
-    );
+onTap: () async {
+  if (hasWebsite) {
+    final Uri url = Uri.parse(item['link']);
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url);
+    }
   }
+}, // onTap
+), 
+); 
+
+}, // itemBuilder (ListView.builder)
+),
+], // children (Column)
+),
+),
+),
+);
+}
 }
