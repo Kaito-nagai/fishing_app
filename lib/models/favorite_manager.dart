@@ -1,56 +1,50 @@
-import 'package:flutter/foundation.dart'; // debugPrint用
 import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:convert';
 import 'favorite_item.dart';
+import 'package:logger/logger.dart';
+
 
 class FavoriteManager {
-  static const String _favoritesKey = 'favorites';
+  List<FavoriteItem> favorites = [];
 
-  // お気に入りリストを取得
-static Future<List<FavoriteItem>> loadFavorites() async {
-  try {
+  /// お気に入りデータをロード
+  Future<void> loadFavorites() async {
     final prefs = await SharedPreferences.getInstance();
-    final String? favoritesJson = prefs.getString(_favoritesKey);
+    final favoriteList = prefs.getStringList('favorite_list') ?? [];
+    favorites = favoriteList.map((id) {
+      return FavoriteItem(
+        id: id,
+        name: 'お気に入り業者 $id',
+        link: 'https://example.com/$id',
+      );
+    }).toList();
+    final Logger logger = Logger();
+logger.d('お気に入りリストのデータをロードしました');
+  }
 
-    if (favoritesJson == null) {
-      return [];
+  /// お気に入りを追加・削除
+  void toggleFavorite(FavoriteItem item) {
+    final Logger logger = Logger();
+    if (favorites.any((fav) => fav.id == item.id)) {
+      favorites.removeWhere((fav) => fav.id == item.id);
+      logger.i('🗑️ お気に入りから削除: ${item.id}');
+    } else {
+      favorites.add(item);
+      logger.i('⭐ お気に入りに追加: ${item.id}');
     }
-
-    final List<dynamic> decoded = json.decode(favoritesJson);
-    return decoded.map((item) => FavoriteItem.fromJson(item)).toList();
-  } catch (e) {
-    debugPrint('❌ お気に入りリストの読み込み中にエラーが発生しました: $e');
-    return [];
+    saveFavorites();
   }
-}
 
-// お気に入りリストを保存
-static Future<void> saveFavorites(List<FavoriteItem> favorites) async {
-  try {
+  /// お気に入りデータを保存
+  Future<void> saveFavorites() async {
     final prefs = await SharedPreferences.getInstance();
-    final String encoded = json.encode(favorites.map((item) => item.toJson()).toList());
-    await prefs.setString(_favoritesKey, encoded);
-  } catch (e) {
-    debugPrint('❌ お気に入りリストの保存中にエラーが発生しました: $e');
+    final favoriteList = favorites.map((item) => item.id).toList();
+    await prefs.setStringList('favorite_list', favoriteList);
+    final Logger logger = Logger();
+    logger.i('お気に入りデータの保存が完了しました');
   }
-}
 
-
-  // アイテムを追加
-static Future<void> addFavorite(FavoriteItem item) async {
-  final favorites = await loadFavorites();
-  final exists = favorites.any((fav) => fav.id == item.id);
-  
-  if (!exists) {
-    favorites.add(item);
-    await saveFavorites(favorites);
-  }
-}
-
-  // アイテムを削除
-  static Future<void> removeFavorite(String id) async {
-    final favorites = await loadFavorites();
-    favorites.removeWhere((item) => item.id == id);
-    await saveFavorites(favorites);
+  /// お気に入りリストを取得
+  List<FavoriteItem> getFavorites() {
+    return favorites;
   }
 }

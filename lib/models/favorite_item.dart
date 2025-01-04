@@ -1,33 +1,29 @@
 class FavoriteItem {
-  final String id;       // 一意識別子
-  final String name;     // 業者名
-  final String link;     // 外部リンク
-  bool isFavorite;       // お気に入り状態
+  final String id;
+  final String name;
+  final String link;
 
   FavoriteItem({
     required this.id,
     required this.name,
     required this.link,
-    this.isFavorite = false,
   });
 
-  // JSON形式に変換するメソッド
+  /// JSONからオブジェクトを作成
+  factory FavoriteItem.fromJson(Map<String, dynamic> json) {
+    return FavoriteItem(
+      id: json['id'] ?? '',
+      name: json['name'] ?? '',
+      link: json['link'] ?? '',
+    );
+  }
+
+  /// オブジェクトをJSONに変換
   Map<String, dynamic> toJson() {
     return {
       'id': id,
       'name': name,
       'link': link,
-      'isFavorite': isFavorite,
     };
-  }
-
-  // JSONからFavoriteItemインスタンスを生成するメソッド
-  factory FavoriteItem.fromJson(Map<String, dynamic> json) {
-    return FavoriteItem(
-      id: json['id'] as String,
-      name: json['name'] as String,
-      link: json['link'] as String,
-      isFavorite: json['isFavorite'] as bool? ?? false,
-    );
   }
 }

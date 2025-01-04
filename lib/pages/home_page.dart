@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:fishing_app/models/favorite_manager.dart';
-import 'package:fishing_app/models/favorite_item.dart';
-import 'package:fishing_app/pages/search_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
-
+import '../widgets/favorite_button.dart';
+import '../pages/search_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -13,76 +12,26 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<FavoriteItem> _favoriteItems = [];
+  List<Map<String, dynamic>> favoriteItems = []; // お気に入りリスト
 
   @override
   void initState() {
     super.initState();
-    _loadFavorites();
+    _loadFavorites(); // お気に入りデータをロード
   }
 
   Future<void> _loadFavorites() async {
-    final favorites = await FavoriteManager.loadFavorites();
+    final prefs = await SharedPreferences.getInstance();
+    final favoriteList = prefs.getStringList('favorite_list') ?? [];
     setState(() {
-      _favoriteItems = favorites;
+      favoriteItems = favoriteList.map((key) {
+        return {
+          'id': key,
+          'name': 'お気に入り業者 $key',
+          'link': 'https://example.com/$key',
+        };
+      }).toList();
     });
-  }
-
-  Future<void> _removeFavorite(String id) async {
-    await FavoriteManager.removeFavorite(id);
-    _loadFavorites();
-  }
-
-  void _moveItem(int oldIndex, int newIndex) {
-    setState(() {
-      if (newIndex > oldIndex) newIndex -= 1;
-      final item = _favoriteItems.removeAt(oldIndex);
-      _favoriteItems.insert(newIndex, item);
-    });
-    FavoriteManager.saveFavorites(_favoriteItems);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('お気に入りリスト'),
-      ),
-      body: _favoriteItems.isEmpty
-          ? const Center(
-              child: Text(
-                'お気に入りがまだありません',
-                style: TextStyle(fontSize: 18, color: Colors.grey),
-              ),
-            )
-          : ReorderableListView(
-              onReorder: _moveItem,
-              children: _favoriteItems.map((item) {
-                return ListTile(
-                  key: ValueKey(item.id),
-                  title: Text(item.name),
-                  subtitle: Text(item.link),
-                  trailing: IconButton(
-                    icon: const Icon(Icons.favorite, color: Colors.red),
-                    onPressed: () => _removeFavorite(item.id),
-                  ),
-                  onTap: () {
-                    final Uri url = Uri.parse(item.link);
-                    _handleUrlLaunch(url, item.link);
-                  },
-                );
-              }).toList(),
-            ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const SearchPage()),
-          );
-        },
-        child: const Icon(Icons.search),
-      ),
-    );
   }
 
   Future<void> _handleUrlLaunch(Uri url, String link) async {
@@ -101,10 +50,64 @@ class _HomePageState extends State<HomePage> {
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: canLaunch
-            ? Text('リンクを開けませんでした: $link')
-            : Text('エラーが発生しました: $link'),
+        content: Text(
+          canLaunch ? 'リンクを開けませんでした: $link' : 'エラーが発生しました: $link',
+        ),
         backgroundColor: Colors.red,
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('お気に入りリスト'),
+      ),
+      body: favoriteItems.isEmpty
+          ? const Center(
+              child: Text(
+                'お気に入りがまだありません',
+                style: TextStyle(fontSize: 18, color: Colors.grey),
+              ),
+            )
+          : ListView.builder(
+              itemCount: favoriteItems.length,
+              itemBuilder: (context, index) {
+                final item = favoriteItems[index];
+                return ListTile(
+                  key: ValueKey(item['id']),
+                  title: Text(item['name'] ?? '不明な業者'),
+                  subtitle: Text(item['link'] ?? ''),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      FavoriteButton(
+                        favoriteKey: item['id'] ?? '',
+                        favoriteName: item['name'] ?? '',
+                        favoriteCount: 10,
+                        onFavoriteUpdated: _loadFavorites,
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.link, color: Colors.blue),
+                        onPressed: () {
+                          final Uri url = Uri.parse(item['link'] ?? '');
+                          _handleUrlLaunch(url, item['link'] ?? '');
+                        },
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const SearchPage()),
+          );
+        },
+        child: const Icon(Icons.search),
       ),
     );
   }
