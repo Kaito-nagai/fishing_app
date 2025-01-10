@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:provider/provider.dart';
+import '../providers/favorites_provider.dart';
 import '../widgets/favorite_button.dart';
-import '../pages/search_page.dart';
+import 'search_page.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -12,100 +13,91 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<Map<String, dynamic>> favoriteItems = []; // お気に入りリスト
-
-  @override
-  void initState() {
-    super.initState();
-    _loadFavorites(); // お気に入りデータをロード
-  }
-
-  Future<void> _loadFavorites() async {
-    final prefs = await SharedPreferences.getInstance();
-    final favoriteList = prefs.getStringList('favorite_list') ?? [];
-    setState(() {
-      favoriteItems = favoriteList.map((key) {
-        return {
-          'id': key,
-          'name': 'お気に入り業者 $key',
-          'link': 'https://example.com/$key',
-        };
-      }).toList();
-    });
-  }
-
-  Future<void> _handleUrlLaunch(Uri url, String link) async {
-    bool canLaunch = false;
-    try {
-      canLaunch = await canLaunchUrl(url);
-      if (canLaunch) {
-        await launchUrl(url);
-        return;
-      }
-    } catch (e) {
-      canLaunch = false;
-    }
-
-    if (!mounted) return;
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          canLaunch ? 'リンクを開けませんでした: $link' : 'エラーが発生しました: $link',
-        ),
-        backgroundColor: Colors.red,
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('お気に入りリスト'),
       ),
-      body: favoriteItems.isEmpty
-          ? const Center(
+      body: Consumer<FavoritesProvider>(
+        builder: (context, favoritesProvider, child) {
+          final favoriteItems = favoritesProvider.favorites;
+
+          if (favoriteItems.isEmpty) {
+            return const Center(
               child: Text(
                 'お気に入りがまだありません',
                 style: TextStyle(fontSize: 18, color: Colors.grey),
               ),
-            )
-          : ListView.builder(
-              itemCount: favoriteItems.length,
-              itemBuilder: (context, index) {
-                final item = favoriteItems[index];
-                return ListTile(
-                  key: ValueKey(item['id']),
-                  title: Text(item['name'] ?? '不明な業者'),
-                  subtitle: Text(item['link'] ?? ''),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      FavoriteButton(
-                        favoriteKey: item['id'] ?? '',
-                        favoriteName: item['name'] ?? '',
-                        favoriteCount: 10,
-                        onFavoriteUpdated: _loadFavorites,
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.link, color: Colors.blue),
-                        onPressed: () {
-                          final Uri url = Uri.parse(item['link'] ?? '');
-                          _handleUrlLaunch(url, item['link'] ?? '');
-                        },
-                      ),
-                    ],
-                  ),
-                );
-              },
-            ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const SearchPage()),
+            );
+          }
+
+          return ListView.builder(
+            itemCount: favoriteItems.length,
+            itemBuilder: (context, index) {
+              final item = favoriteItems[index];
+              return ListTile(
+                key: ValueKey(item['id']),
+                title: Text(item['name'] ?? '不明な業者'),
+                subtitle: Text(item['link'] ?? ''),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    FavoriteButton(
+                      favoriteKey: item['id'] ?? '',
+                      initialIsFavorite: favoritesProvider.isFavorite(item['id']),
+                      onFavoriteUpdated: () {
+                        if (favoritesProvider.isFavorite(item['id'])) {
+                          favoritesProvider.removeFavorite(item['id']);
+                        } else {
+                          favoritesProvider.addFavorite(item);
+                        }
+                      },
+                    ),
+                    const SizedBox(width: 8),
+                    IconButton(
+                      icon: const Icon(Icons.link, color: Colors.blue),
+                      onPressed: () async {
+                        final Uri url = Uri.parse(item['link'] ?? '');
+                        if (await canLaunchUrl(url)) {
+                          await launchUrl(url);
+                        } else {
+                          WidgetsBinding.instance.addPostFrameCallback((_) {
+                          if (mounted) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text('リンクを開けませんでした: ${item['link']}'),
+                                backgroundColor: Colors.red,
+                              ),
+                            );
+                          }
+                        });
+                       }
+                     },
+                    ),
+                  ],
+                ),
+              );
+            },
           );
+        },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          // 検索ページに移動
+          await Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => SearchPage(
+                favoriteItems: context.read<FavoritesProvider>().favorites,
+              ),
+            ),
+          );
+
+          // 戻ってきた後のUI更新
+          if (mounted) {
+            setState(() {}); // 必要に応じて再描画
+          }
         },
         child: const Icon(Icons.search),
       ),

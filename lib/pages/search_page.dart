@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter/foundation.dart';
 import 'dart:async';
 import '../widgets/search_form.dart';
 import '../utils/data_helper.dart';
+import '../widgets/favorite_button.dart';
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
+// FavoriteItem のパスを調整
 
-/// 🔍 検索画面
 class SearchPage extends StatefulWidget {
-  const SearchPage({super.key});
+  final List<Map<String, dynamic>> favoriteItems;
+
+  const SearchPage({
+    super.key,
+    required this.favoriteItems,
+  });
 
   @override
   State<SearchPage> createState() => _SearchPageState();
@@ -17,7 +25,6 @@ class _SearchPageState extends State<SearchPage> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _locationController = TextEditingController();
   final List<bool> _selectedPrices = List.generate(20, (index) => false);
-
   List<dynamic> _data = [];
   List<dynamic> _filteredData = [];
   Timer? _debounce;
@@ -41,38 +48,54 @@ class _SearchPageState extends State<SearchPage> {
 
   /// JSONデータをロード
   void _loadJsonData() async {
-    final data = await loadJsonData('assets/data/sample_data.json');
-    setState(() {
-      _data = data;
-      _filteredData = data;
-    });
+    try {
+      final List<dynamic> data =
+          await loadJsonData('assets/data/sample_data.json');
+      debugPrint('✅ Data Type: ${data.runtimeType}');
+
+      setState(() {
+        _data = data
+            .where((item) =>
+                item is Map<String, dynamic> &&
+                item['id'] != null &&
+                item['name'] != null &&
+                item['link'] != null)
+            .map<Map<String, dynamic>>((item) => Map<String, dynamic>.from(item))
+            .toList();
+        _filteredData = _data;
+      });
+
+      debugPrint('✅ Loaded Data: $_data');
+    } catch (e) {
+      debugPrint('❌ Error loading JSON data: $e');
+    }
   }
 
   /// ランダムデータを取得
-void _getRandomData() {
-  setState(() {
-    _filteredData = getRandomData(_data);
-  });
-}
+  void _getRandomData() {
+    setState(() {
+      _filteredData = getRandomData(_data);
+    });
+  }
 
   /// データをフィルタリング
-void _filterData() {
-  setState(() {
-    if (_nameController.text.isEmpty &&
-        _locationController.text.isEmpty &&
-        !_selectedPrices.contains(true)) {
-      _getRandomData();
-      return;
-    }
+  void _filterData() {
+    setState(() {
+      if (_nameController.text.isEmpty &&
+          _locationController.text.isEmpty &&
+          !_selectedPrices.contains(true)) {
+        _getRandomData();
+        return;
+      }
 
-    _filteredData = filterData(
-      data: _data,
-      nameFilter: _nameController.text,
-      locationFilter: _locationController.text,
-      selectedPrices: _selectedPrices,
-    );
-  });
-}
+      _filteredData = filterData(
+        data: _data,
+        nameFilter: _nameController.text,
+        locationFilter: _locationController.text,
+        selectedPrices: _selectedPrices,
+      );
+    });
+  }
 
   /// 入力条件変更時のディレイ処理
   void _onConditionChanged() {
@@ -80,7 +103,7 @@ void _filterData() {
       debugPrint('_onConditionChanged called');
     }
     _debounce?.cancel();
-    _debounce = onConditionChanged(() {
+    _debounce = Timer(const Duration(milliseconds: 300), () {
       setState(() {
         _filterData();
       });
@@ -90,7 +113,9 @@ void _filterData() {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('条件検索')),
+      appBar: AppBar(
+        title: const Text('条件検索'),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
@@ -165,7 +190,8 @@ void _filterData() {
                             }
                           },
                           child: Card(
-                            color: hasWebsite ? Colors.blue : Colors.grey,
+                            color:
+                                hasWebsite ? Colors.blue : Colors.grey.shade300,
                             child: ListTile(
                               title: Text(item['name']),
                               subtitle: Text(
@@ -175,6 +201,55 @@ void _filterData() {
                                       ? Colors.white
                                       : Colors.black,
                                 ),
+                              ),
+                              trailing: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  FavoriteButton(
+                                    favoriteKey: item['id'] ?? '',
+                                    initialIsFavorite: widget.favoriteItems.any(
+                                      (fav) => fav['id'] == item['id'],
+                                    ),
+                                    onFavoriteUpdated: () async {
+                                      setState(() {
+                                        final isAlreadyFavorite =
+                                            widget.favoriteItems.any(
+                                                (fav) => fav['id'] == item['id']);
+
+                                        if (isAlreadyFavorite) {
+                                          widget.favoriteItems.removeWhere(
+                                              (fav) => fav['id'] == item['id']);
+                                        } else {
+                                          widget.favoriteItems.add({
+                                            'id': item['id'].toString(),
+                                            'name': item['name'].toString(),
+                                            'link': item['link'].toString(),
+                                          });
+                                        }
+                                      });
+                                      final prefs = await SharedPreferences.getInstance();
+                                      await prefs.setString(
+                                        'favorite_list',
+                                        jsonEncode(widget.favoriteItems),
+                                      );
+                                      debugPrint(
+                                          '✅ Favorites saved to SharedPreferences');
+                                    },
+                                  ),
+                                  const SizedBox(width: 8),
+                                  IconButton(
+                                    icon: const Icon(Icons.link,
+                                        color: Colors.blue),
+                                    onPressed: () async {
+                                      if (hasWebsite) {
+                                        final Uri url = Uri.parse(item['link']);
+                                        if (await canLaunchUrl(url)) {
+                                          await launchUrl(url);
+                                        }
+                                      }
+                                    },
+                                  ),
+                                ],
                               ),
                             ),
                           ),

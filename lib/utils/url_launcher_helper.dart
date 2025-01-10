@@ -2,14 +2,18 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
 
 Future<void> handleUrlLaunch(BuildContext context, String? url) async {
-  if (url == null || url.isEmpty) {
-    if (!context.mounted) return; // mounted チェック
+  void showSnackBar(String message) {
+    if (!context.mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('リンクが無効です'),
+      SnackBar(
+        content: Text(message),
         backgroundColor: Colors.red,
       ),
     );
+  }
+
+  if (url == null || url.isEmpty) {
+    showSnackBar('リンクが無効です');
     return;
   }
 
@@ -18,12 +22,6 @@ Future<void> handleUrlLaunch(BuildContext context, String? url) async {
   if (await canLaunchUrl(uri)) {
     await launchUrl(uri);
   } else {
-    if (!context.mounted) return; // mounted チェック
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('リンクを開けませんでした: $url'),
-        backgroundColor: Colors.red,
-      ),
-    );
+    showSnackBar('リンクを開けませんでした: $url');
   }
 }

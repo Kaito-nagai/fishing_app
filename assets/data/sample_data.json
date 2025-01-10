@@ -1,21 +1,23 @@
 [
   {
+    "id": "item1",
     "name": "○○渡船",
     "location": "大阪湾",
     "price": 5000,
     "link": "https://example.com/tosen1"
   },
   {
+    "id": "item2",
     "name": "△△遊漁船",
     "location": "瀬戸内海",
     "price": 7000,
     "link": "https://example.com/yugyo1"
   },
   {
+    "id": "item3",
     "name": "▲▲渡船",
     "location": "東京湾",
     "price": 6000,
     "link": "https://example.com/tosen2"
   }
 ]
-
