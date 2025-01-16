@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../providers/favorites_provider.dart';
 import '../widgets/favorite_button.dart';
 import 'search_page.dart';
+import 'special_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HomePage extends StatefulWidget {
@@ -36,14 +37,54 @@ class _HomePageState extends State<HomePage> {
             itemCount: favoriteItems.length,
             itemBuilder: (context, index) {
               final item = favoriteItems[index];
-              return ListTile(
-                key: ValueKey(item['id']),
-                title: Text(item['name'] ?? '不明な業者'),
-                subtitle: Text(item['link'] ?? ''),
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    FavoriteButton(
+              final bool hasWebsite = (item['link'] ?? '').isNotEmpty;
+
+              return GestureDetector(
+                onTap: () async {
+                  if (hasWebsite) {
+                    final Uri url = Uri.parse(item['link'] ?? '');
+                    if (await canLaunchUrl(url)) {
+                      await launchUrl(url);
+                    } else {
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        if (mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text('リンクを開けませんでした: ${item['link']}'),
+                              backgroundColor: Colors.red,
+                            ),
+                          );
+                        }
+                      });
+                    }
+                  } else {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => SpecialPage(
+                          name: item['name'] ?? '不明な業者',
+                          price: item['price'] != null ? '${item['price']}円' : '料金不明',
+                          location: item['location'] ?? '場所不明',
+                          phoneNumber: '未設定', // 仮の電話番号
+                        ),
+                      ),
+                    );
+                  }
+                },
+                child: Card(
+                  color: hasWebsite ? Colors.blue : Colors.grey.shade300,
+                  child: ListTile(
+                    title: Text(
+                      item['name'] ?? '不明な業者',
+                      style: const TextStyle(color: Colors.black),
+                    ),
+                    subtitle: Text(
+                      hasWebsite ? item['link'] ?? '' : 'リンクなし',
+                      style: TextStyle(
+                        color: hasWebsite ? Colors.white70 : Colors.black54,
+                      ),
+                    ),
+                    trailing: FavoriteButton(
                       favoriteKey: item['id'] ?? '',
                       initialIsFavorite: favoritesProvider.isFavorite(item['id']),
                       onFavoriteUpdated: () {
@@ -54,28 +95,7 @@ class _HomePageState extends State<HomePage> {
                         }
                       },
                     ),
-                    const SizedBox(width: 8),
-                    IconButton(
-                      icon: const Icon(Icons.link, color: Colors.blue),
-                      onPressed: () async {
-                        final Uri url = Uri.parse(item['link'] ?? '');
-                        if (await canLaunchUrl(url)) {
-                          await launchUrl(url);
-                        } else {
-                          WidgetsBinding.instance.addPostFrameCallback((_) {
-                          if (mounted) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text('リンクを開けませんでした: ${item['link']}'),
-                                backgroundColor: Colors.red,
-                              ),
-                            );
-                          }
-                        });
-                       }
-                     },
-                    ),
-                  ],
+                  ),
                 ),
               );
             },
@@ -104,3 +124,4 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
+

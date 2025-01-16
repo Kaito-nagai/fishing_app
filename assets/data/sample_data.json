@@ -4,20 +4,31 @@
     "name": "○○渡船",
     "location": "大阪湾",
     "price": 5000,
-    "link": "https://example.com/tosen1"
+    "link": "https://example.com/tosen1",
+    "catch_info": "https://example.com/catch1"
   },
   {
     "id": "item2",
     "name": "△△遊漁船",
     "location": "瀬戸内海",
     "price": 7000,
-    "link": "https://example.com/yugyo1"
+    "link": "https://example.com/yugyo1",
+    "catch_info": "https://example.com/catch2"
   },
   {
     "id": "item3",
     "name": "▲▲渡船",
     "location": "東京湾",
     "price": 6000,
-    "link": "https://example.com/tosen2"
+    "link": "https://example.com/tosen2",
+    "catch_info": null
+  },
+  {
+    "id": "item4",
+    "name": "★★遊漁船",
+    "location": "瀬戸内海",
+    "price": 7000,
+    "link": null,
+    "catch_info": "https://example.com/catch4"
   }
 ]

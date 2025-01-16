@@ -16,6 +16,8 @@ dependencies:
   url_launcher: ^6.2.10
   logger: ^2.0.2
   provider: ^6.0.0
+  flutter_dotenv: ^5.0.2
+  http: ^1.2.2
 
   # アップデートが必要なパッケージ
   characters: ^1.3.0
@@ -33,3 +35,4 @@ flutter:
 
   assets:
     - assets/data/sample_data.json
+    - .env
