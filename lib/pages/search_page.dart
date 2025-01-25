@@ -228,3 +228,4 @@ class _SearchPageState extends State<SearchPage> {
     debugPrint('✅ Favorites saved to SharedPreferences');
   }
 }
+
