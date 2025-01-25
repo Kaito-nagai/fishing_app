@@ -50,7 +50,7 @@ class _SearchPageState extends State<SearchPage> {
   Future<void> _loadJsonData() async {
     try {
       final List<FishingSpot> data =
-          await loadJsonData('assets/data/sample_data.json');
+          await loadJsonData('assets/data/wakayama_data.json');
       setState(() {
         _data = data;
         _filteredData = _data;
@@ -60,27 +60,20 @@ class _SearchPageState extends State<SearchPage> {
     }
   }
 
-  void _getRandomData() {
-    setState(() {
-      _filteredData = getRandomData(_data);
-    });
-  }
-
   void _filterData() {
     setState(() {
-      if (_nameController.text.isEmpty &&
-          _locationController.text.isEmpty &&
-          !_selectedPrices.contains(true)) {
-        _getRandomData();
-        return;
-      }
+      final nameQuery = _nameController.text.trim().toLowerCase();
+      final locationQuery = _locationController.text.trim().toLowerCase();
+      final selectedPrices = _selectedPrices;
 
-      _filteredData = filterData(
-        data: _data,
-        nameFilter: _nameController.text,
-        locationFilter: _locationController.text,
-        selectedPrices: _selectedPrices,
-      );
+      _filteredData = _data.where((spot) {
+        final nameMatch = nameQuery.isEmpty || spot.name.toLowerCase().contains(nameQuery);
+        final locationMatch = locationQuery.isEmpty || spot.location.toLowerCase().contains(locationQuery);
+        final priceMatch = !selectedPrices.contains(true) ||
+            selectedPrices[spot.price ~/ 1000];
+
+        return nameMatch && locationMatch && priceMatch;
+      }).toList();
     });
   }
 
@@ -235,4 +228,3 @@ class _SearchPageState extends State<SearchPage> {
     debugPrint('✅ Favorites saved to SharedPreferences');
   }
 }
-

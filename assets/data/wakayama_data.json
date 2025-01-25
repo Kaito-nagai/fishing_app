@@ -1,0 +1,59 @@
+[
+    {
+      "id": "wakayama1",
+      "name": "浜丸渡船",
+      "location": "和歌山県すさみ町見老津",
+      "price": 5000,
+      "link": "https://www.hamamaru.jp/",
+      "catch_info": "http://blog.livedoor.jp/hamamarutosen/"
+    },
+    {
+      "id": "wakayama2",
+      "name": "林渡船",
+      "location": "和歌山県すさみ町見老津",
+      "price": 5000,
+      "link": "https://hayashitosen.com/",
+      "catch_info": "https://hayashitosen.com/category/fishing-results/"
+    },
+    {
+        "id": "wakayama3",
+        "name": "弁天丸",
+        "location": "和歌山県すさみ町見老津",
+        "price": 5000,
+        "link": "http://www.mirozu-bentenmaru.com/",
+        "catch_info": "http://www.mirozu-bentenmaru.com/chouka/"
+      },
+      {
+        "id": "wakayama4",
+        "name": "小川渡船",
+        "location": "和歌山県串本町出雲",
+        "price": 5000,
+        "link": "https://www.ogawa-tosen.com/",
+        "catch_info": "https://www.ogawa-tosen.com/tyouka"
+      },
+      {
+        "id": "wakayama5",
+        "name": "谷口渡船",
+        "location": "和歌山県串本町出雲",
+        "price": 5000,
+        "link": "https://www.taniguchitosen.com/",
+        "catch_info": "https://www.taniguchitosen.com/rockshore"
+      },
+      {
+        "id": "wakayama6",
+        "name": "松村渡船",
+        "location": "和歌山県串本町有田",
+        "price": 4000,
+        "link": "https://zekkouchou.com/kushimoto-matsumura/",
+        "catch_info": "https://zekkouchou.com/kushimoto-matsumura/catch.php"
+      },
+      {
+        "id": "wakayama7",
+        "name": "浜勝渡船",
+        "location": "和歌山県串本町須江",
+        "price": 4500,
+        "link": "https://hh1211.livedoor.blog/",
+        "catch_info": "https://hh1211.livedoor.blog/"
+      }
+  ]
+  

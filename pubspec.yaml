@@ -34,5 +34,5 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/data/sample_data.json
+    - assets/data/wakayama_data.json
     - .env
