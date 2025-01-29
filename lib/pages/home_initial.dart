@@ -23,8 +23,7 @@ class FigmaToCodeApp extends StatelessWidget {
 }
 
 class HomeInitialScreen extends StatelessWidget {
-  const HomeInitialScreen({super.key});
-
+const HomeInitialScreen({super.key});
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -88,7 +87,7 @@ class HomeInitialScreen extends StatelessWidget {
                               fontSize: 13,
                               fontFamily: 'Noto Sans JP',
                               fontWeight: FontWeight.w700,
-                              letterSpacing: 0.90,
+                              decoration: TextDecoration.none,
                             ),
                           ),
                         ),
@@ -139,6 +138,7 @@ class HomeInitialScreen extends StatelessWidget {
                                       fontSize: 13,
                                       fontFamily: 'Noto Sans JP',
                                       fontWeight: FontWeight.w500,
+                                      decoration: TextDecoration.none,
                                     ),
                                   ),
                                 ),
@@ -146,45 +146,10 @@ class HomeInitialScreen extends StatelessWidget {
                               Positioned(
                                 left: 24,
                                 top: 0,
-                                child: Container(
-                                  width: 23,
-                                  height: 21,
-                                  padding: const EdgeInsets.only(right: 0.35, bottom: 0.12),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      SizedBox(
-                                        width: 22.65,
-                                        height: 20.88,
-                                        child: Stack(
-                                          children: [
-                                            Positioned(
-                                              left: 0,
-                                              top: 0,
-                                              child: SizedBox(
-                                                width: 23,
-                                                height: 21,
-                                                child: Row(
-                                                  mainAxisSize: MainAxisSize.min,
-                                                  mainAxisAlignment: MainAxisAlignment.center,
-                                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                                  children: [
-                                                    Container(
-                                                      width: 23,
-                                                      height: 21,
-                                                      decoration: BoxDecoration(color: Color(0xFF777777)),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                                child: Icon(
+                                  Icons.favorite,
+                                  size: 21,
+                                  color: Color(0xFF777777),
                                 ),
                               ),
                             ],
@@ -213,8 +178,18 @@ class HomeInitialScreen extends StatelessWidget {
                                       fontSize: 13,
                                       fontFamily: 'Noto Sans JP',
                                       fontWeight: FontWeight.w500,
+                                      decoration: TextDecoration.none,
                                     ),
                                   ),
+                                ),
+                              ),
+                              Positioned(
+                                left: 13.5,
+                                top: 2,
+                                child: Icon(
+                                  Icons.search,
+                                  size: 21,
+                                  color: Color(0xFF777777),
                                 ),
                               ),
                             ],
@@ -243,8 +218,18 @@ class HomeInitialScreen extends StatelessWidget {
                                       fontSize: 13,
                                       fontFamily: 'Noto Sans JP',
                                       fontWeight: FontWeight.w500,
+                                      decoration: TextDecoration.none,
                                     ),
                                   ),
+                                ),
+                              ),
+                              Positioned(
+                                left: 13.5,
+                                top: 2,
+                                child: Icon(
+                                  Icons.home,
+                                  size: 21,
+                                  color: Colors.white,
                                 ),
                               ),
                             ],
@@ -291,7 +276,7 @@ class HomeInitialScreen extends StatelessWidget {
                               fontFamily: 'Roboto',
                               fontWeight: FontWeight.w400,
                               height: 1.50,
-                              letterSpacing: 0.50,
+                              decoration: TextDecoration.none,
                             ),
                           ),
                         ),
@@ -305,239 +290,9 @@ class HomeInitialScreen extends StatelessWidget {
                 top: 316,
                 child: SizedBox(
                   width: 377,
-                  height: 248,
+                  height: 120,
                   child: Stack(
                     children: [
-                      Positioned(
-                        left: 0,
-                        top: 192,
-                        child: SizedBox(
-                          width: 377,
-                          height: 56,
-                          child: Stack(
-                            children: [
-                              Positioned(
-                                left: 337,
-                                top: 19,
-                                child: Container(
-                                  width: 20,
-                                  height: 18,
-                                  padding: const EdgeInsets.only(right: 0.31, bottom: 0.10),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      SizedBox(
-                                        width: 19.69,
-                                        height: 17.90,
-                                        child: Stack(
-                                          children: [
-                                            Positioned(
-                                              left: 0,
-                                              top: 0,
-                                              child: SizedBox(
-                                                width: 20,
-                                                height: 18,
-                                                child: Row(
-                                                  mainAxisSize: MainAxisSize.min,
-                                                  mainAxisAlignment: MainAxisAlignment.center,
-                                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                                  children: [
-                                                    Container(
-                                                      width: 20,
-                                                      height: 18,
-                                                      decoration: BoxDecoration(color: Color(0xFFD8D8D8)),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                left: 126,
-                                top: 31,
-                                child: SizedBox(
-                                  width: 168,
-                                  height: 16,
-                                  child: Opacity(
-                                    opacity: 0.50,
-                                    child: Text(
-                                      '和歌山県すさみ町見老津',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 13,
-                                        fontFamily: 'Noto Sans JP',
-                                        fontWeight: FontWeight.w500,
-                                        letterSpacing: 0.90,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                left: 115,
-                                top: 36,
-                                child: SizedBox(width: 7, height: 9, child: Stack()),
-                              ),
-                              Positioned(
-                                left: 115,
-                                top: 9,
-                                child: SizedBox(
-                                  width: 115,
-                                  height: 20,
-                                  child: Text(
-                                    '浜丸渡船',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 18,
-                                      fontFamily: 'Noto Sans JP',
-                                      fontWeight: FontWeight.w900,
-                                      letterSpacing: 0.90,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                left: 0,
-                                top: 0,
-                                child: Container(
-                                  width: 95,
-                                  height: 56,
-                                  decoration: ShapeDecoration(
-                                    image: DecorationImage(
-                                      image: NetworkImage("https://via.placeholder.com/95x56"),
-                                      fit: BoxFit.fill,
-                                    ),
-                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        left: 0,
-                        top: 128,
-                        child: SizedBox(
-                          width: 377,
-                          height: 56,
-                          child: Stack(
-                            children: [
-                              Positioned(
-                                left: 337,
-                                top: 19,
-                                child: Container(
-                                  width: 20,
-                                  height: 18,
-                                  padding: const EdgeInsets.only(right: 0.31, bottom: 0.10),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      SizedBox(
-                                        width: 19.69,
-                                        height: 17.90,
-                                        child: Stack(
-                                          children: [
-                                            Positioned(
-                                              left: 0,
-                                              top: 0,
-                                              child: SizedBox(
-                                                width: 20,
-                                                height: 18,
-                                                child: Row(
-                                                  mainAxisSize: MainAxisSize.min,
-                                                  mainAxisAlignment: MainAxisAlignment.center,
-                                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                                  children: [
-                                                    Container(
-                                                      width: 20,
-                                                      height: 18,
-                                                      decoration: BoxDecoration(color: Color(0xFFD8D8D8)),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                left: 126,
-                                top: 31,
-                                child: SizedBox(
-                                  width: 168,
-                                  height: 16,
-                                  child: Opacity(
-                                    opacity: 0.50,
-                                    child: Text(
-                                      '和歌山県すさみ町見老津',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 13,
-                                        fontFamily: 'Noto Sans JP',
-                                        fontWeight: FontWeight.w500,
-                                        letterSpacing: 0.90,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                left: 115,
-                                top: 36,
-                                child: SizedBox(width: 7, height: 9, child: Stack()),
-                              ),
-                              Positioned(
-                                left: 115,
-                                top: 9,
-                                child: SizedBox(
-                                  width: 115,
-                                  height: 20,
-                                  child: Text(
-                                    '浜丸渡船',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 18,
-                                      fontFamily: 'Noto Sans JP',
-                                      fontWeight: FontWeight.w900,
-                                      letterSpacing: 0.90,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                left: 0,
-                                top: 0,
-                                child: Container(
-                                  width: 95,
-                                  height: 56,
-                                  decoration: ShapeDecoration(
-                                    image: DecorationImage(
-                                      image: NetworkImage("https://via.placeholder.com/95x56"),
-                                      fit: BoxFit.fill,
-                                    ),
-                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
                       Positioned(
                         left: 0,
                         top: 64,
@@ -605,7 +360,7 @@ class HomeInitialScreen extends StatelessWidget {
                                         fontSize: 13,
                                         fontFamily: 'Noto Sans JP',
                                         fontWeight: FontWeight.w500,
-                                        letterSpacing: 0.90,
+                                        decoration: TextDecoration.none,
                                       ),
                                     ),
                                   ),
@@ -614,7 +369,15 @@ class HomeInitialScreen extends StatelessWidget {
                               Positioned(
                                 left: 115,
                                 top: 36,
-                                child: SizedBox(width: 7, height: 9, child: Stack()),
+                                child: SizedBox(
+                                  width: 7,
+                                  height: 9,
+                                  child: Icon(
+                                    Icons.location_pin,
+                                    size: 9,
+                                    color: Color(0xFF777777),
+                                  ),
+                                ),
                               ),
                               Positioned(
                                 left: 115,
@@ -629,20 +392,35 @@ class HomeInitialScreen extends StatelessWidget {
                                       fontSize: 18,
                                       fontFamily: 'Noto Sans JP',
                                       fontWeight: FontWeight.w900,
-                                      letterSpacing: 0.90,
+                                      decoration: TextDecoration.none,
                                     ),
                                   ),
                                 ),
                               ),
                               Positioned(
-                                left: 0,
-                                top: 0,
+                                left: 8,
+                                top: 380,
                                 child: Container(
                                   width: 95,
                                   height: 56,
                                   decoration: ShapeDecoration(
                                     image: DecorationImage(
-                                      image: NetworkImage("https://via.placeholder.com/95x56"),
+                                      image: AssetImage("assets/images/placeholder_image.png"),
+                                      fit: BoxFit.fill,
+                                    ),
+                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                                  ),
+                                ),
+                              ),
+                              Positioned(
+                                left: 8,
+                                top: 316,
+                                child: Container(
+                                  width: 95,
+                                  height: 56,
+                                  decoration: ShapeDecoration(
+                                    image: DecorationImage(
+                                      image: AssetImage("assets/images/placeholder_image.png"),
                                       fit: BoxFit.fill,
                                     ),
                                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
@@ -720,7 +498,7 @@ class HomeInitialScreen extends StatelessWidget {
                                         fontSize: 13,
                                         fontFamily: 'Noto Sans JP',
                                         fontWeight: FontWeight.w500,
-                                        letterSpacing: 0.90,
+                                        decoration: TextDecoration.none,
                                       ),
                                     ),
                                   ),
@@ -729,7 +507,15 @@ class HomeInitialScreen extends StatelessWidget {
                               Positioned(
                                 left: 115,
                                 top: 36,
-                                child: SizedBox(width: 7, height: 9, child: Stack()),
+                                child: SizedBox(
+                                  width: 7,
+                                  height: 9,
+                                  child: Icon(
+                                    Icons.location_pin,
+                                    size: 9,
+                                    color: Color(0xFF777777),
+                                  ),
+                                ),
                               ),
                               Positioned(
                                 left: 207,
@@ -756,7 +542,7 @@ class HomeInitialScreen extends StatelessWidget {
                                       fontSize: 18,
                                       fontFamily: 'Noto Sans JP',
                                       fontWeight: FontWeight.w900,
-                                      letterSpacing: 0.90,
+                                      decoration: TextDecoration.none,
                                     ),
                                   ),
                                 ),
@@ -769,7 +555,7 @@ class HomeInitialScreen extends StatelessWidget {
                                   height: 56,
                                   decoration: ShapeDecoration(
                                     image: DecorationImage(
-                                      image: NetworkImage("https://via.placeholder.com/95x56"),
+                                      image: AssetImage("assets/images/placeholder_image.png"),
                                       fit: BoxFit.fill,
                                     ),
                                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
@@ -797,7 +583,7 @@ class HomeInitialScreen extends StatelessWidget {
                       fontSize: 16,
                       fontFamily: 'Noto Sans JP',
                       fontWeight: FontWeight.w700,
-                      letterSpacing: 0.90,
+                      decoration: TextDecoration.none,
                     ),
                   ),
                 ),
@@ -815,7 +601,7 @@ class HomeInitialScreen extends StatelessWidget {
                       fontSize: 16,
                       fontFamily: 'Noto Sans JP',
                       fontWeight: FontWeight.w700,
-                      letterSpacing: 0.90,
+                      decoration: TextDecoration.none,
                     ),
                   ),
                 ),
@@ -833,7 +619,7 @@ class HomeInitialScreen extends StatelessWidget {
                       fontSize: 27,
                       fontFamily: 'Noto Sans JP',
                       fontWeight: FontWeight.w700,
-                      letterSpacing: 0.90,
+                      decoration: TextDecoration.none,
                     ),
                   ),
                 ),
@@ -874,13 +660,23 @@ class HomeInitialScreen extends StatelessWidget {
                               fontFamily: 'Roboto',
                               fontWeight: FontWeight.w400,
                               height: 1.50,
-                              letterSpacing: 0.50,
+                              decoration: TextDecoration.none,
                             ),
                           ),
                         ),
                       ),
                     ],
                   ),
+                ),
+              ),
+              Positioned(
+                left: 191,
+                top: -38,
+                child: Container(
+                  width: 100,
+                  height: 100,
+                  clipBehavior: Clip.antiAlias,
+                  decoration: BoxDecoration(),
                 ),
               ),
             ],

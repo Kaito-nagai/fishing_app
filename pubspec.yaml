@@ -35,5 +35,6 @@ flutter:
 
   assets:
     - assets/data/wakayama_data.json
+    - assets/images/placeholder_image.png
     - .env
     
