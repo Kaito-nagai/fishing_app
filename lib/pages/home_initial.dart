@@ -145,10 +145,10 @@ const HomeInitialScreen({super.key});
                               ),
                               Positioned(
                                 left: 24,
-                                top: 0,
+                                top: 1,
                                 child: Icon(
                                   Icons.favorite,
-                                  size: 21,
+                                  size: 26,
                                   color: Color(0xFF777777),
                                 ),
                               ),
@@ -184,11 +184,11 @@ const HomeInitialScreen({super.key});
                                 ),
                               ),
                               Positioned(
-                                left: 13.5,
-                                top: 2,
+                                left: 12,
+                                top: 1,
                                 child: Icon(
                                   Icons.search,
-                                  size: 21,
+                                  size: 26,
                                   color: Color(0xFF777777),
                                 ),
                               ),
@@ -224,11 +224,11 @@ const HomeInitialScreen({super.key});
                                 ),
                               ),
                               Positioned(
-                                left: 13.5,
-                                top: 2,
+                                left: 12,
+                                top: 1,
                                 child: Icon(
                                   Icons.home,
-                                  size: 21,
+                                  size: 26,
                                   color: Colors.white,
                                 ),
                               ),
@@ -293,264 +293,223 @@ const HomeInitialScreen({super.key});
                   height: 120,
                   child: Stack(
                     children: [
-                      Positioned(
-                        left: 0,
-                        top: 64,
-                        child: SizedBox(
-                          width: 377,
-                          height: 56,
-                          child: Stack(
-                            children: [
-                              Positioned(
-                                left: 337,
-                                top: 19,
-                                child: Container(
-                                  width: 20,
-                                  height: 18,
-                                  padding: const EdgeInsets.only(right: 0.31, bottom: 0.10),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      SizedBox(
-                                        width: 19.69,
-                                        height: 17.90,
-                                        child: Stack(
-                                          children: [
-                                            Positioned(
-                                              left: 0,
-                                              top: 0,
-                                              child: SizedBox(
-                                                width: 20,
-                                                height: 18,
-                                                child: Row(
-                                                  mainAxisSize: MainAxisSize.min,
-                                                  mainAxisAlignment: MainAxisAlignment.center,
-                                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                                  children: [
-                                                    Container(
-                                                      width: 20,
-                                                      height: 18,
-                                                      decoration: BoxDecoration(color: Color(0xFFD8D8D8)),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                left: 126,
-                                top: 31,
-                                child: SizedBox(
-                                  width: 168,
-                                  height: 16,
-                                  child: Opacity(
-                                    opacity: 0.50,
-                                    child: Text(
-                                      '和歌山県すさみ町見老津',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 13,
-                                        fontFamily: 'Noto Sans JP',
-                                        fontWeight: FontWeight.w500,
-                                        decoration: TextDecoration.none,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                left: 115,
-                                top: 36,
-                                child: SizedBox(
-                                  width: 7,
-                                  height: 9,
-                                  child: Icon(
-                                    Icons.location_pin,
-                                    size: 9,
-                                    color: Color(0xFF777777),
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                left: 115,
-                                top: 9,
-                                child: SizedBox(
-                                  width: 115,
-                                  height: 20,
-                                  child: Text(
-                                    '林渡船',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 18,
-                                      fontFamily: 'Noto Sans JP',
-                                      fontWeight: FontWeight.w900,
-                                      decoration: TextDecoration.none,
-                                    ),
-                                  ),
-                                ),
-                              ), 
-                              Positioned(
-                                left: 0,
-                                top: 0,
-                                child: Container(
-                                  width: 95,
-                                  height: 56,
-                                  decoration: ShapeDecoration(
-                                    image: DecorationImage(
-                                      image: AssetImage("assets/images/placeholder_image.png"),
-                                      fit: BoxFit.fill,
-                                    ),
-                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        left: 0,
-                        top: 0,
-                        child: SizedBox(
-                          width: 377,
-                          height: 56,
-                          child: Stack(
-                            children: [
-                              Positioned(
-                                left: 337,
-                                top: 19,
-                                child: Container(
-                                  width: 20,
-                                  height: 18,
-                                  padding: const EdgeInsets.only(right: 0.31, bottom: 0.10),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      SizedBox(
-                                        width: 19.69,
-                                        height: 17.90,
-                                        child: Stack(
-                                          children: [
-                                            Positioned(
-                                              left: 0,
-                                              top: 0,
-                                              child: SizedBox(
-                                                width: 20,
-                                                height: 18,
-                                                child: Row(
-                                                  mainAxisSize: MainAxisSize.min,
-                                                  mainAxisAlignment: MainAxisAlignment.center,
-                                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                                  children: [
-                                                    Container(
-                                                      width: 20,
-                                                      height: 18,
-                                                      decoration: BoxDecoration(color: Color(0xFFD8D8D8)),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                left: 126,
-                                top: 31,
-                                child: SizedBox(
-                                  width: 168,
-                                  height: 16,
-                                  child: Opacity(
-                                    opacity: 0.50,
-                                    child: Text(
-                                      '和歌山県すさみ町見老津',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 13,
-                                        fontFamily: 'Noto Sans JP',
-                                        fontWeight: FontWeight.w500,
-                                        decoration: TextDecoration.none,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                left: 115,
-                                top: 36,
-                                child: SizedBox(
-                                  width: 7,
-                                  height: 9,
-                                  child: Icon(
-                                    Icons.location_pin,
-                                    size: 9,
-                                    color: Color(0xFF777777),
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                left: 207,
-                                top: 15,
-                                child: Container(
-                                  width: 8,
-                                  height: 8,
-                                  decoration: ShapeDecoration(
-                                    color: Color(0xFF8DCDD6),
-                                    shape: OvalBorder(),
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                left: 115,
-                                top: 9,
-                                child: SizedBox(
-                                  width: 115,
-                                  height: 20,
-                                  child: Text(
-                                    '浜丸渡船',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 18,
-                                      fontFamily: 'Noto Sans JP',
-                                      fontWeight: FontWeight.w900,
-                                      decoration: TextDecoration.none,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                left: 0,
-                                top: 0,
-                                child: Container(
-                                  width: 95,
-                                  height: 56,
-                                  decoration: ShapeDecoration(
-                                    image: DecorationImage(
-                                      image: AssetImage("assets/images/placeholder_image.png"),
-                                      fit: BoxFit.fill,
-                                    ),
-                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+                      
+Positioned(
+  left: 0,
+  top: 64,
+  child: SizedBox(
+    width: 377,
+    height: 56,
+    child: Stack(
+      children: [
+        // フレームを最背面に追加
+        Container(
+          width: 377, // フレームの幅
+          height: 56, // フレームの高さ
+          decoration: BoxDecoration(
+            color: Color(0xFF2E2E2E), // フレームの背景色
+            borderRadius: BorderRadius.circular(5), // 角の半径
+            boxShadow: [ // ドロップシャドウ
+              BoxShadow(
+                color: Color.fromARGB(64, 0, 0, 0), // 不透明度をARGBで指定
+                offset: Offset(4, 4), // X: 4, Y: 4
+                blurRadius: 4, // ぼかし範囲: 4
+              ),
+            ],
+          ),
+        ),
+        // 業者リストの要素を配置
+        Positioned(
+          left: 337,
+          top: 18,
+          child: SizedBox(
+            width: 20,
+            height: 18,
+            child: Icon(
+              Icons.favorite, // ♡アイコン
+              size: 20, // サイズを指定
+              color: Color(0xFFD8D8D8), // カラーを指定
+            ),
+          ),
+        ),
+        Positioned(
+          left: 126,
+          top: 31,
+          child: SizedBox(
+            width: 168,
+            height: 16,
+            child: Opacity(
+              opacity: 0.50,
+              child: Text(
+                '和歌山県すさみ町見老津',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 13,
+                  fontFamily: 'Noto Sans JP',
+                  fontWeight: FontWeight.w500,
+                  decoration: TextDecoration.none,
+                ),
+              ),
+            ),
+          ),
+        ),
+        Positioned(
+          left: 115,
+          top: 36,
+          child: SizedBox(
+            width: 7,
+            height: 9,
+            child: Icon(
+              Icons.location_pin,
+              size: 9,
+              color: Color(0xFF777777),
+            ),
+          ),
+        ),
+        Positioned(
+          left: 115,
+          top: 8,
+          child: SizedBox(
+            width: 115,
+            height: 20,
+            child: Text(
+              '林渡船',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 18,
+                fontFamily: 'Noto Sans JP',
+                fontWeight: FontWeight.w900,
+                decoration: TextDecoration.none,
+              ),
+            ),
+          ),
+        ),
+        Positioned(
+          left: 0,
+          top: 0,
+          child: Container(
+            width: 95,
+            height: 56,
+            decoration: ShapeDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/images/placeholder_image.png"),
+                fit: BoxFit.fill,
+              ),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+            ),
+          ),
+        ),
+      ],
+    ),
+  ),
+),
+
+
+Positioned(
+  left: 0, // フレームのX位置
+  top: 0, // フレームのY位置（リスト全体を囲むよう調整）
+  child: Container(
+    width: 377, // フレームの幅
+    height: 56, // フレームの高さ
+    decoration: BoxDecoration(
+      color: Color(0xFF2E2E2E), // フレームの背景色
+      borderRadius: BorderRadius.circular(5), // 角の半径
+      boxShadow: [ // ドロップシャドウ
+        BoxShadow(
+          color: Color.fromARGB(64, 0, 0, 0), // 不透明度をARGBで指定
+          offset: Offset(4, 4), // X: 4, Y: 4
+          blurRadius: 4, // ぼかし範囲: 4
+        ),
+      ],
+    ),
+    child: Stack(
+      children: [
+        Positioned(
+          left: 337,
+          top: 18,
+          child: SizedBox(
+            width: 20,
+            height: 18,
+            child: Icon(
+              Icons.favorite, // ♡アイコン
+              size: 20, // サイズを指定
+              color: Color(0xFFD8D8D8), // カラーを指定
+            ),
+          ),
+        ),
+        Positioned(
+          left: 126,
+          top: 32,
+          child: SizedBox(
+            width: 168,
+            height: 16,
+            child: Opacity(
+              opacity: 0.50,
+              child: Text(
+                '和歌山県すさみ町見老津',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 13,
+                  fontFamily: 'Noto Sans JP',
+                  fontWeight: FontWeight.w500,
+                  decoration: TextDecoration.none,
+                ),
+              ),
+            ),
+          ),
+        ),
+        Positioned(
+          left: 115,
+          top: 38,
+          child: SizedBox(
+            width: 7,
+            height: 9,
+            child: Icon(
+              Icons.location_pin,
+              size: 9,
+              color: Color(0xFF777777),
+            ),
+          ),
+        ),
+        Positioned(
+          left: 115,
+          top: 8,
+          child: SizedBox(
+            width: 115,
+            height: 20,
+            child: Text(
+              '浜丸渡船',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 18,
+                fontFamily: 'Noto Sans JP',
+                fontWeight: FontWeight.w900,
+                decoration: TextDecoration.none,
+              ),
+            ),
+          ),
+        ),
+        Positioned(
+          left: 0,
+          top: 0,
+          child: Container(
+            width: 95,
+            height: 56,
+            decoration: ShapeDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/images/placeholder_image.png"),
+                fit: BoxFit.fill,
+              ),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+            ),
+          ),
+        ),
+      ],
+    ),
+  ),
+),
+
+
                     ],
                   ),
                 ),
