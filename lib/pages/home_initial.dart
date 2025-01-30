@@ -386,7 +386,7 @@ const HomeInitialScreen({super.key});
                                   width: 115,
                                   height: 20,
                                   child: Text(
-                                    '浜丸渡船',
+                                    '林渡船',
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 18,
@@ -396,25 +396,10 @@ const HomeInitialScreen({super.key});
                                     ),
                                   ),
                                 ),
-                              ),
+                              ), 
                               Positioned(
-                                left: 8,
-                                top: 380,
-                                child: Container(
-                                  width: 95,
-                                  height: 56,
-                                  decoration: ShapeDecoration(
-                                    image: DecorationImage(
-                                      image: AssetImage("assets/images/placeholder_image.png"),
-                                      fit: BoxFit.fill,
-                                    ),
-                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                left: 8,
-                                top: 316,
+                                left: 0,
+                                top: 0,
                                 child: Container(
                                   width: 95,
                                   height: 56,
@@ -686,3 +671,5 @@ const HomeInitialScreen({super.key});
     );
   }
 }
+
+
