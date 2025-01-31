@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
+import 'package:fishing_app/widgets/ad_placeholder.dart';
+
 
 // グローバルスコープで Logger を初期化
 final logger = Logger();
@@ -132,6 +134,7 @@ class HomeInitialScreen extends StatelessWidget {
                   ),
                 ),
               ),
+              
               Positioned(
                 left: 0,
                 top: MediaQuery.of(context).size.height * 0.91, // 相対値に変更
@@ -281,51 +284,24 @@ class HomeInitialScreen extends StatelessWidget {
                 ),
               ),
 
-              Positioned(
-                left: MediaQuery.of(context).size.width * 0.04, // 相対値に変更
-                top: MediaQuery.of(context).size.height * 0.71, // 相対値に変更
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.92, // 相対的な幅
-                  height: MediaQuery.of(context).size.height * 0.13, // 相対的な高さ
-                  child: Stack(
-                    children: [
-                      Positioned(
-                        left: 0,
-                        top: 0,
-                        child: Opacity(
-                          opacity: 0.60,
-                          child: Container(
-                            width: MediaQuery.of(context).size.width * 0.92, // 相対的な幅
-                            height: MediaQuery.of(context).size.height * 0.13, // 相対的な高さ
-                            clipBehavior: Clip.antiAlias,
-                            decoration: const BoxDecoration(color: Colors.white),
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        left: MediaQuery.of(context).size.width * 0.075, // 相対値に変更
-                        top: MediaQuery.of(context).size.height * 0.032, // 相対値に変更
-                        child: SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.78, // 相対的な幅
-                          height: MediaQuery.of(context).size.height * 0.07, // 相対的な高さ
-                          child: Text(
-                            '広告エリア',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: MediaQuery.of(context).size.width * 0.04, // 相対フォントサイズ
-                              fontFamily: 'Roboto',
-                              fontWeight: FontWeight.w400,
-                              height: 1.50,
-                              decoration: TextDecoration.none,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+Positioned(
+  left: MediaQuery.of(context).size.width * 0.04, // 相対値に変更
+  top: MediaQuery.of(context).size.height * 0.71, // 相対値に変更
+  child: GestureDetector(
+    onTap: () {
+      // 広告がクリックされたときの処理を記述
+      logger.i('画面下部の広告がクリックされました');
+    },
+    child: AdPlaceholder(
+      adContent: null, // 現時点では広告を設定しない（後で外部広告を追加可能）
+      showPlaceholder: true, // プレースホルダーを表示
+      width: MediaQuery.of(context).size.width * 0.92, // 必須の幅
+      height: MediaQuery.of(context).size.height * 0.13, // 必須の高さ
+    ),
+  ),
+),
+
+
 
 Positioned(
   left: MediaQuery.of(context).size.width * 0.02, // 相対値に変更
@@ -621,38 +597,15 @@ Positioned(
       // 広告がクリックされたときの処理を記述
       logger.i('広告がクリックされました');
     },
-    child: Container(
+    child: AdPlaceholder(
+      adContent: null, // 現時点では広告を設定しない（後で外部広告を追加可能）
+      showPlaceholder: true, // プレースホルダーを表示
       width: MediaQuery.of(context).size.width * 0.92,
       height: MediaQuery.of(context).size.height * 0.13,
-      decoration: BoxDecoration(
-        color: Colors.white, // 背景色（動的に変更可能）
-        image: DecorationImage(
-          image: AssetImage("assets/images/ad_placeholder.png"), // 動的に取得する画像パス
-          fit: BoxFit.cover, // 画像を全体に拡大して表示
-        ),
-        borderRadius: BorderRadius.circular(10), // 角を丸める
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withAlpha((0.1 * 255).toInt()),
-            offset: Offset(0, 4),
-            blurRadius: 6,
-          ),
-        ],
-      ),
-      child: Center(
-        child: Text(
-          '広告エリア', // 画像がない場合に表示するプレースホルダー
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: MediaQuery.of(context).size.width * 0.04,
-            fontWeight: FontWeight.w500,
-            decoration: TextDecoration.none,
-          ),
-        ),
-      ),
     ),
   ),
 ),
+
 
               Positioned(
                 left: MediaQuery.of(context).size.width * 0.48, // 相対値に変更
@@ -671,3 +624,4 @@ Positioned(
     );
   }
 }
+
