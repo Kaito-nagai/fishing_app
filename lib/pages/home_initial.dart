@@ -117,7 +117,7 @@ class HomeInitialScreen extends StatelessWidget {
                         top: 0,
                         child: SizedBox(
                           width: screenWidth * 0.22, // 相対的な幅
-                          height: screenHeight * 0.02, // 相対的な高さ
+                          height: screenHeight * 0.05, // 相対的な高さ
                           child: Text(
                             'タップで検索',
                             style: TextStyle(
@@ -162,7 +162,7 @@ class HomeInitialScreen extends StatelessWidget {
                         top: 0,
                         child: SizedBox(
                           width: MediaQuery.of(context).size.width * 0.18, // 相対的な幅
-                          height: MediaQuery.of(context).size.height * 0.05, // 相対的な高さ
+                          height: MediaQuery.of(context).size.height * 0.08, // 相対的な高さ
                           child: Stack(
                             children: [
                               Positioned(
@@ -170,7 +170,7 @@ class HomeInitialScreen extends StatelessWidget {
                                 top: MediaQuery.of(context).size.height * 0.03, // 相対値に変更
                                 child: SizedBox(
                                   width: MediaQuery.of(context).size.width * 0.18, // 相対的な幅
-                                  height: MediaQuery.of(context).size.height * 0.02, // 相対的な高さ
+                                  height: MediaQuery.of(context).size.height * 0.07, // 相対的な高さ
                                   child: Text(
                                     'マイリスト',
                                     textAlign: TextAlign.center,
@@ -211,7 +211,7 @@ class HomeInitialScreen extends StatelessWidget {
                                 top: MediaQuery.of(context).size.height * 0.032, // 相対値に変更
                                 child: SizedBox(
                                   width: MediaQuery.of(context).size.width * 0.12, // 相対的な幅
-                                  height: MediaQuery.of(context).size.height * 0.02, // 相対的な高さ
+                                  height: MediaQuery.of(context).size.height * 0.05, // 相対的な高さ
                                   child: Text(
                                     '検索',
                                     textAlign: TextAlign.center,
@@ -243,8 +243,8 @@ class HomeInitialScreen extends StatelessWidget {
                         left: 8,
                         top: 0,
                         child: SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.12, // 相対的な幅
-                          height: MediaQuery.of(context).size.height * 0.05, // 相対的な高さ
+                          width: MediaQuery.of(context).size.width * 0.15, // 相対的な幅
+                          height: MediaQuery.of(context).size.height * 0.08, // 相対的な高さ
                           child: Stack(
                             children: [
                               Positioned(
@@ -252,7 +252,7 @@ class HomeInitialScreen extends StatelessWidget {
                                 top: MediaQuery.of(context).size.height * 0.032, // 相対値に変更
                                 child: SizedBox(
                                   width: MediaQuery.of(context).size.width * 0.12, // 相対的な幅
-                                  height: MediaQuery.of(context).size.height * 0.02, // 相対的な高さ
+                                  height: MediaQuery.of(context).size.height * 0.08, // 相対的な高さ
                                   child: Text(
                                     'ホーム',
                                     textAlign: TextAlign.center,
@@ -389,7 +389,7 @@ Positioned(
                   top: MediaQuery.of(context).size.height * 0.008, // 相対値に変更
                   child: SizedBox(
                     width: MediaQuery.of(context).size.width * 0.3, // 相対的な幅
-                    height: MediaQuery.of(context).size.height * 0.03, // 相対的な高さ
+                    height: MediaQuery.of(context).size.height * 0.06, // 相対的な高さ
                     child: Text(
                       '林渡船',
                       style: TextStyle(
@@ -494,7 +494,7 @@ Positioned(
           top: MediaQuery.of(context).size.height * 0.008, // タイトルの位置を調整
           child: SizedBox(
             width: MediaQuery.of(context).size.width * 0.3, // 相対的な幅
-            height: MediaQuery.of(context).size.height * 0.03, // 相対的な高さ
+            height: MediaQuery.of(context).size.height * 0.06, // 相対的な高さ
             child: Text(
               '浜丸渡船',
               style: TextStyle(
