@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:fishing_app/widgets/ad_placeholder.dart';
 
-
 // グローバルスコープで Logger を初期化
 final logger = Logger();
 
@@ -21,14 +20,13 @@ class FigmaToCodeApp extends StatelessWidget {
         scaffoldBackgroundColor: const Color.fromARGB(255, 18, 32, 47),
       ),
       home: Scaffold(
-        body: LayoutBuilder( // 画面サイズに基づく柔軟なレイアウト
+        body: LayoutBuilder(
           builder: (context, constraints) {
             final screenWidth = constraints.maxWidth;
             final screenHeight = constraints.maxHeight;
 
             return ListView(
               children: [
-                // 今後、画面サイズを利用して要素を追加していきます
                 Container(
                   width: screenWidth * 0.9,
                   height: screenHeight * 0.1,
@@ -50,60 +48,56 @@ class FigmaToCodeApp extends StatelessWidget {
   }
 }
 
-
 class HomeInitialScreen extends StatelessWidget {
   const HomeInitialScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // 画面サイズを取得
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 
     return Column(
       children: [
         Container(
-          width: screenWidth, // 固定値を画面幅に変更
-          height: screenHeight, // 固定値を画面高さに変更
+          width: screenWidth,
+          height: screenHeight,
           clipBehavior: Clip.antiAlias,
-          decoration: BoxDecoration(color: Colors.black),
+          decoration: const BoxDecoration(color: Colors.black),
           child: Stack(
             children: [
               Positioned(
-                left: screenWidth * 0.46, // 相対値に変更
-                top: screenHeight * 0.88, // 相対値に変更
+                left: screenWidth * 0.46,
+                top: screenHeight * 0.88,
                 child: SizedBox(
-                  width: screenWidth * 0.23, // 相対的な幅
-                  height: screenHeight * 0.04, // 相対的な高さ
+                  width: screenWidth * 0.23,
+                  height: screenHeight * 0.04,
                   child: Stack(
                     children: [
                       Positioned(
-                        left: screenWidth * 0.07, // 相対値に変更
-                        top: screenHeight * 0.02, // 相対値に変更
-                        child: Transform(
-                          transform: Matrix4.identity()
-                            ..translate(0.0, 0.0)
-                            ..rotateZ(2.43),
+                        left: screenWidth * 0.07,
+                        top: screenHeight * 0.02,
+                        child: Transform.rotate(
+                          angle: 2.43,
                           child: Container(
-                            width: screenWidth * 0.05, // 相対値に変更
+                            width: screenWidth * 0.05,
                             decoration: ShapeDecoration(
                               shape: RoundedRectangleBorder(
-                                side: BorderSide(
+                                side: const BorderSide(
                                   width: 1,
-                                  strokeAlign: BorderSide.strokeAlignCenter,
-                                  color: const Color(0xFFFD473B),
+                                  color: Color(0xFFFD473B),
                                 ),
                               ),
                             ),
                           ),
                         ),
                       ),
+
                       Positioned(
                         left: 0,
-                        top: screenHeight * 0.012, // 相対値に変更
+                        top: screenHeight * 0.012,
                         child: Container(
-                          width: screenWidth * 0.23, // 相対的な幅
-                          height: screenHeight * 0.012, // 相対的な高さ
+                          width: screenWidth * 0.23,
+                          height: screenHeight * 0.012,
                           decoration: ShapeDecoration(
                             color: const Color(0xFFFD473B),
                             shape: RoundedRectangleBorder(
@@ -113,16 +107,16 @@ class HomeInitialScreen extends StatelessWidget {
                         ),
                       ),
                       Positioned(
-                        left: screenWidth * 0.005, // 相対値に変更
+                        left: screenWidth * 0.005,
                         top: 0,
                         child: SizedBox(
-                          width: screenWidth * 0.22, // 相対的な幅
-                          height: screenHeight * 0.05, // 相対的な高さ
+                          width: screenWidth * 0.22,
+                          height: screenHeight * 0.05,
                           child: Text(
                             'タップで検索',
                             style: TextStyle(
                               color: Colors.white,
-                              fontSize: screenWidth * 0.035, // 相対フォントサイズ
+                              fontSize: screenWidth * 0.035,
                               fontFamily: 'Noto Sans JP',
                               fontWeight: FontWeight.w700,
                               decoration: TextDecoration.none,
@@ -134,15 +128,14 @@ class HomeInitialScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              
               Positioned(
                 left: 0,
-                top: MediaQuery.of(context).size.height * 0.91, // 相対値に変更
+                top: screenHeight * 0.91,
                 child: Opacity(
                   opacity: 0.10,
                   child: Container(
-                    width: MediaQuery.of(context).size.width, // 相対的な幅
-                    height: MediaQuery.of(context).size.height * 0.1, // 相対的な高さ
+                    width: screenWidth,
+                    height: screenHeight * 0.1,
                     decoration: const BoxDecoration(
                       color: Color(0xFFD9D9D9),
                     ),
@@ -150,33 +143,33 @@ class HomeInitialScreen extends StatelessWidget {
                 ),
               ),
               Positioned(
-                left: MediaQuery.of(context).size.width * 0.07, // 相対値に変更
-                top: MediaQuery.of(context).size.height * 0.915, // 相対値に変更
+                left: screenWidth * 0.07,
+                top: screenHeight * 0.915,
                 child: SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.85, // 相対的な幅
-                  height: MediaQuery.of(context).size.height * 0.08, // 相対的な高さ
+                  width: screenWidth * 0.85,
+                  height: screenHeight * 0.08,
                   child: Stack(
                     children: [
                       Positioned(
-                        left: MediaQuery.of(context).size.width * 0.67, // 相対値に変更
+                        left: screenWidth * 0.67,
                         top: 0,
                         child: SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.18, // 相対的な幅
-                          height: MediaQuery.of(context).size.height * 0.08, // 相対的な高さ
+                          width: screenWidth * 0.18,
+                          height: screenHeight * 0.08,
                           child: Stack(
                             children: [
                               Positioned(
                                 left: 0,
-                                top: MediaQuery.of(context).size.height * 0.03, // 相対値に変更
+                                top: screenHeight * 0.03,
                                 child: SizedBox(
-                                  width: MediaQuery.of(context).size.width * 0.18, // 相対的な幅
-                                  height: MediaQuery.of(context).size.height * 0.07, // 相対的な高さ
+                                  width: screenWidth * 0.18,
+                                  height: screenHeight * 0.07,
                                   child: Text(
                                     'マイリスト',
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       color: const Color(0xFF777777),
-                                      fontSize: MediaQuery.of(context).size.width * 0.035, // 相対フォントサイズ
+                                      fontSize: screenWidth * 0.035,
                                       fontFamily: 'Noto Sans JP',
                                       fontWeight: FontWeight.w500,
                                       decoration: TextDecoration.none,
@@ -185,11 +178,11 @@ class HomeInitialScreen extends StatelessWidget {
                                 ),
                               ),
                               Positioned(
-                                left: MediaQuery.of(context).size.width * 0.055, // 相対値に変更
-                                top: MediaQuery.of(context).size.height * 0.002, // 相対値に変更
+                                left: screenWidth * 0.055,
+                                top: screenHeight * 0.002,
                                 child: Icon(
                                   Icons.favorite,
-                                  size: MediaQuery.of(context).size.width * 0.07, // 相対的なアイコンサイズ
+                                  size: screenWidth * 0.07,
                                   color: const Color(0xFF777777),
                                 ),
                               ),
@@ -199,25 +192,25 @@ class HomeInitialScreen extends StatelessWidget {
                       ),
 
                       Positioned(
-                        left: MediaQuery.of(context).size.width * 0.35, // 相対値に変更
+                        left: screenWidth * 0.35,
                         top: 0,
                         child: SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.12, // 相対的な幅
-                          height: MediaQuery.of(context).size.height * 0.07, // 相対的な高さ
+                          width: screenWidth * 0.12,
+                          height: screenHeight * 0.07,
                           child: Stack(
                             children: [
                               Positioned(
                                 left: 0,
-                                top: MediaQuery.of(context).size.height * 0.032, // 相対値に変更
+                                top: screenHeight * 0.032,
                                 child: SizedBox(
-                                  width: MediaQuery.of(context).size.width * 0.12, // 相対的な幅
-                                  height: MediaQuery.of(context).size.height * 0.05, // 相対的な高さ
+                                  width: screenWidth * 0.12,
+                                  height: screenHeight * 0.05,
                                   child: Text(
                                     '検索',
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       color: const Color(0xFF777777),
-                                      fontSize: MediaQuery.of(context).size.width * 0.035, // 相対フォントサイズ
+                                      fontSize: screenWidth * 0.035,
                                       fontFamily: 'Noto Sans JP',
                                       fontWeight: FontWeight.w500,
                                       decoration: TextDecoration.none,
@@ -226,11 +219,11 @@ class HomeInitialScreen extends StatelessWidget {
                                 ),
                               ),
                               Positioned(
-                                left: MediaQuery.of(context).size.width * 0.03, // 相対値に変更
-                                top: MediaQuery.of(context).size.height * 0.002, // 相対値に変更
+                                left: screenWidth * 0.03,
+                                top: screenHeight * 0.002,
                                 child: Icon(
                                   Icons.search,
-                                  size: MediaQuery.of(context).size.width * 0.07, // 相対的なアイコンサイズ
+                                  size: screenWidth * 0.07,
                                   color: const Color(0xFF777777),
                                 ),
                               ),
@@ -238,27 +231,26 @@ class HomeInitialScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-
                       Positioned(
                         left: 8,
                         top: 0,
                         child: SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.15, // 相対的な幅
-                          height: MediaQuery.of(context).size.height * 0.08, // 相対的な高さ
+                          width: screenWidth * 0.15,
+                          height: screenHeight * 0.08,
                           child: Stack(
                             children: [
                               Positioned(
                                 left: 5,
-                                top: MediaQuery.of(context).size.height * 0.032, // 相対値に変更
+                                top: screenHeight * 0.032,
                                 child: SizedBox(
-                                  width: MediaQuery.of(context).size.width * 0.12, // 相対的な幅
-                                  height: MediaQuery.of(context).size.height * 0.08, // 相対的な高さ
+                                  width: screenWidth * 0.12,
+                                  height: screenHeight * 0.08,
                                   child: Text(
                                     'ホーム',
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       color: Colors.white,
-                                      fontSize: MediaQuery.of(context).size.width * 0.035, // 相対フォントサイズ
+                                      fontSize: screenWidth * 0.035,
                                       fontFamily: 'Noto Sans JP',
                                       fontWeight: FontWeight.w500,
                                       decoration: TextDecoration.none,
@@ -267,11 +259,11 @@ class HomeInitialScreen extends StatelessWidget {
                                 ),
                               ),
                               Positioned(
-                                left: MediaQuery.of(context).size.width * 0.035, // 相対値に変更
-                                top: MediaQuery.of(context).size.height * 0.002, // 相対値に変更
+                                left: screenWidth * 0.035,
+                                top: screenHeight * 0.002,
                                 child: Icon(
                                   Icons.home,
-                                  size: MediaQuery.of(context).size.width * 0.07, // 相対的なアイコンサイズ
+                                  size: screenWidth * 0.07,
                                   color: Colors.white,
                                 ),
                               ),
@@ -283,345 +275,335 @@ class HomeInitialScreen extends StatelessWidget {
                   ),
                 ),
               ),
-
-Positioned(
-  left: MediaQuery.of(context).size.width * 0.04, // 相対値に変更
-  top: MediaQuery.of(context).size.height * 0.71, // 相対値に変更
-  child: GestureDetector(
-    onTap: () {
-      // 広告がクリックされたときの処理を記述
-      logger.i('画面下部の広告がクリックされました');
-    },
-    child: AdPlaceholder(
-      adContent: null, // 現時点では広告を設定しない（後で外部広告を追加可能）
-      showPlaceholder: true, // プレースホルダーを表示
-      width: MediaQuery.of(context).size.width * 0.92, // 必須の幅
-      height: MediaQuery.of(context).size.height * 0.13, // 必須の高さ
-    ),
-  ),
-),
-
-
-
-Positioned(
-  left: MediaQuery.of(context).size.width * 0.02, // 相対値に変更
-  top: MediaQuery.of(context).size.height * 0.365, // 1つ目のリストの位置
-  child: SizedBox(
-    width: MediaQuery.of(context).size.width * 0.96, // 相対的な幅
-    height: MediaQuery.of(context).size.height * 0.45, // 相対的な高さ
-    child: Stack(
-      children: [
-        Positioned(
-          left: 0,
-          top: MediaQuery.of(context).size.height * 0.074, // 相対値に変更
-          child: SizedBox(
-            width: MediaQuery.of(context).size.width * 0.96, // 相対的な幅
-            height: MediaQuery.of(context).size.height * 0.07, // 相対的な高さ
-            child: Stack(
-              children: [
-                // フレームを最背面に追加
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.96, // 相対的な幅
-                  height: MediaQuery.of(context).size.height * 0.07, // 相対的な高さ
-                  decoration: BoxDecoration(
-                    color: const Color(0xFF2E2E2E), // フレームの背景色
-                    borderRadius: BorderRadius.circular(5), // 角の半径
-                    boxShadow: [ // ドロップシャドウ
-                      BoxShadow(
-                        color: const Color.fromARGB(64, 0, 0, 0), // 不透明度をARGBで指定
-                        offset: const Offset(4, 4), // X: 4, Y: 4
-                        blurRadius: 4, // ぼかし範囲: 4
-                      ),
-                    ],
-                  ),
-                ),
-                // 業者リストの要素を配置
-                Positioned(
-                  left: MediaQuery.of(context).size.width * 0.87, // 相対値に変更
-                  top: MediaQuery.of(context).size.height * 0.015, // 相対値に変更
-                  child: SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.04, // 相対的な幅
-                    height: MediaQuery.of(context).size.height * 0.04, // 相対的な高さ
-                    child: Icon(
-                      Icons.favorite, // ♡アイコン
-                      size: MediaQuery.of(context).size.width * 0.053, // 相対的なサイズ
-                      color: const Color(0xFFD8D8D8), // カラーを指定
-                    ),
-                  ),
-                ),
-                Positioned(
-                  left: MediaQuery.of(context).size.width * 0.34, // 相対値に変更
-                  top: MediaQuery.of(context).size.height * 0.040, // 相対値に変更
-                  child: SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.45, // 相対的な幅
-                    height: MediaQuery.of(context).size.height * 0.04, // 相対的な高さ
-                    child: Opacity(
-                      opacity: 0.50,
-                      child: Text(
-                        '和歌山県すさみ町見老津',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: MediaQuery.of(context).size.width * 0.037, // 相対フォントサイズ
-                          fontFamily: 'Noto Sans JP',
-                          fontWeight: FontWeight.w500,
-                          decoration: TextDecoration.none,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-        Positioned(
-          left: MediaQuery.of(context).size.width * 0.295, // 相対値に変更
-          top: MediaQuery.of(context).size.height * 0.043, // ピンアイコンの位置を微調整
-          child: SizedBox(
-            width: MediaQuery.of(context).size.width * 0.02, // 相対的な幅
-            height: MediaQuery.of(context).size.height * 0.01, // 相対的な高さ
-            child: Icon(
-              Icons.location_pin,
-              size: MediaQuery.of(context).size.width * 0.04, // 相対的なサイズ
-              color: const Color(0xFF777777),
-            ),
-          ),
-        ),
-
-                Positioned(
-                  left: MediaQuery.of(context).size.width * 0.30, // 相対値に変更
-                  top: MediaQuery.of(context).size.height * 0.008, // 相対値に変更
-                  child: SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.3, // 相対的な幅
-                    height: MediaQuery.of(context).size.height * 0.06, // 相対的な高さ
-                    child: Text(
-                      '林渡船',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: MediaQuery.of(context).size.width * 0.047, // 相対フォントサイズ
-                        fontFamily: 'Noto Sans JP',
-                        fontWeight: FontWeight.w900,
-                        decoration: TextDecoration.none,
-                      ),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  left: 0,
-                  top: 0,
-                  child: Container(
-                    width: MediaQuery.of(context).size.width * 0.25, // 相対的な幅
-                    height: MediaQuery.of(context).size.height * 0.07, // 相対的な高さ
-                    decoration: ShapeDecoration(
-                      image: const DecorationImage(
-                        image: AssetImage("assets/images/placeholder_image.png"),
-                        fit: BoxFit.fill,
-                      ),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-
-
-Positioned(
-  left: 0, // フレームのX位置
-  top: 0, // フレームのY位置（リスト全体を囲むよう調整）
-  child: Container(
-    width: MediaQuery.of(context).size.width * 0.96, // 相対的な幅
-    height: MediaQuery.of(context).size.height * 0.07, // 相対的な高さを少し広げる
-    decoration: BoxDecoration(
-      color: const Color(0xFF2E2E2E), // フレームの背景色
-      borderRadius: BorderRadius.circular(5), // 角の半径
-      boxShadow: [ // ドロップシャドウ
-        const BoxShadow(
-          color: Color.fromARGB(64, 0, 0, 0), // 不透明度をARGBで指定
-          offset: Offset(4, 4), // X: 4, Y: 4
-          blurRadius: 4, // ぼかし範囲: 4
-        ),
-      ],
-    ),
-    child: Stack(
-      children: [
-        Positioned(
-          left: MediaQuery.of(context).size.width * 0.87, // 相対値に変更
-          top: MediaQuery.of(context).size.height * 0.015, // アイコンの位置を微調整
-          child: SizedBox(
-            width: MediaQuery.of(context).size.width * 0.04, // 相対的な幅
-            height: MediaQuery.of(context).size.height * 0.04, // 相対的な高さ
-            child: Icon(
-              Icons.favorite, // ♡アイコン
-              size: MediaQuery.of(context).size.width * 0.053, // 相対的なサイズ
-              color: const Color(0xFFD8D8D8), // カラーを指定
-            ),
-          ),
-        ),
-        Positioned(
-          left: MediaQuery.of(context).size.width * 0.34, // 相対値に変更
-          top: MediaQuery.of(context).size.height * 0.040, // テキストの位置を微調整
-          child: SizedBox(
-            width: MediaQuery.of(context).size.width * 0.45, // 相対的な幅
-            height: MediaQuery.of(context).size.height * 0.04, // 相対的な高さ
-            child: Opacity(
-              opacity: 0.50,
-              child: Text(
-                '和歌山県すさみ町見老津',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: MediaQuery.of(context).size.width * 0.037, // 相対フォントサイズ
-                  fontFamily: 'Noto Sans JP',
-                  fontWeight: FontWeight.w500,
-                  decoration: TextDecoration.none,
-                ),
-              ),
-            ),
-          ),
-        ),
-        Positioned(
-          left: MediaQuery.of(context).size.width * 0.295, // 相対値に変更
-          top: MediaQuery.of(context).size.height * 0.043, // ピンアイコンの位置を微調整
-          child: SizedBox(
-            width: MediaQuery.of(context).size.width * 0.02, // 相対的な幅
-            height: MediaQuery.of(context).size.height * 0.01, // 相対的な高さ
-            child: Icon(
-              Icons.location_pin,
-              size: MediaQuery.of(context).size.width * 0.04, // 相対的なサイズ
-              color: const Color(0xFF777777),
-            ),
-          ),
-        ),
-        Positioned(
-          left: MediaQuery.of(context).size.width * 0.30, // 相対値に変更
-          top: MediaQuery.of(context).size.height * 0.008, // タイトルの位置を調整
-          child: SizedBox(
-            width: MediaQuery.of(context).size.width * 0.3, // 相対的な幅
-            height: MediaQuery.of(context).size.height * 0.06, // 相対的な高さ
-            child: Text(
-              '浜丸渡船',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: MediaQuery.of(context).size.width * 0.047, // 相対フォントサイズ
-                fontFamily: 'Noto Sans JP',
-                fontWeight: FontWeight.w900,
-                decoration: TextDecoration.none,
-              ),
-            ),
-          ),
-        ),
-        Positioned(
-          left: 0,
-          top: 0,
-          child: Container(
-            width: MediaQuery.of(context).size.width * 0.25, // 相対的な幅
-            height: MediaQuery.of(context).size.height * 0.07, // 相対的な高さ
-            decoration: ShapeDecoration(
-              image: const DecorationImage(
-                image: AssetImage("assets/images/placeholder_image.png"),
-                fit: BoxFit.fill,
-              ),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-            ),
-          ),
-        ),
-      ],
-    ),
-  ),
-),
-
-
-                    ],
+              Positioned(
+                left: screenWidth * 0.04,
+                top: screenHeight * 0.71,
+                child: GestureDetector(
+                  onTap: () {
+                    logger.i('画面下部の広告がクリックされました');
+                  },
+                  child: AdPlaceholder(
+                    adContent: null,
+                    showPlaceholder: true,
+                    width: screenWidth * 0.92,
+                    height: screenHeight * 0.13,
                   ),
                 ),
               ),
 
               Positioned(
-                left: MediaQuery.of(context).size.width * 0.015, // 相対値に変更
-                top: MediaQuery.of(context).size.height * 0.324, // 相対値に変更
+                left: screenWidth * 0.02,
+                top: screenHeight * 0.365,
                 child: SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.98, // 相対的な幅
-                  height: MediaQuery.of(context).size.height * 0.035, // 相対的な高さ
+                  width: screenWidth * 0.96,
+                  height: screenHeight * 0.45,
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        left: 0,
+                        top: screenHeight * 0.074,
+                        child: SizedBox(
+                          width: screenWidth * 0.96,
+                          height: screenHeight * 0.07,
+                          child: Stack(
+                            children: [
+                              // フレームを最背面に追加
+                              Container(
+                                width: screenWidth * 0.96,
+                                height: screenHeight * 0.07,
+                                decoration: BoxDecoration(
+                                  color: const Color(0xFF2E2E2E),
+                                  borderRadius: BorderRadius.circular(5),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: const Color.fromARGB(64, 0, 0, 0),
+                                      offset: const Offset(4, 4),
+                                      blurRadius: 4,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              // 業者リストの要素を配置
+                              Positioned(
+                                left: screenWidth * 0.87,
+                                top: screenHeight * 0.015,
+                                child: SizedBox(
+                                  width: screenWidth * 0.04,
+                                  height: screenHeight * 0.04,
+                                  child: Icon(
+                                    Icons.favorite,
+                                    size: screenWidth * 0.053,
+                                    color: const Color(0xFFD8D8D8),
+                                  ),
+                                ),
+                              ),
+                              Positioned(
+                                left: screenWidth * 0.34,
+                                top: screenHeight * 0.040,
+                                child: SizedBox(
+                                  width: screenWidth * 0.45,
+                                  height: screenHeight * 0.04,
+                                  child: Opacity(
+                                    opacity: 0.50,
+                                    child: Text(
+                                      '和歌山県すさみ町見老津',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: screenWidth * 0.037,
+                                        fontFamily: 'Noto Sans JP',
+                                        fontWeight: FontWeight.w500,
+                                        decoration: TextDecoration.none,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Positioned(
+                                left: screenWidth * 0.295,
+                                top: screenHeight * 0.043,
+                                child: SizedBox(
+                                  width: screenWidth * 0.02,
+                                  height: screenHeight * 0.01,
+                                  child: Icon(
+                                    Icons.location_pin,
+                                    size: screenWidth * 0.04,
+                                    color: const Color(0xFF777777),
+                                  ),
+                                ),
+                              ),
+
+              Positioned(
+                left: screenWidth * 0.30,
+                top: screenHeight * 0.008,
+                child: SizedBox(
+                  width: screenWidth * 0.3,
+                  height: screenHeight * 0.06,
                   child: Text(
-                    '現在は未登録の状態です',
+                    '林渡船',
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: MediaQuery.of(context).size.width * 0.038, // 相対フォントサイズ
+                      fontSize: screenWidth * 0.047,
                       fontFamily: 'Noto Sans JP',
-                      fontWeight: FontWeight.w700,
+                      fontWeight: FontWeight.w900,
                       decoration: TextDecoration.none,
                     ),
                   ),
                 ),
               ),
               Positioned(
-                left: MediaQuery.of(context).size.width * 0.02, // 相対値に変更
-                top: MediaQuery.of(context).size.height * 0.29, // 相対値に変更
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.98, // 相対的な幅
-                  height: MediaQuery.of(context).size.height * 0.035, // 相対的な高さ
-                  child: Text(
-                    '🔍をタップして自分だけのリストを作成しよう',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: MediaQuery.of(context).size.width * 0.04, // 相対フォントサイズ
-                      fontFamily: 'Noto Sans JP',
-                      fontWeight: FontWeight.w700,
-                      decoration: TextDecoration.none,
-                    ),
-                  ),
-                ),
-              ),
-
-              Positioned(
-                left: MediaQuery.of(context).size.width * 0.02, // 相対値に変更
-                top: MediaQuery.of(context).size.height * 0.24, // 相対値に変更
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.65, // 相対的な幅
-                  height: MediaQuery.of(context).size.height * 0.05, // 相対的な高さ
-                  child: Text(
-                    'マイリスト',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: MediaQuery.of(context).size.width * 0.07, // 相対フォントサイズ
-                      fontFamily: 'Noto Sans JP',
-                      fontWeight: FontWeight.w700,
-                      decoration: TextDecoration.none,
-                    ),
-                  ),
-                ),
-              ),
-
-Positioned(
-  left: MediaQuery.of(context).size.width * 0.04,
-  top: MediaQuery.of(context).size.height * 0.090,
-  child: GestureDetector(
-    onTap: () {
-      // 広告がクリックされたときの処理を記述
-      logger.i('広告がクリックされました');
-    },
-    child: AdPlaceholder(
-      adContent: null, // 現時点では広告を設定しない（後で外部広告を追加可能）
-      showPlaceholder: true, // プレースホルダーを表示
-      width: MediaQuery.of(context).size.width * 0.92,
-      height: MediaQuery.of(context).size.height * 0.13,
-    ),
-  ),
-),
-
-
-              Positioned(
-                left: MediaQuery.of(context).size.width * 0.48, // 相対値に変更
-                top: MediaQuery.of(context).size.height * -0.045, // 相対値に変更
+                left: 0,
+                top: 0,
                 child: Container(
-                  width: MediaQuery.of(context).size.width * 0.25, // 相対的な幅
-                  height: MediaQuery.of(context).size.height * 0.12, // 相対的な高さ
-                  clipBehavior: Clip.antiAlias,
-                  decoration: const BoxDecoration(),
+                  width: screenWidth * 0.25,
+                  height: screenHeight * 0.07,
+                  decoration: ShapeDecoration(
+                    image: const DecorationImage(
+                      image: AssetImage("assets/images/placeholder_image.png"),
+                      fit: BoxFit.fill,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                  ),
                 ),
               ),
             ],
           ),
         ),
-      ],
-    );
-  }
-}
+      ),
+      Positioned(
+        left: 0,
+        top: 0,
+        child: Container(
+          width: screenWidth * 0.96,
+          height: screenHeight * 0.07,
+          decoration: BoxDecoration(
+            color: const Color(0xFF2E2E2E),
+            borderRadius: BorderRadius.circular(5),
+            boxShadow: [
+              const BoxShadow(
+                color: Color.fromARGB(64, 0, 0, 0),
+                offset: Offset(4, 4),
+                blurRadius: 4,
+              ),
+            ],
+          ),
+          child: Stack(
+            children: [
+              Positioned(
+                left: screenWidth * 0.87,
+                top: screenHeight * 0.015,
+                child: SizedBox(
+                  width: screenWidth * 0.04,
+                  height: screenHeight * 0.04,
+                  child: Icon(
+                    Icons.favorite,
+                    size: screenWidth * 0.053,
+                    color: const Color(0xFFD8D8D8),
+                  ),
+                ),
+              ),
+              Positioned(
+                left: screenWidth * 0.34,
+                top: screenHeight * 0.040,
+                child: SizedBox(
+                  width: screenWidth * 0.45,
+                  height: screenHeight * 0.04,
+                  child: Opacity(
+                    opacity: 0.50,
+                    child: Text(
+                      '和歌山県すさみ町見老津',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: screenWidth * 0.037,
+                        fontFamily: 'Noto Sans JP',
+                        fontWeight: FontWeight.w500,
+                        decoration: TextDecoration.none,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Positioned(
+                left: screenWidth * 0.295,
+                top: screenHeight * 0.043,
+                child: SizedBox(
+                  width: screenWidth * 0.02,
+                  height: screenHeight * 0.01,
+                  child: Icon(
+                    Icons.location_pin,
+                    size: screenWidth * 0.04,
+                    color: const Color(0xFF777777),
+                  ),
+                ),
+              ),
+              Positioned(
+                left: screenWidth * 0.30,
+                top: screenHeight * 0.008,
+                child: SizedBox(
+                  width: screenWidth * 0.3,
+                  height: screenHeight * 0.06,
+                  child: Text(
+                    '浜丸渡船',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: screenWidth * 0.047,
+                      fontFamily: 'Noto Sans JP',
+                      fontWeight: FontWeight.w900,
+                      decoration: TextDecoration.none,
+                    ),
+                  ),
+                ),
+              ),
 
+              Positioned(
+                left: 0,
+                top: 0,
+                child: Container(
+                  width: screenWidth * 0.25,
+                  height: screenHeight * 0.07,
+                  decoration: ShapeDecoration(
+                    image: const DecorationImage(
+                      image: AssetImage("assets/images/placeholder_image.png"),
+                      fit: BoxFit.fill,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+      Positioned(
+        left: screenWidth * 0.015,
+        top: screenHeight * 0.324,
+        child: SizedBox(
+          width: screenWidth * 0.98,
+          height: screenHeight * 0.035,
+          child: Text(
+            '現在は未登録の状態です',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: screenWidth * 0.038,
+              fontFamily: 'Noto Sans JP',
+              fontWeight: FontWeight.w700,
+              decoration: TextDecoration.none,
+            ),
+          ),
+        ),
+      ),
+      Positioned(
+        left: screenWidth * 0.02,
+        top: screenHeight * 0.29,
+        child: SizedBox(
+          width: screenWidth * 0.98,
+          height: screenHeight * 0.035,
+          child: Text(
+            '🔍をタップして自分だけのリストを作成しよう',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: screenWidth * 0.04,
+              fontFamily: 'Noto Sans JP',
+              fontWeight: FontWeight.w700,
+              decoration: TextDecoration.none,
+            ),
+          ),
+        ),
+      ),
+      Positioned(
+        left: screenWidth * 0.02,
+        top: screenHeight * 0.24,
+        child: SizedBox(
+          width: screenWidth * 0.65,
+          height: screenHeight * 0.05,
+          child: Text(
+            'マイリスト',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: screenWidth * 0.07,
+              fontFamily: 'Noto Sans JP',
+              fontWeight: FontWeight.w700,
+              decoration: TextDecoration.none,
+            ),
+          ),
+        ),
+      ),
+      Positioned(
+        left: screenWidth * 0.04,
+        top: screenHeight * 0.090,
+        child: GestureDetector(
+          onTap: () {
+            logger.i('広告がクリックされました');
+          },
+          child: AdPlaceholder(
+            adContent: null,
+            showPlaceholder: true,
+            width: screenWidth * 0.92,
+            height: screenHeight * 0.13,
+          ),
+        ),
+      ),
+      Positioned(
+        left: screenWidth * 0.48,
+        top: screenHeight * -0.045,
+        child: Container(
+          width: screenWidth * 0.25,
+          height: screenHeight * 0.12,
+          clipBehavior: Clip.antiAlias,
+          decoration: const BoxDecoration(),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    ],
+  ),
+ )
+ ],
+);
+}
+}
