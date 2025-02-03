@@ -94,7 +94,7 @@ class HomeInitialScreen extends StatelessWidget {
 
                       Positioned(
                         left: 0,
-                        top: screenHeight * 0.012,
+                        top: screenHeight * 0.010,
                         child: Container(
                           width: screenWidth * 0.23,
                           height: screenHeight * 0.012,
@@ -128,14 +128,15 @@ class HomeInitialScreen extends StatelessWidget {
                   ),
                 ),
               ),
+              
               Positioned(
                 left: 0,
-                top: screenHeight * 0.91,
+                top: screenHeight * 0.90,
                 child: Opacity(
                   opacity: 0.10,
                   child: Container(
                     width: screenWidth,
-                    height: screenHeight * 0.1,
+                    height: screenHeight * 0.3,
                     decoration: const BoxDecoration(
                       color: Color(0xFFD9D9D9),
                     ),
@@ -144,7 +145,7 @@ class HomeInitialScreen extends StatelessWidget {
               ),
               Positioned(
                 left: screenWidth * 0.07,
-                top: screenHeight * 0.915,
+                top: screenHeight * 0.905,
                 child: SizedBox(
                   width: screenWidth * 0.85,
                   height: screenHeight * 0.08,
@@ -160,7 +161,7 @@ class HomeInitialScreen extends StatelessWidget {
                             children: [
                               Positioned(
                                 left: 0,
-                                top: screenHeight * 0.03,
+                                top: screenHeight * 0.037,
                                 child: SizedBox(
                                   width: screenWidth * 0.18,
                                   height: screenHeight * 0.07,
@@ -201,7 +202,7 @@ class HomeInitialScreen extends StatelessWidget {
                             children: [
                               Positioned(
                                 left: 0,
-                                top: screenHeight * 0.032,
+                                top: screenHeight * 0.037,
                                 child: SizedBox(
                                   width: screenWidth * 0.12,
                                   height: screenHeight * 0.05,
@@ -241,7 +242,7 @@ class HomeInitialScreen extends StatelessWidget {
                             children: [
                               Positioned(
                                 left: 5,
-                                top: screenHeight * 0.032,
+                                top: screenHeight * 0.037,
                                 child: SizedBox(
                                   width: screenWidth * 0.12,
                                   height: screenHeight * 0.08,
@@ -275,6 +276,8 @@ class HomeInitialScreen extends StatelessWidget {
                   ),
                 ),
               ),
+
+
               Positioned(
                 left: screenWidth * 0.04,
                 top: screenHeight * 0.71,
@@ -495,7 +498,6 @@ class HomeInitialScreen extends StatelessWidget {
                   ),
                 ),
               ),
-
               Positioned(
                 left: 0,
                 top: 0,
@@ -517,9 +519,14 @@ class HomeInitialScreen extends StatelessWidget {
           ),
         ),
       ),
+     ],
+    ),
+   ),
+  ),
+
       Positioned(
         left: screenWidth * 0.015,
-        top: screenHeight * 0.324,
+        top: screenHeight * (265 / 812), // Y = 265px を画面の高さに比例させる
         child: SizedBox(
           width: screenWidth * 0.98,
           height: screenHeight * 0.035,
@@ -534,10 +541,10 @@ class HomeInitialScreen extends StatelessWidget {
             ),
           ),
         ),
-      ),
+      ), 
       Positioned(
         left: screenWidth * 0.02,
-        top: screenHeight * 0.29,
+        top: screenHeight * (238 / 812), // Y = 240px を画面の高さに比例させる
         child: SizedBox(
           width: screenWidth * 0.98,
           height: screenHeight * 0.035,
@@ -555,7 +562,7 @@ class HomeInitialScreen extends StatelessWidget {
       ),
       Positioned(
         left: screenWidth * 0.02,
-        top: screenHeight * 0.24,
+        top: screenHeight * (200 / 812), // Y = 200px を画面の高さに比例させる
         child: SizedBox(
           width: screenWidth * 0.65,
           height: screenHeight * 0.05,
@@ -599,11 +606,8 @@ class HomeInitialScreen extends StatelessWidget {
             ],
           ),
         ),
-      ),
-    ],
-  ),
- )
- ],
-);
+      ],
+    );
+  }
 }
-}
+

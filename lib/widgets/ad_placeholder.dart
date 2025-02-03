@@ -6,13 +6,12 @@ class AdPlaceholder extends StatelessWidget {
   final double width; // 広告エリアの幅
   final double height; // 広告エリアの高さ
 
-
   const AdPlaceholder({
-    super.key, // super パラメータを使用
+    super.key,
     this.adContent,
     this.showPlaceholder = false,
-    required this.width, // width を required にする
-    required this.height, // height を required にする
+    required this.width,
+    required this.height,
   });
 
   @override
@@ -21,25 +20,38 @@ class AdPlaceholder extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 
-    return Container(
-      width: screenWidth * 0.92, // 横幅は画面幅の 92%
-      height: screenHeight * 0.13, // 高さは画面高さの 13%（必要に応じて調整可能）
-      decoration: BoxDecoration(
-        color: Colors.grey[200], // プレースホルダー背景色
-        borderRadius: BorderRadius.circular(screenWidth * 0.03), // 角を画面幅に基づいて調整
-      ),
-      child: showPlaceholder
-          ? Center(
-              child: Text(
-                '広告エリア', // プレースホルダーテキスト
-                style: TextStyle(
-                  color: Colors.grey[600],
-                  fontSize: screenWidth * 0.04, // フォントサイズを画面幅に応じて調整
-                  decoration: TextDecoration.none,
+    // 基準デバイスのサイズ（デザインから取得）
+    const double baseWidth = 390.0; // デザインの幅
+    const double baseHeight = 844.0; // デザインの高さ
+
+    // 比率計算
+    final double widthRatio = screenWidth / baseWidth;
+    final double heightRatio = screenHeight / baseHeight;
+
+    return Positioned(
+      left: 17 * widthRatio, // X = 17px を画面幅に応じて調整
+      top: 73 * heightRatio, // Y = 73px を画面高さに応じて調整
+      child: Container(
+        width: 360 * widthRatio, // 幅をデザイン基準で調整
+        height: 111 * heightRatio, // 高さをデザイン基準で調整
+        decoration: BoxDecoration(
+          color: Colors.grey[200], // プレースホルダー背景色
+          borderRadius: BorderRadius.circular(screenWidth * 0.03), // 角丸
+        ),
+        child: showPlaceholder
+            ? Center(
+                child: Text(
+                  '広告エリア', // プレースホルダーテキスト
+                  style: TextStyle(
+                    color: Colors.grey[600],
+                    fontSize: screenWidth * 0.04, // フォントサイズを画面幅に基づいて調整
+                    decoration: TextDecoration.none,
+                  ),
                 ),
-              ),
-            )
-          : adContent ?? Container(), // 広告コンテンツがあれば表示、なければ空
+              )
+            : adContent ?? Container(), // 広告コンテンツがあれば表示、なければ空
+      ),
     );
   }
 }
+
