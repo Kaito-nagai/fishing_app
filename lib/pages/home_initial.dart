@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
-import 'package:fishing_app/widgets/ad_placeholder.dart';
 import 'package:fishing_app/widgets/bottom_nav.dart';
 import 'package:fishing_app/widgets/list_item.dart'; // ← ListItem をインポート
 import 'package:fishing_app/widgets/label_text_widget.dart';
+import 'package:fishing_app/widgets/ad_banner.dart';
+
 
 
 // グローバルスコープで Logger を初期化
@@ -143,21 +144,11 @@ class HomeInitialScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              Positioned(
-                left: screenWidth * 0.04,
-                top: screenHeight * 0.71,
-                child: GestureDetector(
-                  onTap: () {
-                    logger.i('下部の広告クリック');
-                  },
-                  child: AdPlaceholder(
-                    adContent: null,
-                    showPlaceholder: true,
-                    width: screenWidth * 0.92,
-                    height: screenHeight * 0.13,
-                  ),
-                ),
-              ),
+AdBanner(
+  positionTop: 0.71, // top の比率だけを指定
+  onTap: () => logger.i('下部の広告クリック'), // onTap イベントを渡す
+),
+
 
 Positioned(
   left: screenWidth * 0.02,
@@ -200,21 +191,11 @@ Positioned(
         height: 0.05,
       ),
 
-      Positioned(
-        left: screenWidth * 0.04,
-        top: screenHeight * 0.090,
-        child: GestureDetector(
-          onTap: () {
-            logger.i('上部の広告クリック');
-          },
-          child: AdPlaceholder(
-            adContent: null,
-            showPlaceholder: true,
-            width: screenWidth * 0.92,
-            height: screenHeight * 0.13,
-          ),
-        ),
-      ),
+AdBanner(
+  positionTop: 0.090,
+  onTap: () => logger.i('上部の広告クリック'),
+),
+
       Positioned(
         left: screenWidth * 0.48,
         top: screenHeight * -0.045,
