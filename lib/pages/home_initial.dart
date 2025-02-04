@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:fishing_app/widgets/ad_placeholder.dart';
 import 'package:fishing_app/widgets/bottom_nav.dart';
+import 'package:fishing_app/widgets/list_item.dart'; // ← ListItem をインポート
+
 
 
 // グローバルスコープで Logger を初期化
@@ -129,8 +131,7 @@ class HomeInitialScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-              ),
-              
+              ), 
               Positioned(
                 left: 0,
                 top: screenHeight * 0.90,
@@ -145,10 +146,6 @@ class HomeInitialScreen extends StatelessWidget {
                   ),
                 ),
               ),
-
-
-
-
               Positioned(
                 left: screenWidth * 0.04,
                 top: screenHeight * 0.71,
@@ -165,236 +162,29 @@ class HomeInitialScreen extends StatelessWidget {
                 ),
               ),
 
-              Positioned(
-                left: screenWidth * 0.02,
-                top: screenHeight * 0.365,
-                child: SizedBox(
-                  width: screenWidth * 0.96,
-                  height: screenHeight * 0.45,
-                  child: Stack(
-                    children: [
-                      Positioned(
-                        left: 0,
-                        top: screenHeight * 0.074,
-                        child: SizedBox(
-                          width: screenWidth * 0.96,
-                          height: screenHeight * 0.07,
-                          child: Stack(
-                            children: [
-                              // フレームを最背面に追加
-                              Container(
-                                width: screenWidth * 0.96,
-                                height: screenHeight * 0.07,
-                                decoration: BoxDecoration(
-                                  color: const Color(0xFF2E2E2E),
-                                  borderRadius: BorderRadius.circular(5),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: const Color.fromARGB(64, 0, 0, 0),
-                                      offset: const Offset(4, 4),
-                                      blurRadius: 4,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              // 業者リストの要素を配置
-                              Positioned(
-                                left: screenWidth * 0.87,
-                                top: screenHeight * 0.015,
-                                child: SizedBox(
-                                  width: screenWidth * 0.04,
-                                  height: screenHeight * 0.04,
-                                  child: Icon(
-                                    Icons.favorite,
-                                    size: screenWidth * 0.053,
-                                    color: const Color(0xFFD8D8D8),
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                left: screenWidth * 0.34,
-                                top: screenHeight * 0.040,
-                                child: SizedBox(
-                                  width: screenWidth * 0.45,
-                                  height: screenHeight * 0.04,
-                                  child: Opacity(
-                                    opacity: 0.50,
-                                    child: Text(
-                                      '和歌山県すさみ町見老津',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: screenWidth * 0.037,
-                                        fontFamily: 'Noto Sans JP',
-                                        fontWeight: FontWeight.w500,
-                                        decoration: TextDecoration.none,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                left: screenWidth * 0.295,
-                                top: screenHeight * 0.043,
-                                child: SizedBox(
-                                  width: screenWidth * 0.02,
-                                  height: screenHeight * 0.01,
-                                  child: Icon(
-                                    Icons.location_pin,
-                                    size: screenWidth * 0.04,
-                                    color: const Color(0xFF777777),
-                                  ),
-                                ),
-                              ),
-
-              Positioned(
-                left: screenWidth * 0.30,
-                top: screenHeight * 0.008,
-                child: SizedBox(
-                  width: screenWidth * 0.3,
-                  height: screenHeight * 0.06,
-                  child: Text(
-                    '林渡船',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: screenWidth * 0.047,
-                      fontFamily: 'Noto Sans JP',
-                      fontWeight: FontWeight.w900,
-                      decoration: TextDecoration.none,
-                    ),
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 0,
-                top: 0,
-                child: Container(
-                  width: screenWidth * 0.25,
-                  height: screenHeight * 0.07,
-                  decoration: ShapeDecoration(
-                    image: const DecorationImage(
-                      image: AssetImage("assets/images/placeholder_image.png"),
-                      fit: BoxFit.fill,
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
+Positioned(
+  left: screenWidth * 0.02,
+  top: screenHeight * 0.365,
+  child: SizedBox(
+    width: screenWidth * 0.96,
+    height: screenHeight * 0.45,
+    child: Column(
+      children: [
+        ListItem(
+          title: '浜丸渡船',
+          location: '和歌山県すさみ町見老津',
+          imagePath: 'assets/images/placeholder_image.png',
         ),
-      ),
-      Positioned(
-        left: 0,
-        top: 0,
-        child: Container(
-          width: screenWidth * 0.96,
-          height: screenHeight * 0.07,
-          decoration: BoxDecoration(
-            color: const Color(0xFF2E2E2E),
-            borderRadius: BorderRadius.circular(5),
-            boxShadow: [
-              const BoxShadow(
-                color: Color.fromARGB(64, 0, 0, 0),
-                offset: Offset(4, 4),
-                blurRadius: 4,
-              ),
-            ],
-          ),
-          child: Stack(
-            children: [
-              Positioned(
-                left: screenWidth * 0.87,
-                top: screenHeight * 0.015,
-                child: SizedBox(
-                  width: screenWidth * 0.04,
-                  height: screenHeight * 0.04,
-                  child: Icon(
-                    Icons.favorite,
-                    size: screenWidth * 0.053,
-                    color: const Color(0xFFD8D8D8),
-                  ),
-                ),
-              ),
-              Positioned(
-                left: screenWidth * 0.34,
-                top: screenHeight * 0.040,
-                child: SizedBox(
-                  width: screenWidth * 0.45,
-                  height: screenHeight * 0.04,
-                  child: Opacity(
-                    opacity: 0.50,
-                    child: Text(
-                      '和歌山県すさみ町見老津',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: screenWidth * 0.037,
-                        fontFamily: 'Noto Sans JP',
-                        fontWeight: FontWeight.w500,
-                        decoration: TextDecoration.none,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              Positioned(
-                left: screenWidth * 0.295,
-                top: screenHeight * 0.043,
-                child: SizedBox(
-                  width: screenWidth * 0.02,
-                  height: screenHeight * 0.01,
-                  child: Icon(
-                    Icons.location_pin,
-                    size: screenWidth * 0.04,
-                    color: const Color(0xFF777777),
-                  ),
-                ),
-              ),
-              Positioned(
-                left: screenWidth * 0.30,
-                top: screenHeight * 0.008,
-                child: SizedBox(
-                  width: screenWidth * 0.3,
-                  height: screenHeight * 0.06,
-                  child: Text(
-                    '浜丸渡船',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: screenWidth * 0.047,
-                      fontFamily: 'Noto Sans JP',
-                      fontWeight: FontWeight.w900,
-                      decoration: TextDecoration.none,
-                    ),
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 0,
-                top: 0,
-                child: Container(
-                  width: screenWidth * 0.25,
-                  height: screenHeight * 0.07,
-                  decoration: ShapeDecoration(
-                    image: const DecorationImage(
-                      image: AssetImage("assets/images/placeholder_image.png"),
-                      fit: BoxFit.fill,
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
+        SizedBox(height: screenHeight * 0.005), // リスト間の余白
+        ListItem(
+          title: '林渡船',
+          location: '和歌山県すさみ町見老津',
+          imagePath: 'assets/images/placeholder_image.png',
         ),
-      ),
-     ],
+      ],
     ),
-   ),
   ),
-
+),
       Positioned(
         left: screenWidth * 0.015,
         top: screenHeight * (265 / 812), // Y = 265px を画面の高さに比例させる
