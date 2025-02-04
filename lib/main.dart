@@ -1,7 +1,8 @@
+import 'package:fishing_app/pages/home_initial.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart'; // providerパッケージをインポート
 import 'providers/favorites_provider.dart'; // FavoritesProviderをインポート
-import 'pages/home_initial.dart'; // HomeInitialScreenをインポート
+import 'package:flutter/foundation.dart';
 
 void main() {
   runApp(
@@ -14,16 +15,21 @@ void main() {
   );
 }
 
+
+
 // アプリ全体のエントリーポイント
 class FishingApp extends StatelessWidget {
   const FishingApp({super.key});
 
   @override
   Widget build(BuildContext context) {
+    if (kDebugMode) {
+      debugPrint('FishingApp: Building...');
+    }
     return MaterialApp(
       title: 'Fishing App',
       theme: ThemeData(primarySwatch: Colors.blue),
-      home: const HomeInitialScreen(), // 初期画面をHomeInitialScreenに変更
+      home: const HomeInitialScreen(), 
     );
   }
 }
