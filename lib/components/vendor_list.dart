@@ -28,7 +28,7 @@ class VendorList extends StatelessWidget {
       itemBuilder: (context, index) {
         final vendor = vendors[index];
         return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          padding: const EdgeInsets.symmetric(vertical: 2.0),
           child: ListItem(
             title: vendor.title,
             location: vendor.location,

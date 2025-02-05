@@ -93,50 +93,64 @@ class HomeInitialScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              AdBanner(
-                positionTop: 0.71,
-                onTap: () => logger.i('下部の広告クリック'),
-              ),
 Positioned(
   left: screenWidth * 0.02,
-  top: screenHeight * 0.260,
+  top: screenHeight * 0.250,
   child: SizedBox(
     width: screenWidth * 0.96,
-    height: screenHeight * 0.60,
-    child: FutureBuilder<List<Vendor>>(
-      future: loadVendorsFromJson(), // JSON データを読み込む
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator()); // ローディング表示
-        } else if (snapshot.hasError) {
-          return Text('エラー: ${snapshot.error}');
-        } else if (snapshot.hasData) {
-          return VendorList(vendors: snapshot.data!); // データを VendorList に渡す
-        } else {
-          return const Text('データが見つかりません');
-        }
-      },
+    height: screenHeight * 0.60, // 業者リスト全体の高さを制限
+    child: Column(
+      children: [
+        // 上部テキスト
+        LabelTextWidget(
+          text: 'マイリストに業者を登録しよう',
+          fontSize: 0.06,
+          positionTop: 0,
+          positionLeft: 0.02,
+          width: 1.5,
+          height: 0.05,
+        ),
+        LabelTextWidget(
+          text: 'まだ未登録の状態です',
+          fontSize: 0.040,
+          positionTop: 0,
+          positionLeft: 0.02,
+          width: 0.98,
+          height: 0.035,
+        ),
+        
+        // 業者リスト部分
+        Expanded(
+          child: FutureBuilder<List<Vendor>>(
+            future: loadVendorsFromJson(), // JSON データを読み込む
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator()); // ローディング表示
+              } else if (snapshot.hasError) {
+                return Text('エラー: ${snapshot.error}');
+              } else if (snapshot.hasData) {
+                return ListView(
+                  children: [
+                    VendorList(vendors: snapshot.data!), // 業者リスト
+                    const SizedBox(height: 16.0), // スペースを確保
+                  ],
+                );
+              } else {
+                return const Text('データが見つかりません');
+              }
+            },
+          ),
+        ),
+        // 広告エリア
+        AdBanner(
+          positionTop: 0,
+          onTap: () => logger.i('広告エリアクリック'),
+        ),
+      ],
     ),
   ),
 ),
 
-
-              LabelTextWidget(
-                text: 'まだ未登録の状態です',
-                fontSize: 0.040,
-                positionTop: 238 / 812,
-                positionLeft: 0.02,
-                width: 0.98,
-                height: 0.035,
-              ),
-              LabelTextWidget(
-                text: 'マイリストに業者を登録しよう',
-                fontSize: 0.06,
-                positionTop: 200 / 812,
-                positionLeft: 0.02,
-                width: 1.5,
-                height: 0.05,
-              ),
               AdBanner(
                 positionTop: 0.090,
                 onTap: () => logger.i('上部の広告クリック'),
