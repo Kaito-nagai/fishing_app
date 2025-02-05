@@ -122,8 +122,7 @@ Positioned(
         const SizedBox(height: 8.0), // テキストとリストの間の余白を調整
 
         // 業者リスト（スクロール可能）
-        SizedBox(
-          height: screenHeight * 0.43, // 業者リストの高さを固定
+        Expanded(
           child: FutureBuilder<List<Vendor>>(
             future: loadVendorsFromJson(), // JSON データを読み込む
             builder: (context, snapshot) {
