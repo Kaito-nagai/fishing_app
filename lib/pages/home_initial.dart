@@ -95,11 +95,12 @@ class HomeInitialScreen extends StatelessWidget {
               ),
 Positioned(
   left: screenWidth * 0.02,
-  top: screenHeight * 0.250,
+  top: screenHeight * 0.235,
   child: SizedBox(
     width: screenWidth * 0.96,
-    height: screenHeight * 0.60, // 業者リスト全体の高さを制限
+    height: screenHeight * 0.80, // 全体の高さを制限
     child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // 上部テキスト
         LabelTextWidget(
@@ -118,9 +119,11 @@ Positioned(
           width: 0.98,
           height: 0.035,
         ),
-        
-        // 業者リスト部分
-        Expanded(
+        const SizedBox(height: 8.0), // テキストとリストの間の余白を調整
+
+        // 業者リスト（スクロール可能）
+        SizedBox(
+          height: screenHeight * 0.43, // 業者リストの高さを固定
           child: FutureBuilder<List<Vendor>>(
             future: loadVendorsFromJson(), // JSON データを読み込む
             builder: (context, snapshot) {
@@ -129,19 +132,16 @@ Positioned(
               } else if (snapshot.hasError) {
                 return Text('エラー: ${snapshot.error}');
               } else if (snapshot.hasData) {
-                return ListView(
-                  children: [
-                    VendorList(vendors: snapshot.data!), // 業者リスト
-                    const SizedBox(height: 8.0), // スペースを確保
-                  ],
-                );
+                return VendorList(vendors: snapshot.data!); // 業者リスト
               } else {
                 return const Text('データが見つかりません');
               }
             },
           ),
         ),
-        // 広告エリア
+
+        // 広告エリア（リストの下に配置）
+        const SizedBox(height: 8.0), // リストと広告の間の余白
         AdBanner(
           positionTop: 0,
           onTap: () => logger.i('広告エリアクリック'),

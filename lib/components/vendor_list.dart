@@ -22,13 +22,13 @@ class VendorList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      shrinkWrap: true, // Column内で使用するため shrinkWrap を有効化
-      physics: const NeverScrollableScrollPhysics(), // 外側のスクロールと競合しないよう無効化
+      padding: EdgeInsets.zero, // リスト全体のパディングを削除
+      physics: const AlwaysScrollableScrollPhysics(), // 業者リストをスクロール可能に設定
       itemCount: vendors.length,
       itemBuilder: (context, index) {
         final vendor = vendors[index];
         return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 2.0),
+          padding: const EdgeInsets.symmetric(vertical: 2.0), // リストアイテム間の余白を調整
           child: ListItem(
             title: vendor.title,
             location: vendor.location,
