@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:fishing_app/widgets/bottom_nav.dart';
-import 'package:fishing_app/widgets/list_item.dart';
 import 'package:fishing_app/widgets/label_text_widget.dart';
 import 'package:fishing_app/widgets/ad_banner.dart';
 import 'package:fishing_app/widgets/navigation_hint.dart';
+import 'package:fishing_app/components/vendor_list.dart';
+import 'package:fishing_app/utils/json_loader.dart'; // loadVendorsFromJson をインポート
+
 
 // グローバルスコープで Logger を初期化
 final logger = Logger();
@@ -95,29 +97,30 @@ class HomeInitialScreen extends StatelessWidget {
                 positionTop: 0.71,
                 onTap: () => logger.i('下部の広告クリック'),
               ),
-              Positioned(
-                left: screenWidth * 0.02,
-                top: screenHeight * 0.340,
-                child: SizedBox(
-                  width: screenWidth * 0.96,
-                  height: screenHeight * 0.45,
-                  child: Column(
-                    children: [
-                      ListItem(
-                        title: '浜丸渡船',
-                        location: '和歌山県すさみ町見老津',
-                        imagePath: 'assets/images/placeholder_image.png',
-                      ),
-                      SizedBox(height: screenHeight * 0.005), // リスト間の余白
-                      ListItem(
-                        title: '林渡船',
-                        location: '和歌山県すさみ町見老津',
-                        imagePath: 'assets/images/placeholder_image.png',
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+Positioned(
+  left: screenWidth * 0.02,
+  top: screenHeight * 0.260,
+  child: SizedBox(
+    width: screenWidth * 0.96,
+    height: screenHeight * 0.60,
+    child: FutureBuilder<List<Vendor>>(
+      future: loadVendorsFromJson(), // JSON データを読み込む
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator()); // ローディング表示
+        } else if (snapshot.hasError) {
+          return Text('エラー: ${snapshot.error}');
+        } else if (snapshot.hasData) {
+          return VendorList(vendors: snapshot.data!); // データを VendorList に渡す
+        } else {
+          return const Text('データが見つかりません');
+        }
+      },
+    ),
+  ),
+),
+
+
               LabelTextWidget(
                 text: 'まだ未登録の状態です',
                 fontSize: 0.040,
