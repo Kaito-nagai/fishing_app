@@ -132,7 +132,7 @@ Positioned(
                 return ListView(
                   children: [
                     VendorList(vendors: snapshot.data!), // 業者リスト
-                    const SizedBox(height: 16.0), // スペースを確保
+                    const SizedBox(height: 8.0), // スペースを確保
                   ],
                 );
               } else {
