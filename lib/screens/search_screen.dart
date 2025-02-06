@@ -21,8 +21,8 @@ class SearchScreen extends StatelessWidget {
 
   Widget _buildHeader() {
     return Positioned(
-      top: 54,
-      left: 23,
+      top: 250,
+      left: 10,
       child: Text(
         'おすすめの渡船や遊漁船',
         style: TextStyle(
@@ -38,7 +38,7 @@ class SearchScreen extends StatelessWidget {
 
   Widget _buildRecommendationSection() {
     return Positioned(
-      top: 278,
+      top: 330,
       left: 8,
       child: Container(
         width: 377,
@@ -98,7 +98,7 @@ class SearchScreen extends StatelessWidget {
 
   Widget _buildAdArea() {
     return Positioned(
-      top: 107,
+      top: 125,
       left: 17,
       child: Container(
         width: 360,
@@ -123,8 +123,8 @@ class SearchScreen extends StatelessWidget {
 
   Widget _buildSearchBar() {
     return Positioned(
-      top: 54,
-      left: 23,
+      top: 65,
+      left: 62,
       child: Container(
         width: 315,
         height: 32,
@@ -140,7 +140,7 @@ class SearchScreen extends StatelessWidget {
               '業者名、場所などで検索',
               style: TextStyle(
                 color: Colors.white.withAlpha(153), // 0.6 * 255 = 153
-                fontSize: 16,
+                fontSize: 15,
               ),
             ),
           ),
@@ -152,7 +152,7 @@ class SearchScreen extends StatelessWidget {
   Widget _buildBottomNavigationBar() {
     return Positioned(
       bottom: 20,
-      left: 29,
+      left: 50,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
