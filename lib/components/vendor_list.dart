@@ -24,7 +24,7 @@ class VendorList extends StatelessWidget {
     return ListView.builder(
       padding: EdgeInsets.zero, // リスト全体のパディングを削除
       physics: const AlwaysScrollableScrollPhysics(), // 業者リストをスクロール可能に設定
-      itemCount: vendors.length,
+      itemCount: vendors.length > 5 ? 5 : vendors.length, // 表示件数を5件に制限
       itemBuilder: (context, index) {
         final vendor = vendors[index];
         return Padding(
