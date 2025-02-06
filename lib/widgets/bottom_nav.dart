@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class BottomNav extends StatelessWidget {
   const BottomNav({super.key});
-  
+
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -16,20 +16,22 @@ class BottomNav extends StatelessWidget {
         height: screenHeight * 0.08,
         child: Stack(
           children: [
+            // マイリストアイコン
             Positioned(
               left: screenWidth * 0.67,
               top: 0,
-              child: SizedBox(
-                width: screenWidth * 0.18,
-                height: screenHeight * 0.08,
-                child: Stack(
-                  children: [
-                    Positioned(
-                      left: 0,
-                      top: screenHeight * 0.037,
-                      child: SizedBox(
-                        width: screenWidth * 0.18,
-                        height: screenHeight * 0.07,
+              child: GestureDetector(
+                onTap: () {
+                  debugPrint('マイリストアイコンがタップされました');
+                },
+                child: SizedBox(
+                  width: screenWidth * 0.18,
+                  height: screenHeight * 0.08,
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        left: 0,
+                        top: screenHeight * 0.037,
                         child: Text(
                           'マイリスト',
                           textAlign: TextAlign.center,
@@ -42,35 +44,37 @@ class BottomNav extends StatelessWidget {
                           ),
                         ),
                       ),
-                    ),
-                    Positioned(
-                      left: screenWidth * 0.055,
-                      top: screenHeight * 0.002,
-                      child: Icon(
-                        Icons.favorite,
-                        size: screenWidth * 0.07,
-                        color: const Color(0xFF777777),
+                      Positioned(
+                        left: screenWidth * 0.055,
+                        top: screenHeight * 0.002,
+                        child: Icon(
+                          Icons.favorite,
+                          size: screenWidth * 0.07,
+                          color: const Color(0xFF777777),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
 
+            // 検索アイコン
             Positioned(
               left: screenWidth * 0.35,
               top: 0,
-              child: SizedBox(
-                width: screenWidth * 0.12,
-                height: screenHeight * 0.07,
-                child: Stack(
-                  children: [
-                    Positioned(
-                      left: 0,
-                      top: screenHeight * 0.037,
-                      child: SizedBox(
-                        width: screenWidth * 0.12,
-                        height: screenHeight * 0.05,
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, '/search'); // 検索画面への遷移
+                },
+                child: SizedBox(
+                  width: screenWidth * 0.12,
+                  height: screenHeight * 0.07,
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        left: 0,
+                        top: screenHeight * 0.037,
                         child: Text(
                           '検索',
                           textAlign: TextAlign.center,
@@ -83,34 +87,37 @@ class BottomNav extends StatelessWidget {
                           ),
                         ),
                       ),
-                    ),
-                    Positioned(
-                      left: screenWidth * 0.03,
-                      top: screenHeight * 0.002,
-                      child: Icon(
-                        Icons.search,
-                        size: screenWidth * 0.07,
-                        color: const Color(0xFF777777),
+                      Positioned(
+                        left: screenWidth * 0.03,
+                        top: screenHeight * 0.002,
+                        child: Icon(
+                          Icons.search,
+                          size: screenWidth * 0.07,
+                          color: const Color(0xFF777777),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
+
+            // ホームアイコン
             Positioned(
               left: 8,
               top: 0,
-              child: SizedBox(
-                width: screenWidth * 0.15,
-                height: screenHeight * 0.08,
-                child: Stack(
-                  children: [
-                    Positioned(
-                      left: 5,
-                      top: screenHeight * 0.037,
-                      child: SizedBox(
-                        width: screenWidth * 0.12,
-                        height: screenHeight * 0.08,
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, '/'); // ホーム画面への遷移
+                },
+                child: SizedBox(
+                  width: screenWidth * 0.15,
+                  height: screenHeight * 0.08,
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        left: 5,
+                        top: screenHeight * 0.037,
                         child: Text(
                           'ホーム',
                           textAlign: TextAlign.center,
@@ -123,17 +130,17 @@ class BottomNav extends StatelessWidget {
                           ),
                         ),
                       ),
-                    ),
-                    Positioned(
-                      left: screenWidth * 0.035,
-                      top: screenHeight * 0.002,
-                      child: Icon(
-                        Icons.home,
-                        size: screenWidth * 0.07,
-                        color: Colors.white,
+                      Positioned(
+                        left: screenWidth * 0.035,
+                        top: screenHeight * 0.002,
+                        child: Icon(
+                          Icons.home,
+                          size: screenWidth * 0.07,
+                          color: Colors.white,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),

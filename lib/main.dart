@@ -1,23 +1,26 @@
-import 'package:fishing_app/pages/home_initial.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart'; // providerパッケージをインポート
-import 'providers/favorites_provider.dart'; // FavoritesProviderをインポート
+import 'package:provider/provider.dart';
+import 'providers/favorites_provider.dart';
+import 'pages/home_initial.dart';
+import 'screens/search_screen.dart'; // 検索画面をインポート
 import 'package:flutter/foundation.dart';
 
 void main() {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => FavoritesProvider()), // 初期化済みプロバイダを登録
+        ChangeNotifierProvider(create: (_) {
+          if (kDebugMode) {
+            debugPrint('FavoritesProvider initialized');
+          }
+          return FavoritesProvider();
+        }),
       ],
       child: const FishingApp(),
     ),
   );
 }
 
-
-
-// アプリ全体のエントリーポイント
 class FishingApp extends StatelessWidget {
   const FishingApp({super.key});
 
@@ -29,7 +32,21 @@ class FishingApp extends StatelessWidget {
     return MaterialApp(
       title: 'Fishing App',
       theme: ThemeData(primarySwatch: Colors.blue),
-      home: const HomeInitialScreen(), 
+      initialRoute: '/', // 初期ルート
+      routes: {
+        '/': (context) {
+          if (kDebugMode) {
+            debugPrint('Navigating to HomeInitialScreen');
+          }
+          return const HomeInitialScreen();
+        },
+        '/search': (context) {
+          if (kDebugMode) {
+            debugPrint('Navigating to SearchScreen');
+          }
+          return const SearchScreen(); // 検索画面を登録
+        },
+      },
     );
   }
 }
