@@ -3,7 +3,6 @@ import 'package:logger/logger.dart';
 import 'package:fishing_app/widgets/bottom_nav.dart';
 import 'package:fishing_app/widgets/label_text_widget.dart';
 import 'package:fishing_app/widgets/ad_banner.dart';
-import 'package:fishing_app/widgets/navigation_hint.dart';
 import 'package:fishing_app/components/vendor_list.dart';
 import 'package:fishing_app/utils/json_loader.dart'; // loadVendorsFromJson をインポート
 
@@ -69,15 +68,6 @@ class HomeInitialScreen extends StatelessWidget {
           decoration: const BoxDecoration(color: Colors.black),
           child: Stack(
             children: [
-              NavigationHint(
-                text: 'タップで検索',
-                top: 0.88,
-                left: 0.46,
-                onTap: () {
-                  // 今後ここで検索ページ遷移のロジックを実装
-                  logger.i('検索アイコンをタップしました');
-                },
-              ),
               Positioned(
                 left: 0,
                 top: screenHeight * 0.90,
@@ -97,7 +87,7 @@ class HomeInitialScreen extends StatelessWidget {
                 top: screenHeight * 0.235,
                 child: SizedBox(
                   width: screenWidth * 0.96,
-                  height: screenHeight * 0.80, // 全体の高さを制限
+                  height: screenHeight * 0.66, // 全体の高さを制限
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

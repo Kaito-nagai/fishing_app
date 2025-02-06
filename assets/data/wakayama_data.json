@@ -49,6 +49,30 @@
       },
       {
         "id": "wakayama7",
+        "name": "うりた渡船",
+        "location": "和歌山県串本町潮岬",
+        "price": 4950,
+        "link": "https://zekkouchou.com/urita-tosen/",
+        "catch_info": "https://zekkouchou.com/urita-tosen/catch.php"
+      },
+      {
+        "id": "wakayama8",
+        "name": "永田渡船",
+        "location": "和歌山県串本町樫野",
+        "price": 5000,
+        "link": "https://minnaga.com/nagatatosen//",
+        "catch_info": "https://minnaga.com/system/nagata/contents/fish/fish_listup.php"
+      },
+      {
+        "id": "wakayama9",
+        "name": "松村渡船",
+        "location": "和歌山県和深安指",
+        "price": 4000,
+        "link": "https://minnaga.com/erimaru/",
+        "catch_info": "https://minnaga.com/system/erimaru/contents/fish/fish_listup.php?sea_class=2"
+      },
+      {
+        "id": "wakayama10",
         "name": "浜勝渡船",
         "location": "和歌山県串本町須江",
         "price": 4500,
