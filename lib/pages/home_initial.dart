@@ -136,15 +136,7 @@ class HomeInitialScreen extends StatelessWidget {
                             }
                           },
                         ),
-                      ),
-
-                      // 広告エリア（リストの下に配置）
-                      const SizedBox(height: 8.0), // リストと広告の間の余白
-                      AdBanner(
-                        positionTop: 0,
-                        onTap: () => logger.i('広告エリアクリック'),
-                      ),
-                      
+                      ),                      
                     ],
                   ),
                 ),
