@@ -69,20 +69,6 @@ class HomeInitialScreen extends StatelessWidget {
           child: Stack(
             children: [
               Positioned(
-                left: 0,
-                top: screenHeight * 0.90,
-                child: Opacity(
-                  opacity: 0.10,
-                  child: Container(
-                    width: screenWidth,
-                    height: screenHeight * 0.3,
-                    decoration: const BoxDecoration(
-                      color: Color(0xFFD9D9D9),
-                    ),
-                  ),
-                ),
-              ),
-              Positioned(
                 left: screenWidth * 0.02,
                 top: screenHeight * 0.235,
                 child: SizedBox(
@@ -145,7 +131,7 @@ class HomeInitialScreen extends StatelessWidget {
                   decoration: const BoxDecoration(),
                 ),
               ),
-              const BottomNav(),
+              const BottomNav(), // ボトムナビゲーションをそのまま使用
             ],
           ),
         ),

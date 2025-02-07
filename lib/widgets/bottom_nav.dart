@@ -8,7 +8,25 @@ class BottomNav extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 
-    return Positioned(
+    return Stack(
+      children: [
+        // 背景用の装飾
+        Positioned(
+          left: 0,
+          top: screenHeight * 0.90,
+          child: Opacity(
+            opacity: 0.1,
+            child: Container(
+              width: screenWidth,
+              height: screenHeight * 0.3,
+              decoration: const BoxDecoration(
+                color: Color(0xFFD9D9D9),
+              ),
+            ),
+          ),
+        ),
+        // ボトムナビゲーションのアイコン部分
+      Positioned(
       left: screenWidth * 0.07,
       top: screenHeight * 0.905,
       child: SizedBox(
@@ -137,16 +155,18 @@ class BottomNav extends StatelessWidget {
                           Icons.home,
                           size: screenWidth * 0.07,
                           color: Colors.white,
-                        ),
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
                 ),
-              ),
+              ],
             ),
-          ],
+          ),
         ),
-      ),
+      ],
     );
   }
 }

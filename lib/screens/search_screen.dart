@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fishing_app/widgets/bottom_nav.dart'; // bottom_nav.dart をインポート
 
 class SearchScreen extends StatelessWidget {
   const SearchScreen({super.key});
@@ -7,15 +8,22 @@ class SearchScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
+      appBar: AppBar(
+        title: const Text(
+          '検索',
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: Colors.black,
+      ),
       body: Stack(
         children: [
           _buildHeader(),
           _buildRecommendationSection(),
           _buildAdArea(),
           _buildSearchBar(),
-          _buildBottomNavigationBar(),
         ],
       ),
+      bottomNavigationBar: const BottomNav(), // ボトムナビを適用
     );
   }
 
@@ -50,7 +58,7 @@ class SearchScreen extends StatelessWidget {
         child: Row(
           children: [
             _buildThumbnail(),
-            SizedBox(width: 10),
+            const SizedBox(width: 10),
             _buildVendorDetails(),
           ],
         ),
@@ -63,7 +71,7 @@ class SearchScreen extends StatelessWidget {
       width: 95,
       height: 56,
       decoration: ShapeDecoration(
-        image: DecorationImage(
+        image: const DecorationImage(
           image: NetworkImage("https://via.placeholder.com/95x56"),
           fit: BoxFit.cover,
         ),
@@ -76,7 +84,7 @@ class SearchScreen extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.center,
-      children: [
+      children: const [
         Text(
           '浜丸渡船',
           style: TextStyle(
@@ -107,7 +115,7 @@ class SearchScreen extends StatelessWidget {
           color: Colors.white.withAlpha(153), // 0.6 * 255 = 153
           borderRadius: BorderRadius.circular(10),
         ),
-        child: Center(
+        child: const Center(
           child: Text(
             '広告エリア',
             style: TextStyle(
@@ -129,56 +137,23 @@ class SearchScreen extends StatelessWidget {
         width: 315,
         height: 32,
         decoration: BoxDecoration(
-          color: Color(0xFF424242),
+          color: const Color(0xFF424242),
           borderRadius: BorderRadius.circular(4),
         ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16),
           child: Align(
             alignment: Alignment.centerLeft,
             child: Text(
               '業者名、場所などで検索',
               style: TextStyle(
-                color: Colors.white.withAlpha(153), // 0.6 * 255 = 153
+                color: Colors.white70, // 透明度を持たせた白色
                 fontSize: 15,
               ),
             ),
           ),
         ),
       ),
-    );
-  }
-
-  Widget _buildBottomNavigationBar() {
-    return Positioned(
-      bottom: 20,
-      left: 50,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          _buildNavItem('ホーム', Icons.home, true),
-          _buildNavItem('検索', Icons.search, false),
-          _buildNavItem('マイリスト', Icons.favorite, false),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildNavItem(String label, IconData icon, bool isActive) {
-    return Column(
-      children: [
-        Icon(
-          icon,
-          color: isActive ? Colors.white : Colors.grey,
-        ),
-        Text(
-          label,
-          style: TextStyle(
-            color: isActive ? Colors.white : Colors.grey,
-            fontSize: 13,
-          ),
-        ),
-      ],
     );
   }
 }
