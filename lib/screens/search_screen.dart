@@ -15,145 +15,151 @@ class SearchScreen extends StatelessWidget {
         ),
         backgroundColor: Colors.black,
       ),
-      body: Stack(
-        children: [
-          _buildHeader(),
-          _buildRecommendationSection(),
-          _buildAdArea(),
-          _buildSearchBar(),
-        ],
-      ),
-      bottomNavigationBar: const BottomNav(), // ボトムナビを適用
-    );
-  }
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          final screenWidth = constraints.maxWidth;
+          final screenHeight = constraints.maxHeight;
 
-  Widget _buildHeader() {
-    return Positioned(
-      top: 250,
-      left: 10,
-      child: Text(
-        'おすすめの渡船や遊漁船',
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 27,
-          fontFamily: 'Noto Sans JP',
-          fontWeight: FontWeight.w700,
-          letterSpacing: 0.9,
-        ),
-      ),
-    );
-  }
+          return SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // 検索バー
+                Padding(
+                  padding: EdgeInsets.only(
+                    left: screenWidth * 0.1,
+                    right: screenWidth * 0.1,
+                    top: screenHeight * 0.05,
+                  ),
+                  child: Container(
+                    width: screenWidth * 0.8,
+                    height: screenHeight * 0.05,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF424242),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          '業者名、場所などで検索',
+                          style: TextStyle(
+                            color: Colors.white70,
+                            fontSize: 15,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
 
-  Widget _buildRecommendationSection() {
-    return Positioned(
-      top: 330,
-      left: 8,
-      child: Container(
-        width: 377,
-        height: 56,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5),
-          color: Colors.grey[850],
-        ),
-        child: Row(
-          children: [
-            _buildThumbnail(),
-            const SizedBox(width: 10),
-            _buildVendorDetails(),
-          ],
-        ),
-      ),
-    );
-  }
+                // 広告エリア
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: screenWidth * 0.05,
+                    vertical: screenHeight * 0.03,
+                  ),
+                  child: Container(
+                    width: screenWidth * 0.9,
+                    height: screenHeight * 0.15,
+                    decoration: BoxDecoration(
+                      color: Colors.white.withAlpha(153),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: const Center(
+                      child: Text(
+                        '広告エリア',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 16,
+                          fontFamily: 'Roboto',
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
 
-  Widget _buildThumbnail() {
-    return Container(
-      width: 95,
-      height: 56,
-      decoration: ShapeDecoration(
-        image: const DecorationImage(
-          image: NetworkImage("https://via.placeholder.com/95x56"),
-          fit: BoxFit.cover,
-        ),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-      ),
-    );
-  }
+                // おすすめリストセクション
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
+                  child: const Text(
+                    'おすすめの渡船や遊漁船',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
 
-  Widget _buildVendorDetails() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: const [
-        Text(
-          '浜丸渡船',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        Text(
-          '和歌山県すさみ町見老津',
-          style: TextStyle(
-            color: Colors.grey,
-            fontSize: 13,
-          ),
-        ),
-      ],
-    );
-  }
+                const SizedBox(height: 10),
 
-  Widget _buildAdArea() {
-    return Positioned(
-      top: 125,
-      left: 17,
-      child: Container(
-        width: 360,
-        height: 111,
-        decoration: BoxDecoration(
-          color: Colors.white.withAlpha(153), // 0.6 * 255 = 153
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: const Center(
-          child: Text(
-            '広告エリア',
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 16,
-              fontFamily: 'Roboto',
+                // リスト表示
+                ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: 10,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: screenWidth * 0.05,
+                        vertical: screenHeight * 0.02,
+                      ),
+                      child: Container(
+                        height: screenHeight * 0.1,
+                        decoration: BoxDecoration(
+                          color: Colors.grey[850],
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Row(
+                          children: [
+                            Container(
+                              width: screenWidth * 0.2,
+                              height: screenHeight * 0.1,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                image: const DecorationImage(
+                                  image: NetworkImage(
+                                      'https://via.placeholder.com/80'),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                            SizedBox(width: screenWidth * 0.05),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: const [
+                                Text(
+                                  '業者名',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  '所在地情報',
+                                  style: TextStyle(
+                                    color: Colors.white70,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ],
             ),
-          ),
-        ),
+          );
+        },
       ),
-    );
-  }
-
-  Widget _buildSearchBar() {
-    return Positioned(
-      top: 65,
-      left: 62,
-      child: Container(
-        width: 315,
-        height: 32,
-        decoration: BoxDecoration(
-          color: const Color(0xFF424242),
-          borderRadius: BorderRadius.circular(4),
-        ),
-        child: const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16),
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: Text(
-              '業者名、場所などで検索',
-              style: TextStyle(
-                color: Colors.white70, // 透明度を持たせた白色
-                fontSize: 15,
-              ),
-            ),
-          ),
-        ),
-      ),
+      bottomNavigationBar: const BottomNav(),
     );
   }
 }
