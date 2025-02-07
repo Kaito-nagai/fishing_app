@@ -7,18 +7,17 @@ class BottomNav extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.black,
+        color: const Color(0x1AD9D9D9), // 塗り：D9D9D9 不透明度10%
         border: Border(
           top: BorderSide(
-            color: Colors.grey.withAlpha((0.5 * 255).toInt()), // 修正された部分
+            color: const Color(0x1AD9D9D9), // 塗り：D9D9D9 不透明度10
             width: 0.5,
           ),
         ),
       ),
-
       child: SafeArea(
         child: BottomNavigationBar(
-          backgroundColor: Colors.black,
+          backgroundColor: Colors.transparent, // 完全透明に変更
           selectedItemColor: Colors.white,
           unselectedItemColor: Colors.grey,
           items: const [
