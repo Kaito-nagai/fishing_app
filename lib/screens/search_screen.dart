@@ -115,7 +115,7 @@ class SearchScreenState extends State<SearchScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: const BottomNav(),
+      bottomNavigationBar: const BottomNav(currentIndex: 1), // 修正：currentIndex を追加
     );
   }
 }

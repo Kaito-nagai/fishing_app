@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class BottomNav extends StatelessWidget {
-  const BottomNav({super.key});
+  final int currentIndex;
+
+  const BottomNav({super.key, required this.currentIndex});
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +22,7 @@ class BottomNav extends StatelessWidget {
           backgroundColor: Colors.transparent, // 完全透明に変更
           selectedItemColor: Colors.white,
           unselectedItemColor: Colors.grey,
+          currentIndex: currentIndex, // ここを変更
           items: const [
             BottomNavigationBarItem(
               icon: Icon(Icons.home),
@@ -35,16 +38,18 @@ class BottomNav extends StatelessWidget {
             ),
           ],
           onTap: (index) {
-            switch (index) {
-              case 0:
-                Navigator.pushNamed(context, '/');
-                break;
-              case 1:
-                Navigator.pushNamed(context, '/search');
-                break;
-              case 2:
-                debugPrint('マイリストがタップされました');
-                break;
+            if (index != currentIndex) {
+              switch (index) {
+                case 0:
+                  Navigator.pushNamed(context, '/');
+                  break;
+                case 1:
+                  Navigator.pushNamed(context, '/search');
+                  break;
+                case 2:
+                  debugPrint('マイリストがタップされました');
+                  break;
+              }
             }
           },
         ),

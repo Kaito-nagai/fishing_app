@@ -128,7 +128,7 @@ class HomeInitialScreen extends StatelessWidget {
           ),
         ],
       ),
-      bottomNavigationBar: const BottomNav(), // ここで BottomNav を適用
+      bottomNavigationBar: const BottomNav(currentIndex: 0), // 修正：currentIndex を追加
     );
   }
 }
