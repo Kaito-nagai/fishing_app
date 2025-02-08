@@ -108,14 +108,9 @@ class SearchScreenState extends State<SearchScreen> {
 
             // 業者リストの表示
             Expanded(
-              child: Center(
-                child: Container(
-                  constraints: const BoxConstraints(maxWidth: 500),
-                  child: allVendors.isEmpty
-                      ? const Center(child: CircularProgressIndicator())
-                      : VendorList(vendors: allVendors),
-                ),
-              ),
+              child: allVendors.isEmpty
+                  ? const Center(child: CircularProgressIndicator())
+                  : VendorList(vendors: allVendors),
             ),
           ],
         ),
