@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 class SearchBarWithBackButton extends StatelessWidget {
   final VoidCallback onBackPressed;
   final ValueChanged<String> onSubmitted;
+  final TextEditingController searchController;
 
   const SearchBarWithBackButton({
     super.key,
     required this.onBackPressed,
     required this.onSubmitted,
+    required this.searchController,
   });
 
   @override
@@ -31,13 +33,18 @@ class SearchBarWithBackButton extends StatelessWidget {
                 borderRadius: BorderRadius.circular(4),
               ),
               child: TextField(
+                controller: searchController,
                 onSubmitted: onSubmitted,
-                style: const TextStyle(color: Colors.white),
+                style: TextStyle(
+                  color: searchController.text.isEmpty
+                      ? Colors.white70
+                      : Colors.white, // 入力内容に応じた色
+                ),
                 decoration: const InputDecoration(
                   hintText: '業者名、場所などで検索',
                   hintStyle: TextStyle(color: Colors.white70),
                   border: InputBorder.none,
-                  contentPadding: EdgeInsets.symmetric(horizontal: 12),
+                  contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 8), // 上下中央揃え
                 ),
               ),
             ),

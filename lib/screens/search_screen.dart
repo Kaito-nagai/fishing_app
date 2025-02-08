@@ -15,6 +15,8 @@ class SearchScreen extends StatefulWidget {
 class SearchScreenState extends State<SearchScreen> {
   List<Vendor> allVendors = [];
   List<Vendor> filteredVendors = [];
+  final TextEditingController _searchController = TextEditingController(); // 検索コントローラを追加
+
 
   @override
   void initState() {
@@ -36,13 +38,17 @@ class SearchScreenState extends State<SearchScreen> {
             vendor.location.toLowerCase().contains(query.toLowerCase()))
         .toList();
 
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => SearchResults(searchResults: results),
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => SearchResults(
+        searchResults: results,
+        initialQuery: query, // 必須パラメータを追加
       ),
-    );
-  }
+    ),
+  );
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -58,6 +64,7 @@ class SearchScreenState extends State<SearchScreen> {
                 Navigator.pop(context);
               },
               onSubmitted: _onSearchSubmitted,
+              searchController: _searchController, // 必須パラメータとして渡す
             ),
 
             // 広告エリア
