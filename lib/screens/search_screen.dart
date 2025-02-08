@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fishing_app/widgets/bottom_nav.dart';
 import 'package:fishing_app/utils/json_loader.dart';
 import 'package:fishing_app/components/vendor_list.dart';
+import 'package:fishing_app/screens/search_results.dart'; // 検索結果画面をインポート
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -12,6 +13,7 @@ class SearchScreen extends StatefulWidget {
 
 class SearchScreenState extends State<SearchScreen> {
   List<Vendor> allVendors = [];
+  List<Vendor> filteredVendors = [];
 
   @override
   void initState() {
@@ -25,6 +27,22 @@ class SearchScreenState extends State<SearchScreen> {
       allVendors = vendors;
     });
   }
+
+  void _onSearchSubmitted(String query) {
+    List<Vendor> results = allVendors
+        .where((vendor) =>
+            vendor.title.toLowerCase().contains(query.toLowerCase()) ||
+            vendor.location.toLowerCase().contains(query.toLowerCase()))
+        .toList();
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => SearchResults(searchResults: results),
+      ),
+    );
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -42,31 +60,27 @@ class SearchScreenState extends State<SearchScreen> {
                   // 戻るアイコン
                   IconButton(
                     icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
-                    iconSize: 24, // サイズを指定
+                    iconSize: 24,
                     onPressed: () {
-                      Navigator.pop(context); // ホーム画面に戻る
+                      Navigator.pop(context);
                     },
                   ),
                   // 検索バー
                   Expanded(
                     child: Container(
-                      height: 32, // 高さを指定
+                      height: 32,
                       decoration: BoxDecoration(
                         color: const Color(0xFF424242),
                         borderRadius: BorderRadius.circular(4),
                       ),
-                      child: const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 12),
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            '業者名、場所などで検索',
-                            style: TextStyle(
-                              color: Colors.white70,
-                              fontSize: 16,
-                            ),
-                            textAlign: TextAlign.left, // 左寄せ
-                          ),
+                      child: TextField(
+                        onSubmitted: _onSearchSubmitted,
+                        style: const TextStyle(color: Colors.white),
+                        decoration: const InputDecoration(
+                          hintText: '業者名、場所などで検索',
+                          hintStyle: TextStyle(color: Colors.white70),
+                          border: InputBorder.none,
+                          contentPadding: EdgeInsets.symmetric(horizontal: 12),
                         ),
                       ),
                     ),
@@ -115,7 +129,7 @@ class SearchScreenState extends State<SearchScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: const BottomNav(currentIndex: 1), // 修正：currentIndex を追加
+      bottomNavigationBar: const BottomNav(currentIndex: 1),
     );
   }
 }
