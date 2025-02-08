@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../components/vendor_list.dart';
+import '../widgets/bottom_nav.dart'; // ボトムナビゲーションを追加
 
 class SearchResults extends StatelessWidget {
   final List<Vendor> searchResults;
@@ -78,6 +79,7 @@ class SearchResults extends StatelessWidget {
                 );
               },
             ),
+      bottomNavigationBar: const BottomNav(currentIndex: 1), // 追加
     );
   }
 }
