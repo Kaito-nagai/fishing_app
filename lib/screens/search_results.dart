@@ -3,6 +3,8 @@ import 'package:logger/logger.dart'; // Logger ライブラリをインポート
 import '../components/vendor_list.dart';
 import '../widgets/bottom_nav.dart';
 import '../widgets/search_bar.dart';
+import '../widgets/list_item.dart'; // リストアイテムのレイアウトをインポート
+
 
 class SearchResults extends StatefulWidget {
   final List<Vendor> searchResults;
@@ -81,43 +83,14 @@ class SearchResultsState extends State<SearchResults> { // 修正: クラス名�
                         final vendor = widget.searchResults[index];
                         return Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                          child: Card(
-                            color: Colors.grey[900],
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: ListTile(
-                              leading: ClipRRect(
-                                borderRadius: BorderRadius.circular(8),
-                                child: Image.network(
-                                  vendor.imagePath,
-                                  width: 60,
-                                  height: 60,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                              title: Text(
-                                vendor.title,
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              subtitle: Text(
-                                vendor.location,
-                                style: const TextStyle(
-                                  color: Colors.white70,
-                                  fontSize: 14,
-                                ),
-                              ),
-                              trailing: IconButton(
-                                icon: const Icon(Icons.favorite_border, color: Colors.white),
-                                onPressed: () {
-                                  // お気に入りボタンの処理
-                                },
-                              ),
-                            ),
+                          child: ListItem(
+                            title: vendor.title,
+                            location: vendor.location, // location のみ使用
+                            imagePath: vendor.imagePath,
+                            onFavoritePressed: () {
+                              // お気に入りボタンの処理
+                              _logger.d('お気に入り: ${vendor.title}');
+                            },
                           ),
                         );
                       },

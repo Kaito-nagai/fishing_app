@@ -4,13 +4,16 @@ class ListItem extends StatelessWidget {
   final String title; // 業者名（例: 浜丸渡船・林渡船）
   final String location; // 所在地（例: 和歌山県すさみ町見老津）
   final String imagePath; // サムネイル画像
+  final VoidCallback? onFavoritePressed; // ここで onFavoritePressed を追加
 
   const ListItem({
+    super.key, // super パラメータを使用
     required this.title,
     required this.location,
     required this.imagePath,
-    super.key,
+    this.onFavoritePressed, // Optionalとして初期化
   });
+
 
   @override
   Widget build(BuildContext context) {
