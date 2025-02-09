@@ -14,6 +14,8 @@ class Vendor {
   });
 }
 
+
+
 class VendorList extends StatelessWidget {
   final List<Vendor> vendors; // 業者リストデータ
 
