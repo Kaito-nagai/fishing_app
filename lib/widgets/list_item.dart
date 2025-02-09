@@ -21,13 +21,13 @@ class ListItem extends StatelessWidget {
     final screenHeight = MediaQuery.of(context).size.height;
 
     return SizedBox(
-      width: screenWidth * 0.96,
+      width: double.infinity, // 親要素に依存するように変更
       height: screenHeight * 0.07,
       child: Stack(
         children: [
           // 背景のカードデザイン
           Container(
-            width: screenWidth * 0.96,
+            width: double.infinity, // 親要素に依存するように変更
             height: screenHeight * 0.07,
             decoration: BoxDecoration(
               color: const Color(0xFF2E2E2E),

@@ -3,8 +3,6 @@ import 'package:logger/logger.dart'; // Logger ライブラリをインポート
 import '../components/vendor_list.dart';
 import '../widgets/bottom_nav.dart';
 import '../widgets/search_bar.dart';
-import '../widgets/list_item.dart'; // リストアイテムのレイアウトをインポート
-
 
 class SearchResults extends StatefulWidget {
   final List<Vendor> searchResults;
@@ -17,13 +15,12 @@ class SearchResults extends StatefulWidget {
   });
 
   @override
-  SearchResultsState createState() => SearchResultsState(); // 修正: クラス名からアンダースコアを削除
+  SearchResultsState createState() => SearchResultsState(); // クラス名修正済み
 }
 
-class SearchResultsState extends State<SearchResults> { // 修正: クラス名からアンダースコアを削除
+class SearchResultsState extends State<SearchResults> {
   late TextEditingController _searchController;
-  final Logger _logger = Logger(); // Logger インスタンスを作成
-
+  final Logger _logger = Logger(); // Logger インスタンス
 
   @override
   void initState() {
@@ -32,8 +29,7 @@ class SearchResultsState extends State<SearchResults> { // 修正: クラス名�
   }
 
   void _onSearchSubmitted(String query) {
-    // 再検索ロジック
-    _logger.d('再検索: $query'); // print を logger.d に置き換え
+    _logger.d('再検索: $query'); // print を logger に置き換え
   }
 
   @override
@@ -54,47 +50,37 @@ class SearchResultsState extends State<SearchResults> { // 修正: クラス名�
 
             // 検索結果タイトル
             const Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Text(
-                '検索結果',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
+              padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 8.0), // 左寄せ調整
+              child: Align(
+                alignment: Alignment.centerLeft, // テキストを左寄せ
+                child: Text(
+                  '検索結果',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
 
-            // 検索結果リスト
+
+            // 検索結果リスト (統一した `VendorList` を使用)
             Expanded(
-              child: widget.searchResults.isEmpty
-                  ? const Center(
-                      child: Text(
-                        '該当する結果が見つかりません',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                        ),
-                      ),
-                    )
-                  : ListView.builder(
-                      itemCount: widget.searchResults.length,
-                      itemBuilder: (context, index) {
-                        final vendor = widget.searchResults[index];
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                          child: ListItem(
-                            title: vendor.title,
-                            location: vendor.location, // location のみ使用
-                            imagePath: vendor.imagePath,
-                            onFavoritePressed: () {
-                              // お気に入りボタンの処理
-                              _logger.d('お気に入り: ${vendor.title}');
-                            },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 0.1, vertical: 1.5),
+                child: widget.searchResults.isEmpty
+                    ? const Center(
+                        child: Text(
+                          '該当する結果が見つかりません',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
                           ),
-                        );
-                      },
-                    ),
+                        ),
+                      )
+                    : VendorList(vendors: widget.searchResults),
+              ),
             ),
           ],
         ),

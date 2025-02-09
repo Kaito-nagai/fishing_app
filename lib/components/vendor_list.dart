@@ -28,7 +28,7 @@ class VendorList extends StatelessWidget {
       itemBuilder: (context, index) {
         final vendor = vendors[index];
         return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 2.0), // リストアイテム間の余白を調整
+          padding: const EdgeInsets.symmetric(horizontal: 0.1, vertical: 1.5), // 他の画面と統一
           child: ListItem(
             title: vendor.title,
             location: vendor.location,

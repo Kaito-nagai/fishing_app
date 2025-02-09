@@ -87,7 +87,7 @@ class SearchScreenState extends State<SearchScreen> {
 
             // おすすめリストタイトル
             const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              padding: EdgeInsets.symmetric(horizontal: 5, vertical: 8),
               child: Text(
                 'おすすめの渡船や遊漁船',
                 style: TextStyle(
