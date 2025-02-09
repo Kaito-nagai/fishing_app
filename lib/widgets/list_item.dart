@@ -4,7 +4,8 @@ class ListItem extends StatelessWidget {
   final String title; // 業者名（例: 浜丸渡船・林渡船）
   final String location; // 所在地（例: 和歌山県すさみ町見老津）
   final String imagePath; // サムネイル画像
-  final VoidCallback? onFavoritePressed; // ここで onFavoritePressed を追加
+  final VoidCallback? onFavoritePressed; // クリック時の動作を受け取る
+  final bool isFavorite; // お気に入り状態を受け取る
 
   const ListItem({
     super.key, // super パラメータを使用
@@ -12,8 +13,8 @@ class ListItem extends StatelessWidget {
     required this.location,
     required this.imagePath,
     this.onFavoritePressed, // Optionalとして初期化
+    required this.isFavorite, // 必須の引数に変更
   });
-
 
   @override
   Widget build(BuildContext context) {
@@ -41,14 +42,16 @@ class ListItem extends StatelessWidget {
               ],
             ),
           ),
-          // お気に入りアイコン
+          // お気に入りアイコン（修正）
           Positioned(
             left: screenWidth * 0.87,
-            top: screenHeight * 0.021,
-            child: Icon(
-              Icons.favorite,
-              size: screenWidth * 0.053,
-              color: const Color(0xFFD8D8D8),
+            top: screenHeight * 0.010,
+            child: IconButton(
+              icon: Icon(
+                isFavorite ? Icons.favorite : Icons.favorite_border,
+                color: isFavorite ? Colors.red : Colors.grey, // 状態に応じた色
+              ),
+              onPressed: onFavoritePressed, // クリック時に実行
             ),
           ),
           // 所在地

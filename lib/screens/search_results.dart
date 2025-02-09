@@ -3,6 +3,7 @@ import 'package:logger/logger.dart'; // Logger ライブラリをインポート
 import '../components/vendor_list.dart';
 import '../widgets/bottom_nav.dart';
 import '../widgets/search_bar.dart';
+import '../models/favorite_manager.dart'; // 修正: FavoriteManagerをインポート
 
 class SearchResults extends StatefulWidget {
   final List<Vendor> searchResults;
@@ -34,6 +35,10 @@ class SearchResultsState extends State<SearchResults> {
 
   @override
   Widget build(BuildContext context) {
+    // 修正: FavoriteManagerの初期化
+    final favoriteManager = FavoriteManager();
+    favoriteManager.loadFavorites(); // お気に入りデータをロード
+
     return Scaffold(
       backgroundColor: Colors.black,
       body: SafeArea(
@@ -64,7 +69,6 @@ class SearchResultsState extends State<SearchResults> {
               ),
             ),
 
-
             // 検索結果リスト (統一した `VendorList` を使用)
             Expanded(
               child: Padding(
@@ -79,7 +83,10 @@ class SearchResultsState extends State<SearchResults> {
                           ),
                         ),
                       )
-                    : VendorList(vendors: widget.searchResults),
+                    : VendorList(
+                        vendors: widget.searchResults,
+                        favoriteManager: favoriteManager, // 修正: FavoriteManagerを渡す
+                      ),
               ),
             ),
           ],

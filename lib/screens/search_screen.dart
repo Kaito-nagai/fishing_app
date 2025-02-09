@@ -4,6 +4,7 @@ import 'package:fishing_app/utils/json_loader.dart';
 import 'package:fishing_app/components/vendor_list.dart';
 import 'package:fishing_app/screens/search_results.dart'; // 検索結果画面をインポート
 import 'package:fishing_app/widgets/search_bar.dart'; // SearchBarWithBackButtonをインポート
+import 'package:fishing_app/models/favorite_manager.dart'; // 修正: FavoriteManagerをインポート
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -16,7 +17,6 @@ class SearchScreenState extends State<SearchScreen> {
   List<Vendor> allVendors = [];
   List<Vendor> filteredVendors = [];
   final TextEditingController _searchController = TextEditingController(); // 検索コントローラを追加
-
 
   @override
   void initState() {
@@ -38,20 +38,23 @@ class SearchScreenState extends State<SearchScreen> {
             vendor.location.toLowerCase().contains(query.toLowerCase()))
         .toList();
 
-  Navigator.push(
-    context,
-    MaterialPageRoute(
-      builder: (context) => SearchResults(
-        searchResults: results,
-        initialQuery: query, // 必須パラメータを追加
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => SearchResults(
+          searchResults: results,
+          initialQuery: query, // 必須パラメータを追加
+        ),
       ),
-    ),
-  );
-}
-
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
+    // 修正: FavoriteManagerの初期化
+    final favoriteManager = FavoriteManager();
+    favoriteManager.loadFavorites(); // お気に入りデータをロード
+
     return Scaffold(
       backgroundColor: Colors.black,
       body: SafeArea(
@@ -102,7 +105,10 @@ class SearchScreenState extends State<SearchScreen> {
             Expanded(
               child: allVendors.isEmpty
                   ? const Center(child: CircularProgressIndicator())
-                  : VendorList(vendors: allVendors),
+                  : VendorList(
+                      vendors: allVendors,
+                      favoriteManager: favoriteManager, // 修正: FavoriteManagerを渡す
+                    ),
             ),
           ],
         ),

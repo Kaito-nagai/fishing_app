@@ -10,6 +10,7 @@ Future<List<Vendor>> loadVendorsFromJson() async {
 
   // Dart の Vendor クラスのリストに変換
   return data.map((item) => Vendor(
+    id: item['id'], // 修正: id を追加
     title: item['name'], // JSON の "name" を Dart の title に対応
     location: item['location'], // JSON の "location" を Dart の location に対応
     imagePath: 'assets/images/placeholder_image.png', // 仮の画像パス

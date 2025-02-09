@@ -5,6 +5,7 @@ import 'package:fishing_app/widgets/label_text_widget.dart';
 import 'package:fishing_app/widgets/ad_banner.dart';
 import 'package:fishing_app/components/vendor_list.dart';
 import 'package:fishing_app/utils/json_loader.dart'; // loadVendorsFromJson をインポート
+import 'package:fishing_app/models/favorite_manager.dart'; // 修正: FavoriteManagerをインポート
 
 // グローバルスコープで Logger を初期化
 final logger = Logger();
@@ -60,7 +61,7 @@ class HomeInitialScreen extends StatelessWidget {
     final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-  backgroundColor: const Color.fromARGB(255, 0, 0, 0), // ダークモードの背景色を指定
+      backgroundColor: const Color.fromARGB(255, 0, 0, 0), // ダークモードの背景色を指定
       body: Stack(
         children: [
           Positioned(
@@ -101,7 +102,14 @@ class HomeInitialScreen extends StatelessWidget {
                         } else if (snapshot.hasError) {
                           return Text('エラー: ${snapshot.error}');
                         } else if (snapshot.hasData) {
-                          return VendorList(vendors: snapshot.data!); // 業者リスト
+                          // 修正: FavoriteManagerの初期化
+                          final favoriteManager = FavoriteManager();
+                          favoriteManager.loadFavorites(); // お気に入りデータをロード
+
+                          return VendorList(
+                            vendors: snapshot.data!, // 業者リスト
+                            favoriteManager: favoriteManager, // 修正: FavoriteManagerを渡す
+                          );
                         } else {
                           return const Text('データが見つかりません');
                         }
