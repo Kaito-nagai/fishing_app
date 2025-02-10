@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fishing_app/components/vendor_list.dart';
 import 'package:fishing_app/models/favorite_manager.dart';
+import 'package:fishing_app/widgets/bottom_nav.dart'; // ボトムナビゲーションをインポート
 
 class MyListScreen extends StatelessWidget {
   const MyListScreen({super.key});
@@ -22,7 +23,7 @@ class MyListScreen extends StatelessWidget {
           Container(
             width: screenWidth,
             height: screenHeight * 0.1,
-            color: Colors.white.withAlpha(153), 
+            color: Colors.white.withAlpha(153),
             child: const Center(
               child: Text(
                 '広告エリア',
@@ -70,6 +71,7 @@ class MyListScreen extends StatelessWidget {
           ),
         ],
       ),
+      bottomNavigationBar: BottomNav(currentIndex: 2), // ボトムナビゲーションを正しいクラス名で設定
     );
   }
 }
