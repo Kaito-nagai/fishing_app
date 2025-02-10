@@ -3,7 +3,9 @@ import 'package:logger/logger.dart'; // Logger ライブラリをインポート
 import '../components/vendor_list.dart';
 import '../widgets/bottom_nav.dart';
 import '../widgets/search_bar.dart';
-import '../models/favorite_manager.dart'; // 修正: FavoriteManagerをインポート
+import '../providers/favorites_provider.dart'; // 修正: FavoritesProviderをインポート
+import 'package:provider/provider.dart';
+
 
 class SearchResults extends StatefulWidget {
   final List<Vendor> searchResults;
@@ -16,12 +18,12 @@ class SearchResults extends StatefulWidget {
   });
 
   @override
-  SearchResultsState createState() => SearchResultsState(); // クラス名修正済み
+  SearchResultsState createState() => SearchResultsState();
 }
 
 class SearchResultsState extends State<SearchResults> {
   late TextEditingController _searchController;
-  final Logger _logger = Logger(); // Logger インスタンス
+  final Logger _logger = Logger();
 
   @override
   void initState() {
@@ -30,14 +32,13 @@ class SearchResultsState extends State<SearchResults> {
   }
 
   void _onSearchSubmitted(String query) {
-    _logger.d('再検索: $query'); // print を logger に置き換え
+    _logger.d('再検索: $query');
   }
 
   @override
   Widget build(BuildContext context) {
-    // 修正: FavoriteManagerの初期化
-    final favoriteManager = FavoriteManager();
-    favoriteManager.loadFavorites(); // お気に入りデータをロード
+    // 修正: Providerを使用してFavoritesProviderを取得
+    final favoritesProvider = Provider.of<FavoritesProvider>(context);
 
     return Scaffold(
       backgroundColor: Colors.black,
@@ -55,9 +56,9 @@ class SearchResultsState extends State<SearchResults> {
 
             // 検索結果タイトル
             const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 8.0), // 左寄せ調整
+              padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 8.0),
               child: Align(
-                alignment: Alignment.centerLeft, // テキストを左寄せ
+                alignment: Alignment.centerLeft,
                 child: Text(
                   '検索結果',
                   style: TextStyle(
@@ -69,7 +70,7 @@ class SearchResultsState extends State<SearchResults> {
               ),
             ),
 
-            // 検索結果リスト (統一した `VendorList` を使用)
+            // 検索結果リスト
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 0.1, vertical: 1.5),
@@ -85,7 +86,7 @@ class SearchResultsState extends State<SearchResults> {
                       )
                     : VendorList(
                         vendors: widget.searchResults,
-                        favoriteManager: favoriteManager, // 修正: FavoriteManagerを渡す
+                        favoritesProvider: favoritesProvider, // 修正: FavoritesProviderを渡す
                       ),
               ),
             ),

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fishing_app/widgets/list_item.dart';
-import 'package:fishing_app/models/favorite_manager.dart';
-import 'package:fishing_app/models/favorite_item.dart';
-import 'package:fishing_app/screens/my_list_screen.dart'; // MyListScreenをインポート
+import 'package:fishing_app/providers/favorites_provider.dart';
 
 // 業者データのモデル
 class Vendor {
@@ -21,11 +19,11 @@ class Vendor {
 
 class VendorList extends StatelessWidget {
   final List<Vendor> vendors; // 業者リストデータ
-  final FavoriteManager favoriteManager; // お気に入り管理クラス
+  final FavoritesProvider favoritesProvider; // FavoritesProviderを受け取る
 
   const VendorList({
     required this.vendors,
-    required this.favoriteManager,
+    required this.favoritesProvider, // 必須パラメータに追加
     super.key,
   });
 
@@ -38,7 +36,7 @@ class VendorList extends StatelessWidget {
       itemBuilder: (context, index) {
         final vendor = vendors[index];
         // お気に入り登録済みかを判定
-        final isFavorite = favoriteManager.favorites.any((fav) => fav.id == vendor.id);
+        final isFavorite = favoritesProvider.isFavorite(vendor.id);
 
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 0.1, vertical: 1.5), // 他の画面と統一
@@ -48,26 +46,17 @@ class VendorList extends StatelessWidget {
             imagePath: vendor.imagePath,
             isFavorite: isFavorite, // お気に入り状態を渡す
             onFavoritePressed: () {
-              final favoriteItem = FavoriteItem(
-                id: vendor.id,
-                name: vendor.title,
-                link: '', // 必要ならリンクを設定
-              );
-
               if (isFavorite) {
                 // お気に入りから削除
-                favoriteManager.removeFavorite(favoriteItem);
+                favoritesProvider.removeFavorite(vendor.id);
               } else {
                 // お気に入りに追加
-                favoriteManager.addFavorite(favoriteItem);
-
-                // MyListScreenへの画面遷移を追加
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => MyListScreen(), // 遷移先を指定
-                  ),
-                );
+                favoritesProvider.addFavorite({
+                  'id': vendor.id,
+                  'name': vendor.title,
+                  'location': vendor.location,
+                  'imagePath': vendor.imagePath,
+                });
               }
             },
           ),

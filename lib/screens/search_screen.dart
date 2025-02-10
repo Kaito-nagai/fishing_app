@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:fishing_app/widgets/bottom_nav.dart';
 import 'package:fishing_app/utils/json_loader.dart';
 import 'package:fishing_app/components/vendor_list.dart';
-import 'package:fishing_app/screens/search_results.dart'; // 検索結果画面をインポート
-import 'package:fishing_app/widgets/search_bar.dart'; // SearchBarWithBackButtonをインポート
-import 'package:fishing_app/models/favorite_manager.dart'; // 修正: FavoriteManagerをインポート
+import 'package:fishing_app/screens/search_results.dart';
+import 'package:fishing_app/widgets/search_bar.dart';
+import 'package:fishing_app/providers/favorites_provider.dart'; // 修正: FavoritesProviderをインポート
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -16,7 +17,7 @@ class SearchScreen extends StatefulWidget {
 class SearchScreenState extends State<SearchScreen> {
   List<Vendor> allVendors = [];
   List<Vendor> filteredVendors = [];
-  final TextEditingController _searchController = TextEditingController(); // 検索コントローラを追加
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
@@ -43,7 +44,7 @@ class SearchScreenState extends State<SearchScreen> {
       MaterialPageRoute(
         builder: (context) => SearchResults(
           searchResults: results,
-          initialQuery: query, // 必須パラメータを追加
+          initialQuery: query,
         ),
       ),
     );
@@ -51,9 +52,7 @@ class SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // 修正: FavoriteManagerの初期化
-    final favoriteManager = FavoriteManager();
-    favoriteManager.loadFavorites(); // お気に入りデータをロード
+    final favoritesProvider = Provider.of<FavoritesProvider>(context);
 
     return Scaffold(
       backgroundColor: Colors.black,
@@ -61,13 +60,12 @@ class SearchScreenState extends State<SearchScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // 修正後の検索バーと戻るボタン
             SearchBarWithBackButton(
               onBackPressed: () {
                 Navigator.pop(context);
               },
               onSubmitted: _onSearchSubmitted,
-              searchController: _searchController, // 必須パラメータとして渡す
+              searchController: _searchController,
             ),
 
             // 広告エリア
@@ -107,7 +105,7 @@ class SearchScreenState extends State<SearchScreen> {
                   ? const Center(child: CircularProgressIndicator())
                   : VendorList(
                       vendors: allVendors,
-                      favoriteManager: favoriteManager, // 修正: FavoriteManagerを渡す
+                      favoritesProvider: favoritesProvider, // 修正: FavoritesProviderを渡す
                     ),
             ),
           ],

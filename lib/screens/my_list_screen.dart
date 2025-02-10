@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:fishing_app/components/vendor_list.dart';
-import 'package:fishing_app/models/favorite_manager.dart';
+import 'package:fishing_app/providers/favorites_provider.dart';
 import 'package:fishing_app/widgets/bottom_nav.dart'; // ボトムナビゲーションをインポート
 
 class MyListScreen extends StatelessWidget {
@@ -11,9 +12,9 @@ class MyListScreen extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 
-    // FavoriteManagerを初期化
-    final favoriteManager = FavoriteManager();
-    favoriteManager.loadFavorites(); // お気に入りデータをロード
+    // Providerからお気に入りリストを取得
+    final favoritesProvider = context.watch<FavoritesProvider>();
+    final favoriteItems = favoritesProvider.favorites;
 
     return Scaffold(
       backgroundColor: Colors.black,
@@ -52,7 +53,7 @@ class MyListScreen extends StatelessWidget {
 
           // お気に入り業者リスト
           Expanded(
-            child: favoriteManager.favorites.isEmpty
+            child: favoriteItems.isEmpty
                 ? const Center(
                     child: Text(
                       'お気に入りに登録された業者はありません。',
@@ -60,13 +61,13 @@ class MyListScreen extends StatelessWidget {
                     ),
                   )
                 : VendorList(
-                    vendors: favoriteManager.favorites.map((favorite) => Vendor(
-                      id: favorite.id,
-                      title: favorite.name,
+                    vendors: favoriteItems.map((favorite) => Vendor(
+                      id: favorite['id'], // Map型なのでキーで取得
+                      title: favorite['name'],
                       location: '', // 必要なら location を適切に設定
                       imagePath: 'assets/images/placeholder_image.png', // 仮の画像パスを使用
-                     )).toList(),
-                    favoriteManager: favoriteManager, // FavoriteManagerを渡す
+                    )).toList(),
+                    favoritesProvider: favoritesProvider, // 必要なプロバイダーを渡す
                   ),
           ),
         ],
