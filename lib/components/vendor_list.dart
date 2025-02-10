@@ -2,16 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:fishing_app/widgets/list_item.dart';
 import 'package:fishing_app/models/favorite_manager.dart';
 import 'package:fishing_app/models/favorite_item.dart';
+import 'package:fishing_app/screens/my_list_screen.dart'; // MyListScreenをインポート
 
 // 業者データのモデル
 class Vendor {
-  final String id; // 修正: IDを追加
+  final String id;
   final String title;
   final String location;
   final String imagePath;
 
   Vendor({
-    required this.id, // 修正: IDを必須に
+    required this.id,
     required this.title,
     required this.location,
     required this.imagePath,
@@ -20,11 +21,11 @@ class Vendor {
 
 class VendorList extends StatelessWidget {
   final List<Vendor> vendors; // 業者リストデータ
-  final FavoriteManager favoriteManager; // 修正: FavoriteManagerを追加
+  final FavoriteManager favoriteManager; // お気に入り管理クラス
 
   const VendorList({
     required this.vendors,
-    required this.favoriteManager, // 修正: FavoriteManagerを必須に
+    required this.favoriteManager,
     super.key,
   });
 
@@ -33,9 +34,10 @@ class VendorList extends StatelessWidget {
     return ListView.builder(
       padding: EdgeInsets.zero, // リスト全体のパディングを削除
       physics: const AlwaysScrollableScrollPhysics(), // 業者リストをスクロール可能に設定
-      itemCount: vendors.length > 10 ? 10 : vendors.length, // 最大表示数10件
+      itemCount: vendors.length > 10 ? 10 : vendors.length, // 最大10件まで表示
       itemBuilder: (context, index) {
         final vendor = vendors[index];
+        // お気に入り登録済みかを判定
         final isFavorite = favoriteManager.favorites.any((fav) => fav.id == vendor.id);
 
         return Padding(
@@ -44,15 +46,29 @@ class VendorList extends StatelessWidget {
             title: vendor.title,
             location: vendor.location,
             imagePath: vendor.imagePath,
-            isFavorite: isFavorite, // 修正: お気に入り状態を渡す
+            isFavorite: isFavorite, // お気に入り状態を渡す
             onFavoritePressed: () {
-              favoriteManager.toggleFavorite(
-                FavoriteItem(
-                  id: vendor.id,
-                  name: vendor.title,
-                  link: '', // 必要に応じてリンクを渡す
-                ),
+              final favoriteItem = FavoriteItem(
+                id: vendor.id,
+                name: vendor.title,
+                link: '', // 必要ならリンクを設定
               );
+
+              if (isFavorite) {
+                // お気に入りから削除
+                favoriteManager.removeFavorite(favoriteItem);
+              } else {
+                // お気に入りに追加
+                favoriteManager.addFavorite(favoriteItem);
+
+                // MyListScreenへの画面遷移を追加
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => MyListScreen(), // 遷移先を指定
+                  ),
+                );
+              }
             },
           ),
         );

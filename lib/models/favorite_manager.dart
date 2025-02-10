@@ -2,7 +2,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'favorite_item.dart';
 import 'package:logger/logger.dart';
 
-
 class FavoriteManager {
   List<FavoriteItem> favorites = [];
 
@@ -18,20 +17,36 @@ class FavoriteManager {
       );
     }).toList();
     final Logger logger = Logger();
-logger.d('お気に入りリストのデータをロードしました');
+    logger.d('お気に入りリストのデータをロードしました');
   }
 
-  /// お気に入りを追加・削除
-  void toggleFavorite(FavoriteItem item) {
+  /// お気に入りを追加
+  void addFavorite(FavoriteItem item) {
+    final Logger logger = Logger();
+    if (!favorites.any((fav) => fav.id == item.id)) {
+      favorites.add(item);
+      logger.i('⭐ お気に入りに追加: ${item.id}');
+      saveFavorites();
+    }
+  }
+
+  /// お気に入りを削除
+  void removeFavorite(FavoriteItem item) {
     final Logger logger = Logger();
     if (favorites.any((fav) => fav.id == item.id)) {
       favorites.removeWhere((fav) => fav.id == item.id);
       logger.i('🗑️ お気に入りから削除: ${item.id}');
-    } else {
-      favorites.add(item);
-      logger.i('⭐ お気に入りに追加: ${item.id}');
+      saveFavorites();
     }
-    saveFavorites();
+  }
+
+  /// お気に入りを追加・削除（トグル方式）
+  void toggleFavorite(FavoriteItem item) {
+    if (favorites.any((fav) => fav.id == item.id)) {
+      removeFavorite(item); // 削除処理を呼び出し
+    } else {
+      addFavorite(item); // 追加処理を呼び出し
+    }
   }
 
   /// お気に入りデータを保存
