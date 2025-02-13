@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart'; // Logger ライブラリをインポート
+import 'package:logger/logger.dart';
 import '../components/vendor_list.dart';
 import '../widgets/bottom_nav.dart';
 import '../widgets/search_bar.dart';
-import '../providers/favorites_provider.dart'; // 修正: FavoritesProviderをインポート
+import '../providers/favorites_provider.dart';
 import 'package:provider/provider.dart';
-
 
 class SearchResults extends StatefulWidget {
   final List<Vendor> searchResults;
@@ -37,7 +36,6 @@ class SearchResultsState extends State<SearchResults> {
 
   @override
   Widget build(BuildContext context) {
-    // 修正: Providerを使用してFavoritesProviderを取得
     final favoritesProvider = Provider.of<FavoritesProvider>(context);
 
     return Scaffold(
@@ -86,14 +84,15 @@ class SearchResultsState extends State<SearchResults> {
                       )
                     : VendorList(
                         vendors: widget.searchResults,
-                        favoritesProvider: favoritesProvider, // 修正: FavoritesProviderを渡す
+                        favoritesProvider: favoritesProvider,
+                        navigateToMyListScreen: false, // 即座に遷移しない
                       ),
               ),
             ),
           ],
         ),
       ),
-      bottomNavigationBar: const BottomNav(currentIndex: 1),
+      bottomNavigationBar: BottomNav(currentIndex: 1),
     );
   }
 

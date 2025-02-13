@@ -1,41 +1,54 @@
 import 'package:flutter/material.dart';
+import 'package:fishing_app/screens/my_list_screen.dart';
 
 class ListItem extends StatefulWidget {
-  final String title; // 業者名（例: 浜丸渡船・林渡船）
-  final String location; // 所在地（例: 和歌山県すさみ町見老津）
-  final String imagePath; // サムネイル画像
-  final bool isFavorite; // お気に入り状態を追加
+  final String title;
+  final String location;
+  final String imagePath;
+  final bool isFavorite;
   final VoidCallback? onFavoritePressed;
+  final bool navigateToMyListScreen; // 追加: 遷移を制御
 
   const ListItem({
     super.key,
     required this.title,
     required this.location,
     required this.imagePath,
-    required this.isFavorite, // 必須パラメータに設定
+    required this.isFavorite,
     this.onFavoritePressed,
+    this.navigateToMyListScreen = true, // デフォルトはtrue
   });
 
   @override
-  ListItemState createState() => ListItemState(); // 修正: アンダースコアを削除
+  ListItemState createState() => ListItemState();
 }
 
-class ListItemState extends State<ListItem> { // 修正: アンダースコアを削除
+class ListItemState extends State<ListItem> {
   late bool _isFavorite;
-
 
   @override
   void initState() {
     super.initState();
-    _isFavorite = widget.isFavorite; // 初期状態を設定
+    _isFavorite = widget.isFavorite;
   }
 
   void _toggleFavorite() {
     setState(() {
-      _isFavorite = !_isFavorite; // お気に入り状態を切り替え
+      _isFavorite = !_isFavorite;
     });
     if (widget.onFavoritePressed != null) {
-      widget.onFavoritePressed!(); // 外部イベントを呼び出し
+      widget.onFavoritePressed!();
+    }
+
+      // 🔹 navigateToMyListScreen の値をログで確認
+  logger.i("ListItem - navigateToMyListScreen: ${widget.navigateToMyListScreen}");
+
+    // 🔹 navigateToMyListScreen が true の場合のみ遷移
+    if (widget.navigateToMyListScreen) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const MyListScreen()),
+      );
     }
   }
 
@@ -49,15 +62,14 @@ class ListItemState extends State<ListItem> { // 修正: アンダースコア�
       height: screenHeight * 0.07,
       child: Stack(
         children: [
-          // 背景のカードデザイン
           Container(
             width: double.infinity,
             height: screenHeight * 0.07,
             decoration: BoxDecoration(
               color: const Color(0xFF2E2E2E),
               borderRadius: BorderRadius.circular(5),
-              boxShadow: [
-                const BoxShadow(
+              boxShadow: const [
+                BoxShadow(
                   color: Color.fromARGB(64, 0, 0, 0),
                   offset: Offset(4, 4),
                   blurRadius: 4,
@@ -65,7 +77,6 @@ class ListItemState extends State<ListItem> { // 修正: アンダースコア�
               ],
             ),
           ),
-          // お気に入りアイコン
           Positioned(
             left: screenWidth * 0.87,
             top: screenHeight * 0.021,
@@ -78,7 +89,6 @@ class ListItemState extends State<ListItem> { // 修正: アンダースコア�
               onPressed: _toggleFavorite, // 状態を切り替える処理
             ),
           ),
-          // 所在地
           Positioned(
             left: screenWidth * 0.332,
             top: screenHeight * 0.036,
@@ -96,7 +106,6 @@ class ListItemState extends State<ListItem> { // 修正: アンダースコア�
               ),
             ),
           ),
-          // ロケーションアイコン
           Positioned(
             left: screenWidth * 0.295,
             top: screenHeight * 0.039,
@@ -106,7 +115,6 @@ class ListItemState extends State<ListItem> { // 修正: アンダースコア�
               color: const Color(0xFF777777),
             ),
           ),
-          // **業者名（浜丸渡船・林渡船）**
           Positioned(
             left: screenWidth * 0.30,
             top: screenHeight * 0.008,
@@ -125,7 +133,6 @@ class ListItemState extends State<ListItem> { // 修正: アンダースコア�
               ),
             ),
           ),
-          // サムネイル画像
           Positioned(
             left: 0,
             top: 0,

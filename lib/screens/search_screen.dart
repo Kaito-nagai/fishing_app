@@ -5,7 +5,8 @@ import 'package:fishing_app/utils/json_loader.dart';
 import 'package:fishing_app/components/vendor_list.dart';
 import 'package:fishing_app/screens/search_results.dart';
 import 'package:fishing_app/widgets/search_bar.dart';
-import 'package:fishing_app/providers/favorites_provider.dart'; // 修正: FavoritesProviderをインポート
+import 'package:fishing_app/providers/favorites_provider.dart';
+import 'package:fishing_app/widgets/ad_banner.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -16,7 +17,6 @@ class SearchScreen extends StatefulWidget {
 
 class SearchScreenState extends State<SearchScreen> {
   List<Vendor> allVendors = [];
-  List<Vendor> filteredVendors = [];
   final TextEditingController _searchController = TextEditingController();
 
   @override
@@ -68,21 +68,13 @@ class SearchScreenState extends State<SearchScreen> {
               searchController: _searchController,
             ),
 
-            // 広告エリア
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: Container(
-                height: 120,
-                decoration: BoxDecoration(
-                  color: Colors.white.withAlpha(153),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: const Center(
-                  child: Text(
-                    '広告エリア',
-                    style: TextStyle(color: Colors.black, fontSize: 16),
-                  ),
-                ),
+            // 広告エリアを中央に配置
+            Center(
+              child: AdBanner(
+                positionTop: 0.02, // 適宜調整
+                onTap: () {
+                  debugPrint("広告がタップされました");
+                },
               ),
             ),
 
@@ -105,13 +97,14 @@ class SearchScreenState extends State<SearchScreen> {
                   ? const Center(child: CircularProgressIndicator())
                   : VendorList(
                       vendors: allVendors,
-                      favoritesProvider: favoritesProvider, // 修正: FavoritesProviderを渡す
+                      favoritesProvider: favoritesProvider,
+                      navigateToMyListScreen: false,
                     ),
             ),
           ],
         ),
       ),
-      bottomNavigationBar: const BottomNav(currentIndex: 1),
+      bottomNavigationBar: BottomNav(currentIndex: 1),
     );
   }
 }

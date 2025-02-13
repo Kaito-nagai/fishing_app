@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:fishing_app/widgets/list_item.dart';
 import 'package:fishing_app/providers/favorites_provider.dart';
+import 'package:logger/logger.dart';
 
-// 業者データのモデル
+final logger = Logger();
+
 class Vendor {
   final String id;
   final String title;
@@ -18,39 +20,42 @@ class Vendor {
 }
 
 class VendorList extends StatelessWidget {
-  final List<Vendor> vendors; // 業者リストデータ
-  final FavoritesProvider favoritesProvider; // FavoritesProviderを受け取る
+  final List<Vendor> vendors;
+  final FavoritesProvider favoritesProvider;
+  final bool navigateToMyListScreen; // 遷移の制御
 
   const VendorList({
     required this.vendors,
-    required this.favoritesProvider, // 必須パラメータに追加
+    required this.favoritesProvider,
+    this.navigateToMyListScreen = true, // デフォルトはtrue
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
+    // 🔹 デバッグ用ログを追加
+    logger.i("VendorList - navigateToMyListScreen: $navigateToMyListScreen");
+
     return ListView.builder(
-      padding: EdgeInsets.zero, // リスト全体のパディングを削除
-      physics: const AlwaysScrollableScrollPhysics(), // 業者リストをスクロール可能に設定
-      itemCount: vendors.length > 10 ? 10 : vendors.length, // 最大10件まで表示
+      padding: EdgeInsets.zero,
+      physics: const AlwaysScrollableScrollPhysics(),
+      itemCount: vendors.length > 10 ? 10 : vendors.length,
       itemBuilder: (context, index) {
         final vendor = vendors[index];
-        // お気に入り登録済みかを判定
         final isFavorite = favoritesProvider.isFavorite(vendor.id);
 
         return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 0.1, vertical: 1.5), // 他の画面と統一
+          padding: const EdgeInsets.symmetric(horizontal: 0.1, vertical: 1.5),
           child: ListItem(
             title: vendor.title,
             location: vendor.location,
             imagePath: vendor.imagePath,
-            isFavorite: isFavorite, // お気に入り状態を渡す
+            isFavorite: isFavorite,
+            navigateToMyListScreen: navigateToMyListScreen, // 追加
             onFavoritePressed: () {
               if (isFavorite) {
-                // お気に入りから削除
                 favoritesProvider.removeFavorite(vendor.id);
               } else {
-                // お気に入りに追加
                 favoritesProvider.addFavorite({
                   'id': vendor.id,
                   'name': vendor.title,

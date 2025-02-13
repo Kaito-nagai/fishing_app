@@ -5,15 +5,39 @@ import 'package:fishing_app/components/vendor_list.dart';
 import 'package:fishing_app/providers/favorites_provider.dart';
 import 'package:fishing_app/widgets/bottom_nav.dart';
 import 'package:fishing_app/widgets/ad_banner.dart';
+import 'package:fishing_app/pages/home_initial.dart';
 
 final logger = Logger();
 
-class MyListScreen extends StatelessWidget {
+class MyListScreen extends StatefulWidget {
   const MyListScreen({super.key});
 
   @override
+  State<MyListScreen> createState() => _MyListScreenState();
+}
+
+class _MyListScreenState extends State<MyListScreen> {
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    // お気に入りリストを取得
+    final favoritesProvider = Provider.of<FavoritesProvider>(context, listen: false);
+
+    // 🔹 お気に入りが空なら即座に home_initial.dart に戻る
+    if (favoritesProvider.favorites.isEmpty) {
+      logger.i('お気に入りが空になったため、ホーム画面に戻ります');
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const HomeInitialScreen()),
+        );
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    // Providerからお気に入りリストを取得
     final favoritesProvider = context.watch<FavoritesProvider>();
     final favoriteItems = favoritesProvider.favorites;
 
@@ -45,29 +69,22 @@ class MyListScreen extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 1),
+            const SizedBox(height: 10),
 
             // お気に入り業者リスト
             Expanded(
-              child: favoriteItems.isEmpty
-                  ? const Center(
-                      child: Text(
-                        'お気に入りに登録された業者はありません。',
-                        style: TextStyle(color: Colors.white, fontSize: 18),
-                      ),
-                    )
-                  : Padding(
-                      padding: const EdgeInsets.only(top: 10.0), // 広告との間にスペースを確保
-                      child: VendorList(
-                        vendors: favoriteItems.map((favorite) => Vendor(
-                          id: favorite['id'], // Map型なのでキーで取得
-                          title: favorite['name'],
-                          location: favorite['location'] ?? '', // 必要なら location を適切に設定
-                          imagePath: 'assets/images/placeholder_image.png', // 仮の画像パスを使用
-                        )).toList(),
-                        favoritesProvider: favoritesProvider, // 必要なプロバイダーを渡す
-                      ),
-                    ),
+              child: Padding(
+                padding: const EdgeInsets.only(top: 10.0), // 広告との間にスペースを確保
+                child: VendorList(
+                  vendors: favoriteItems.map((favorite) => Vendor(
+                    id: favorite['id'], // Map型なのでキーで取得
+                    title: favorite['name'],
+                    location: favorite['location'] ?? '', // 必要なら location を適切に設定
+                    imagePath: 'assets/images/placeholder_image.png', // 仮の画像パスを使用
+                  )).toList(),
+                  favoritesProvider: favoritesProvider, // 必要なプロバイダーを渡す
+                ),
+              ),
             ),
           ],
         ),

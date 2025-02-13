@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:fishing_app/providers/favorites_provider.dart';
+import 'package:fishing_app/pages/home_initial.dart';
+import 'package:fishing_app/screens/my_list_screen.dart';
 
 class BottomNav extends StatelessWidget {
   final int currentIndex;
@@ -41,7 +45,19 @@ class BottomNav extends StatelessWidget {
             if (index != currentIndex) {
               switch (index) {
                 case 0:
-                  Navigator.pushNamed(context, '/');
+                  // 🔹 お気に入りの状態をチェックし、適切な画面へ遷移
+                  final favoritesProvider = Provider.of<FavoritesProvider>(context, listen: false);
+                  if (favoritesProvider.favorites.isNotEmpty) {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => const MyListScreen()),
+                    );
+                  } else {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => const HomeInitialScreen()),
+                    );
+                  }
                   break;
                 case 1:
                   Navigator.pushNamed(context, '/search');
