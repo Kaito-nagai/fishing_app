@@ -25,29 +25,43 @@ class ReorderableListItem extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 1),
-      child: Row(
+    return SizedBox(
+      width: double.infinity,
+      height: screenHeight * 0.08, // 高さを少し調整
+      child: Stack(
         children: [
-          // 🔼🔽 並べ替えボタン
-          Column(
-            children: [
-              IconButton(
-                icon: const Icon(Icons.arrow_drop_up, color: Colors.white, size: 28),
-                onPressed: onMoveUp,
+          // 並べ替えボタンエリア（上下中央に配置）
+          Positioned(
+            left: screenWidth * 0.02, // 左端に配置
+            top: screenHeight * 0.02, // 業者リストの中央に配置
+            child: SizedBox(
+              width: screenWidth * 0.07, // ボタンの幅を調整
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center, // ボタンを上下中央に
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.arrow_drop_up, color: Colors.blueAccent, size: 26),
+                    onPressed: onMoveUp,
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(),
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.arrow_drop_down, color: Colors.blueAccent, size: 26),
+                    onPressed: onMoveDown,
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(),
+                  ),
+                ],
               ),
-              IconButton(
-                icon: const Icon(Icons.arrow_drop_down, color: Colors.white, size: 28),
-                onPressed: onMoveDown,
-              ),
-            ],
+            ),
           ),
-          const SizedBox(width: 1), // ボタンとリストアイテムの間隔
-
           // 業者リストアイテム
-          Expanded(
+          Positioned(
+            left: screenWidth * 0.12, // ボタンと業者リストの間隔を調整
+            top: 3,
             child: Container(
-              height: screenHeight * 0.07,
+              width: screenWidth * 0.85, // 横幅を調整
+              height: screenHeight * 0.08,
               decoration: BoxDecoration(
                 color: const Color(0xFF2E2E2E),
                 borderRadius: BorderRadius.circular(5),
@@ -63,8 +77,8 @@ class ReorderableListItem extends StatelessWidget {
                 children: [
                   // お気に入りボタン
                   Positioned(
-                    right: 10,
-                    top: screenHeight * 0.010,
+                    right: 1,
+                    top: screenHeight * 0.015,
                     child: IconButton(
                       icon: Icon(
                         isFavorite ? Icons.favorite : Icons.favorite_border,
@@ -77,7 +91,7 @@ class ReorderableListItem extends StatelessWidget {
                   // 業者の位置情報
                   Positioned(
                     left: screenWidth * 0.332,
-                    top: screenHeight * 0.036,
+                    top: screenHeight * 0.038,
                     child: Opacity(
                       opacity: 0.50,
                       child: Text(
@@ -95,7 +109,7 @@ class ReorderableListItem extends StatelessWidget {
                   // ピンアイコン
                   Positioned(
                     left: screenWidth * 0.295,
-                    top: screenHeight * 0.039,
+                    top: screenHeight * 0.040,
                     child: const Icon(
                       Icons.location_pin,
                       size: 16,
@@ -105,7 +119,7 @@ class ReorderableListItem extends StatelessWidget {
                   // 業者名
                   Positioned(
                     left: screenWidth * 0.30,
-                    top: screenHeight * 0.008,
+                    top: screenHeight * 0.010,
                     child: SizedBox(
                       width: screenWidth * 0.3,
                       height: screenHeight * 0.06,
@@ -127,7 +141,7 @@ class ReorderableListItem extends StatelessWidget {
                     top: 0,
                     child: Container(
                       width: screenWidth * 0.25,
-                      height: screenHeight * 0.07,
+                      height: screenHeight * 0.08,
                       decoration: ShapeDecoration(
                         image: DecorationImage(
                           image: AssetImage(imagePath),
