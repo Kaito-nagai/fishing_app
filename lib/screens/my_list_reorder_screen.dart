@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fishing_app/widgets/bottom_nav.dart';
+import 'package:fishing_app/providers/favorites_provider.dart';
+import 'package:fishing_app/widgets/reorderable_list_item.dart';
+import 'package:provider/provider.dart';
 
 class MyListReorderScreen extends StatefulWidget {
   const MyListReorderScreen({super.key});
@@ -9,48 +12,45 @@ class MyListReorderScreen extends StatefulWidget {
 }
 
 class _MyListReorderScreenState extends State<MyListReorderScreen> {
-  List<String> items = [
-    '浜丸渡船',
-    '林渡船',
-    '弁天丸',
-    '小川渡船',
-    '谷口渡船',
-    '松村渡船',
-    'うりた渡船',
-    '永田渡船',
-  ];
+  void _moveItemUp(int index, FavoritesProvider favoritesProvider) {
+    if (index > 0) {
+      setState(() {
+        final item = favoritesProvider.favorites.removeAt(index);
+        favoritesProvider.favorites.insert(index - 1, item);
+        favoritesProvider.updateFavorites();
+      });
+    }
+  }
 
-  void _onReorder(int oldIndex, int newIndex) {
-    setState(() {
-      if (newIndex > oldIndex) newIndex--;
-      final item = items.removeAt(oldIndex);
-      items.insert(newIndex, item);
-    });
+  void _moveItemDown(int index, FavoritesProvider favoritesProvider) {
+    if (index < favoritesProvider.favorites.length - 1) {
+      setState(() {
+        final item = favoritesProvider.favorites.removeAt(index);
+        favoritesProvider.favorites.insert(index + 1, item);
+        favoritesProvider.updateFavorites();
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    final favoritesProvider = Provider.of<FavoritesProvider>(context);
+    final favoriteVendors = favoritesProvider.favorites;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
         elevation: 0,
-        titleSpacing: 0, // タイトルの位置を左寄せ
-        title: Row(
-          children: [
-            IconButton(
-              icon: const Icon(Icons.chevron_left, color: Colors.white, size: 28),
-              onPressed: () => Navigator.pop(context),
-            ),
-            const SizedBox(width: 8), // アイコンとテキストの間隔を調整
-            const Text(
-              'マイリスト',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
+        automaticallyImplyLeading: true,
+        iconTheme: const IconThemeData(color: Colors.white),
+        titleSpacing: 8,
+        title: const Text(
+          'マイリスト',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
       backgroundColor: Colors.black,
@@ -70,21 +70,24 @@ class _MyListReorderScreenState extends State<MyListReorderScreen> {
             ),
           ),
           Expanded(
-            child: ReorderableListView(
-              onReorder: _onReorder,
+            child: ListView.builder(
               padding: const EdgeInsets.only(top: 8),
-              children: [
-                for (final item in items)
-                  ListTile(
-                    key: ValueKey(item),
-                    tileColor: Colors.grey[900],
-                    title: Text(
-                      item,
-                      style: const TextStyle(color: Colors.white),
-                    ),
-                    trailing: const Icon(Icons.drag_handle, color: Colors.white),
-                  ),
-              ],
+              itemCount: favoriteVendors.length,
+              itemBuilder: (context, index) {
+                final vendor = favoriteVendors[index];
+                return ReorderableListItem(
+                  key: ValueKey(vendor['id']),
+                  title: vendor['name'],
+                  location: vendor['location'],
+                  imagePath: vendor['imagePath'],
+                  isFavorite: favoritesProvider.isFavorite(vendor['id']),
+                  onFavoritePressed: () {
+                    favoritesProvider.removeFavorite(vendor['id']);
+                  },
+                  onMoveUp: () => _moveItemUp(index, favoritesProvider),
+                  onMoveDown: () => _moveItemDown(index, favoritesProvider),
+                );
+              },
             ),
           ),
         ],
