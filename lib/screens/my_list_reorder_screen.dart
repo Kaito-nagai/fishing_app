@@ -75,17 +75,20 @@ class _MyListReorderScreenState extends State<MyListReorderScreen> {
               itemCount: favoriteVendors.length,
               itemBuilder: (context, index) {
                 final vendor = favoriteVendors[index];
-                return ReorderableListItem(
-                  key: ValueKey(vendor['id']),
-                  title: vendor['name'],
-                  location: vendor['location'],
-                  imagePath: vendor['imagePath'],
-                  isFavorite: favoritesProvider.isFavorite(vendor['id']),
-                  onFavoritePressed: () {
-                    favoritesProvider.removeFavorite(vendor['id']);
-                  },
-                  onMoveUp: () => _moveItemUp(index, favoritesProvider),
-                  onMoveDown: () => _moveItemDown(index, favoritesProvider),
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 5.0), // アイテム間の余白を追加
+                  child: ReorderableListItem(
+                    key: ValueKey(vendor['id']),
+                    title: vendor['name'],
+                    location: vendor['location'],
+                    imagePath: vendor['imagePath'],
+                    isFavorite: favoritesProvider.isFavorite(vendor['id']),
+                    onFavoritePressed: () {
+                      favoritesProvider.removeFavorite(vendor['id']);
+                    },
+                    onMoveUp: () => _moveItemUp(index, favoritesProvider),
+                    onMoveDown: () => _moveItemDown(index, favoritesProvider),
+                  ),
                 );
               },
             ),
