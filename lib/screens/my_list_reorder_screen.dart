@@ -76,7 +76,7 @@ class _MyListReorderScreenState extends State<MyListReorderScreen> {
               itemBuilder: (context, index) {
                 final vendor = favoriteVendors[index];
                 return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 5.0), // アイテム間の余白を追加
+                  padding: const EdgeInsets.symmetric(vertical: 2.0), // アイテム間の余白を追加
                   child: ReorderableListItem(
                     key: ValueKey(vendor['id']),
                     title: vendor['name'],

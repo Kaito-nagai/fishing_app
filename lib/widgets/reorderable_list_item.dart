@@ -27,42 +27,44 @@ class ReorderableListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
+    final itemHeight = screenHeight * 0.07; // 各業者リストの高さ
 
     return SizedBox(
       width: double.infinity,
-      height: screenHeight * 0.07,
+      height: itemHeight,
       child: Stack(
         children: [
-Align(
-  alignment: iconAlignment,
-  child: Padding(
-    padding: const EdgeInsets.only(left: 8.0),
-    child: Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        IconButton(
-          icon: const Icon(Icons.arrow_drop_up, color: Colors.blueAccent, size: 24), // 高さを業者リスト内に収める
-          onPressed: onMoveUp,
-          padding: EdgeInsets.zero,
-          constraints: const BoxConstraints(minHeight: 24, minWidth: 24), // 高さを24pxに設定
-        ),
-        SizedBox(height: 1), // 間隔を小さく
-        IconButton(
-          icon: const Icon(Icons.arrow_drop_down, color: Colors.blueAccent, size: 24), // 同じく24px
-          onPressed: onMoveDown,
-          padding: EdgeInsets.zero,
-          constraints: const BoxConstraints(minHeight: 24, minWidth: 24),
-        ),
-      ],
-    ),
-  ),
-),
+          Align(
+            alignment: iconAlignment,
+            child: SizedBox(
+              height: itemHeight, // 業者リストの高さと合わせる
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly, // 均等配置
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.arrow_drop_up, color: Colors.blueAccent),
+                    onPressed: onMoveUp,
+                    iconSize: itemHeight * 0.4, // リスト高さの40%で調整
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(),
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.arrow_drop_down, color: Colors.blueAccent),
+                    onPressed: onMoveDown,
+                    iconSize: itemHeight * 0.4, // 同じく40%で調整
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(),
+                  ),
+                ],
+              ),
+            ),
+          ),
           Positioned(
             left: screenWidth * 0.12,
             top: 0,
             child: Container(
               width: screenWidth * 0.85,
-              height: screenHeight * 0.07,
+              height: itemHeight,
               decoration: BoxDecoration(
                 color: const Color(0xFF2E2E2E),
                 borderRadius: BorderRadius.circular(5),
@@ -78,7 +80,7 @@ Align(
                 children: [
                   Positioned(
                     right: 1,
-                    top: screenHeight * 0.015,
+                    top: itemHeight * 0.15,
                     child: IconButton(
                       icon: Icon(
                         isFavorite ? Icons.favorite : Icons.favorite_border,
@@ -90,7 +92,7 @@ Align(
                   ),
                   Positioned(
                     left: screenWidth * 0.332,
-                    top: screenHeight * 0.036,
+                    top: itemHeight * 0.5,
                     child: Opacity(
                       opacity: 0.50,
                       child: Text(
@@ -107,7 +109,7 @@ Align(
                   ),
                   Positioned(
                     left: screenWidth * 0.295,
-                    top: screenHeight * 0.039,
+                    top: itemHeight * 0.55,
                     child: const Icon(
                       Icons.location_pin,
                       size: 16,
@@ -116,10 +118,10 @@ Align(
                   ),
                   Positioned(
                     left: screenWidth * 0.30,
-                    top: screenHeight * 0.008,
+                    top: itemHeight * 0.1,
                     child: SizedBox(
                       width: screenWidth * 0.3,
-                      height: screenHeight * 0.06,
+                      height: itemHeight * 0.8,
                       child: Text(
                         title,
                         style: const TextStyle(
@@ -137,7 +139,7 @@ Align(
                     top: 0,
                     child: Container(
                       width: screenWidth * 0.25,
-                      height: screenHeight * 0.07,
+                      height: itemHeight,
                       decoration: ShapeDecoration(
                         image: DecorationImage(
                           image: AssetImage(imagePath),
