@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fishing_app/widgets/move_icons.dart'; // MoveIconsウィジェットをインポート
 
 class ReorderableListItem extends StatelessWidget {
   final String title;
@@ -9,10 +10,6 @@ class ReorderableListItem extends StatelessWidget {
   final VoidCallback onMoveUp;
   final VoidCallback onMoveDown;
 
-  final double iconVerticalPadding; // 上下アイコンの縦幅スペース調整用
-  final double iconOffset; // 上下アイコンの位置調整用
-  final double iconSpacing; // 上下アイコン間の幅調整用
-
   const ReorderableListItem({
     super.key,
     required this.title,
@@ -22,9 +19,6 @@ class ReorderableListItem extends StatelessWidget {
     this.onFavoritePressed,
     required this.onMoveUp,
     required this.onMoveDown,
-    this.iconVerticalPadding = 8.0,
-    this.iconOffset = 20.0,
-    this.iconSpacing = 0,
   });
 
   @override
@@ -36,43 +30,15 @@ class ReorderableListItem extends StatelessWidget {
     return SizedBox(
       width: double.infinity,
       height: itemHeight,
-      child: Stack(
+      child: Row(
         children: [
-          Positioned(
-            left: 0,
-            top: itemHeight * 0.2 - (iconVerticalPadding + iconOffset),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(bottom: iconSpacing / 2),
-                  child: IconButton(
-                    icon: const Icon(Icons.arrow_drop_up, color: Colors.blueAccent),
-                    onPressed: onMoveUp,
-                    iconSize: itemHeight * 0.6,
-                    padding: EdgeInsets.zero,
-                    constraints: const BoxConstraints(),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: iconSpacing / 2),
-                  child: IconButton(
-                    icon: const Icon(Icons.arrow_drop_down, color: Colors.blueAccent),
-                    onPressed: onMoveDown,
-                    iconSize: itemHeight * 0.6,
-                    padding: EdgeInsets.zero,
-                    constraints: const BoxConstraints(),
-                  ),
-                ),
-              ],
-            ),
+          MoveIcons( // ここでMoveIconsを使用
+            onMoveUp: onMoveUp,
+            onMoveDown: onMoveDown,
           ),
-          Positioned(
-            left: screenWidth * 0.12,
-            top: 0,
+          Expanded(
             child: Container(
-              width: screenWidth * 0.85,
-              height: itemHeight,
+              margin: const EdgeInsets.only(left: 8.0),
               decoration: BoxDecoration(
                 color: const Color(0xFF2E2E2E),
                 borderRadius: BorderRadius.circular(5),
