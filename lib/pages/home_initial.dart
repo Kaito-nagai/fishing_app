@@ -38,10 +38,10 @@ class HomeInitialScreen extends StatelessWidget {
       body: Stack(
         children: [
           Positioned(
-            left: screenWidth * 0.02,
-            top: screenHeight * 0.235,
+            left: screenWidth * 0,
+            top: screenHeight * 0.240,
             child: SizedBox(
-              width: screenWidth * 0.96,
+              width: screenWidth * 1,
               height: screenHeight * 0.66, // 全体の高さを制限
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -57,11 +57,11 @@ class HomeInitialScreen extends StatelessWidget {
                   ),
                   LabelTextWidget(
                     text: 'まだ未登録の状態です',
-                    fontSize: 0.040,
+                    fontSize: 0.045,
                     positionTop: 0,
                     positionLeft: 0.02,
                     width: 0.98,
-                    height: 0.035,
+                    height: 0.030,
                   ),
                   const SizedBox(height: 8.0), // テキストとリストの間の余白を調整
 

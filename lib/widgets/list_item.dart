@@ -90,7 +90,7 @@ class ListItemState extends State<ListItem> {
             ),
             Positioned(
               left: screenWidth * 0.87,
-              top: screenHeight * 0.021,
+              top: screenHeight * 0.011,
               child: IconButton(
                 icon: Icon(
                   _isFavorite ? Icons.favorite : Icons.favorite_border,
@@ -167,3 +167,4 @@ class ListItemState extends State<ListItem> {
     );
   }
 }
+

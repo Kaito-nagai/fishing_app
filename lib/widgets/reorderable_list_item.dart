@@ -29,7 +29,7 @@ class ReorderableListItem extends StatelessWidget {
         children: [
           Expanded(
             child: Container(
-              margin: const EdgeInsets.only(left: 8.0),
+              margin: const EdgeInsets.only(left: 0),
               decoration: BoxDecoration(
                 color: const Color(0xFF2E2E2E),
                 borderRadius: BorderRadius.circular(5),
@@ -73,7 +73,7 @@ class ReorderableListItem extends StatelessWidget {
                     ),
                   ),
                   Positioned(
-                    left: screenWidth * 0.295,
+                    left: screenWidth * 0.290,
                     top: itemHeight * 0.55,
                     child: const Icon(
                       Icons.location_pin,
