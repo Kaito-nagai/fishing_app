@@ -9,7 +9,9 @@ class ReorderableListItem extends StatelessWidget {
   final VoidCallback onMoveUp;
   final VoidCallback onMoveDown;
 
-  final Alignment iconAlignment;
+  final double iconVerticalPadding; // 上下アイコンの縦幅スペース調整用
+  final double iconOffset; // 上下アイコンの位置調整用
+  final double iconSpacing; // 上下アイコン間の幅調整用
 
   const ReorderableListItem({
     super.key,
@@ -20,43 +22,49 @@ class ReorderableListItem extends StatelessWidget {
     this.onFavoritePressed,
     required this.onMoveUp,
     required this.onMoveDown,
-    this.iconAlignment = Alignment.centerLeft,
+    this.iconVerticalPadding = 8.0,
+    this.iconOffset = 20.0,
+    this.iconSpacing = 0,
   });
 
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
-    final itemHeight = screenHeight * 0.07; // 各業者リストの高さ
+    final itemHeight = screenHeight * 0.07;
 
     return SizedBox(
       width: double.infinity,
       height: itemHeight,
       child: Stack(
         children: [
-          Align(
-            alignment: iconAlignment,
-            child: SizedBox(
-              height: itemHeight, // 業者リストの高さと合わせる
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly, // 均等配置
-                children: [
-                  IconButton(
+          Positioned(
+            left: 0,
+            top: itemHeight * 0.2 - (iconVerticalPadding + iconOffset),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(bottom: iconSpacing / 2),
+                  child: IconButton(
                     icon: const Icon(Icons.arrow_drop_up, color: Colors.blueAccent),
                     onPressed: onMoveUp,
-                    iconSize: itemHeight * 0.4, // リスト高さの40%で調整
+                    iconSize: itemHeight * 0.6,
                     padding: EdgeInsets.zero,
                     constraints: const BoxConstraints(),
                   ),
-                  IconButton(
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: iconSpacing / 2),
+                  child: IconButton(
                     icon: const Icon(Icons.arrow_drop_down, color: Colors.blueAccent),
                     onPressed: onMoveDown,
-                    iconSize: itemHeight * 0.4, // 同じく40%で調整
+                    iconSize: itemHeight * 0.6,
                     padding: EdgeInsets.zero,
                     constraints: const BoxConstraints(),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
           Positioned(
