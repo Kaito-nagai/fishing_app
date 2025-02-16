@@ -81,6 +81,7 @@ class _MyListScreenState extends State<MyListScreen> {
                     title: favorite['name'],
                     location: favorite['location'] ?? '', // 必要なら location を適切に設定
                     imagePath: 'assets/images/placeholder_image.png', // 仮の画像パスを使用
+                    catchInfo: favorite['catchInfo'] ?? '', // 🔹 追加
                   )).toList(),
                   favoritesProvider: favoritesProvider, // 必要なプロバイダーを渡す
                 ),

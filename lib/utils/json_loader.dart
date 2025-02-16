@@ -14,5 +14,6 @@ Future<List<Vendor>> loadVendorsFromJson() async {
     title: item['name'], // JSON の "name" を Dart の title に対応
     location: item['location'], // JSON の "location" を Dart の location に対応
     imagePath: 'assets/images/placeholder_image.png', // 仮の画像パス
+    catchInfo: item['catch_info'], // 🔹 追加
   )).toList();
 }

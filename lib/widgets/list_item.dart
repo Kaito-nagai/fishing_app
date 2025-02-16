@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fishing_app/screens/my_list_screen.dart';
+import 'package:url_launcher/url_launcher.dart'; // 🔹 追加：URL遷移用パッケージ
 
 class ListItem extends StatefulWidget {
   final String title;
@@ -7,7 +8,8 @@ class ListItem extends StatefulWidget {
   final String imagePath;
   final bool isFavorite;
   final VoidCallback? onFavoritePressed;
-  final bool navigateToMyListScreen; // 追加: 遷移を制御
+  final bool navigateToMyListScreen;
+  final String catchInfoUrl; // 🔹 新規追加：catch_infoのURL
 
   const ListItem({
     super.key,
@@ -16,7 +18,8 @@ class ListItem extends StatefulWidget {
     required this.imagePath,
     required this.isFavorite,
     this.onFavoritePressed,
-    this.navigateToMyListScreen = true, // デフォルトはtrue
+    this.navigateToMyListScreen = true,
+    required this.catchInfoUrl, // 🔹 必須パラメータとして追加
   });
 
   @override
@@ -40,10 +43,6 @@ class ListItemState extends State<ListItem> {
       widget.onFavoritePressed!();
     }
 
-      // 🔹 navigateToMyListScreen の値をログで確認
-  logger.i("ListItem - navigateToMyListScreen: ${widget.navigateToMyListScreen}");
-
-    // 🔹 navigateToMyListScreen が true の場合のみ遷移
     if (widget.navigateToMyListScreen) {
       Navigator.pushReplacement(
         context,
@@ -52,105 +51,118 @@ class ListItemState extends State<ListItem> {
     }
   }
 
+  // 🔹 業者タップ時にURLを開くメソッド
+  void _launchCatchInfo() async {
+    final Uri url = Uri.parse(widget.catchInfoUrl);
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url, mode: LaunchMode.externalApplication); // 外部ブラウザで開く
+    } else {
+      throw 'このURLを開けません: $url';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 
-    return SizedBox(
-      width: double.infinity,
-      height: screenHeight * 0.07,
-      child: Stack(
-        children: [
-          Container(
-            width: double.infinity,
-            height: screenHeight * 0.07,
-            decoration: BoxDecoration(
-              color: const Color(0xFF2E2E2E),
-              borderRadius: BorderRadius.circular(5),
-              boxShadow: const [
-                BoxShadow(
-                  color: Color.fromARGB(64, 0, 0, 0),
-                  offset: Offset(4, 4),
-                  blurRadius: 4,
-                ),
-              ],
-            ),
-          ),
-          Positioned(
-            left: screenWidth * 0.87,
-            top: screenHeight * 0.021,
-            child: IconButton(
-              icon: Icon(
-                _isFavorite ? Icons.favorite : Icons.favorite_border,
-                color: _isFavorite ? Colors.red : Colors.grey,
-                size: screenWidth * 0.053,
-              ),
-              onPressed: _toggleFavorite, // 状態を切り替える処理
-            ),
-          ),
-          Positioned(
-            left: screenWidth * 0.332,
-            top: screenHeight * 0.036,
-            child: Opacity(
-              opacity: 0.50,
-              child: Text(
-                widget.location,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: screenWidth * 0.034,
-                  fontFamily: 'Noto Sans JP',
-                  fontWeight: FontWeight.w500,
-                  decoration: TextDecoration.none,
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            left: screenWidth * 0.295,
-            top: screenHeight * 0.039,
-            child: Icon(
-              Icons.location_pin,
-              size: screenWidth * 0.035,
-              color: const Color(0xFF777777),
-            ),
-          ),
-          Positioned(
-            left: screenWidth * 0.30,
-            top: screenHeight * 0.008,
-            child: SizedBox(
-              width: screenWidth * 0.3,
-              height: screenHeight * 0.06,
-              child: Text(
-                widget.title,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: screenWidth * 0.045,
-                  fontFamily: 'Noto Sans JP',
-                  fontWeight: FontWeight.w900,
-                  decoration: TextDecoration.none,
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            left: 0,
-            top: 0,
-            child: Container(
-              width: screenWidth * 0.25,
+    return GestureDetector( // 🔹 タップ検出を追加
+      onTap: _launchCatchInfo, // 🔹 タップ時にURL遷移
+      child: SizedBox(
+        width: double.infinity,
+        height: screenHeight * 0.07,
+        child: Stack(
+          children: [
+            Container(
+              width: double.infinity,
               height: screenHeight * 0.07,
-              decoration: ShapeDecoration(
-                image: DecorationImage(
-                  image: AssetImage(widget.imagePath),
-                  fit: BoxFit.fill,
+              decoration: BoxDecoration(
+                color: const Color(0xFF2E2E2E),
+                borderRadius: BorderRadius.circular(5),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Color.fromARGB(64, 0, 0, 0),
+                    offset: Offset(4, 4),
+                    blurRadius: 4,
+                  ),
+                ],
+              ),
+            ),
+            Positioned(
+              left: screenWidth * 0.87,
+              top: screenHeight * 0.021,
+              child: IconButton(
+                icon: Icon(
+                  _isFavorite ? Icons.favorite : Icons.favorite_border,
+                  color: _isFavorite ? Colors.red : Colors.grey,
+                  size: screenWidth * 0.053,
                 ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5),
+                onPressed: _toggleFavorite,
+              ),
+            ),
+            Positioned(
+              left: screenWidth * 0.332,
+              top: screenHeight * 0.036,
+              child: Opacity(
+                opacity: 0.50,
+                child: Text(
+                  widget.location,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: screenWidth * 0.034,
+                    fontFamily: 'Noto Sans JP',
+                    fontWeight: FontWeight.w500,
+                    decoration: TextDecoration.none,
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+            Positioned(
+              left: screenWidth * 0.295,
+              top: screenHeight * 0.039,
+              child: Icon(
+                Icons.location_pin,
+                size: screenWidth * 0.035,
+                color: const Color(0xFF777777),
+              ),
+            ),
+            Positioned(
+              left: screenWidth * 0.30,
+              top: screenHeight * 0.008,
+              child: SizedBox(
+                width: screenWidth * 0.3,
+                height: screenHeight * 0.06,
+                child: Text(
+                  widget.title,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: screenWidth * 0.045,
+                    fontFamily: 'Noto Sans JP',
+                    fontWeight: FontWeight.w900,
+                    decoration: TextDecoration.none,
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              left: 0,
+              top: 0,
+              child: Container(
+                width: screenWidth * 0.25,
+                height: screenHeight * 0.07,
+                decoration: ShapeDecoration(
+                  image: DecorationImage(
+                    image: AssetImage(widget.imagePath),
+                    fit: BoxFit.fill,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
