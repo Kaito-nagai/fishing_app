@@ -18,20 +18,29 @@ class MoveIcons extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        IconButton(
-          icon: const Icon(Icons.arrow_drop_up, color: Colors.blueAccent),
-          onPressed: onMoveUp,
-          iconSize: itemHeight * 0.6,
-          padding: EdgeInsets.zero,
-          constraints: const BoxConstraints(),
+        Transform.translate( // 上のアイコンを少し上に移動
+          offset: const Offset(0, -5),
+          child: IconButton(
+            icon: const Icon(Icons.arrow_drop_up, color: Colors.blueAccent),
+            onPressed: onMoveUp,
+            iconSize: itemHeight * 0.6,
+            padding: EdgeInsets.zero,
+            constraints: const BoxConstraints(),
+          ),
         ),
-        SizedBox(height: 0.1), // アイコン間隔を調整
-        IconButton(
-          icon: const Icon(Icons.arrow_drop_down, color: Colors.blueAccent),
-          onPressed: onMoveDown,
-          iconSize: itemHeight * 0.6,
-          padding: EdgeInsets.zero,
-          constraints: const BoxConstraints(),
+        Align( // 間隔を調整
+          alignment: Alignment.center,
+          child: SizedBox(height: 0), 
+        ),
+        Transform.translate( // 下のアイコンを少し上に移動して間隔を詰める
+          offset: const Offset(0, -30),
+          child: IconButton(
+            icon: const Icon(Icons.arrow_drop_down, color: Colors.blueAccent),
+            onPressed: onMoveDown,
+            iconSize: itemHeight * 0.6,
+            padding: EdgeInsets.zero,
+            constraints: const BoxConstraints(),
+          ),
         ),
       ],
     );
