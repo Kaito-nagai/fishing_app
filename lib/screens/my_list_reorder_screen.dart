@@ -12,26 +12,6 @@ class MyListReorderScreen extends StatefulWidget {
 }
 
 class _MyListReorderScreenState extends State<MyListReorderScreen> {
-  void _moveItemUp(int index, FavoritesProvider favoritesProvider) {
-    if (index > 0) {
-      setState(() {
-        final item = favoritesProvider.favorites.removeAt(index);
-        favoritesProvider.favorites.insert(index - 1, item);
-        favoritesProvider.updateFavorites();
-      });
-    }
-  }
-
-  void _moveItemDown(int index, FavoritesProvider favoritesProvider) {
-    if (index < favoritesProvider.favorites.length - 1) {
-      setState(() {
-        final item = favoritesProvider.favorites.removeAt(index);
-        favoritesProvider.favorites.insert(index + 1, item);
-        favoritesProvider.updateFavorites();
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final favoritesProvider = Provider.of<FavoritesProvider>(context);
@@ -57,40 +37,38 @@ class _MyListReorderScreenState extends State<MyListReorderScreen> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            width: double.infinity,
-            height: 1,
-            color: Colors.grey,
-          ),
+          Container(width: double.infinity, height: 1, color: Colors.grey),
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 13, vertical: 12),
-            child: Text(
-              '並べ替え',
-              style: TextStyle(color: Colors.white, fontSize: 18),
-            ),
+            child: Text('並べ替え', style: TextStyle(color: Colors.white, fontSize: 18)),
           ),
           Expanded(
-            child: ListView.builder(
-              padding: const EdgeInsets.only(top: 8),
-              itemCount: favoriteVendors.length,
-              itemBuilder: (context, index) {
-                final vendor = favoriteVendors[index];
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 3.0), // アイテム間の余白を追加
-                  child: ReorderableListItem(
-                    key: ValueKey(vendor['id']),
-                    title: vendor['name'],
-                    location: vendor['location'],
-                    imagePath: vendor['imagePath'],
-                    isFavorite: favoritesProvider.isFavorite(vendor['id']),
-                    onFavoritePressed: () {
-                      favoritesProvider.removeFavorite(vendor['id']);
-                    },
-                    onMoveUp: () => _moveItemUp(index, favoritesProvider),
-                    onMoveDown: () => _moveItemDown(index, favoritesProvider),
-                  ),
-                );
+            child: ReorderableListView(
+              onReorder: (oldIndex, newIndex) {
+                setState(() {
+                  if (newIndex > oldIndex) newIndex -= 1;
+                  final item = favoriteVendors.removeAt(oldIndex);
+                  favoriteVendors.insert(newIndex, item);
+                  favoritesProvider.updateFavorites();
+                });
               },
+              children: [
+                for (int index = 0; index < favoriteVendors.length; index++)
+                  Padding(
+                    key: ValueKey(favoriteVendors[index]['id']),
+                    padding: const EdgeInsets.symmetric(vertical: 3.0),
+                    child: ReorderableListItem(
+                      key: ValueKey(favoriteVendors[index]['id']),
+                      title: favoriteVendors[index]['name'],
+                      location: favoriteVendors[index]['location'],
+                      imagePath: favoriteVendors[index]['imagePath'],
+                      isFavorite: favoritesProvider.isFavorite(favoriteVendors[index]['id']),
+                      onFavoritePressed: () {
+                        favoritesProvider.removeFavorite(favoriteVendors[index]['id']);
+                      },
+                    ),
+                  ),
+              ],
             ),
           ),
         ],

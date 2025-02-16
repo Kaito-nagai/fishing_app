@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fishing_app/widgets/move_icons.dart'; // MoveIconsウィジェットをインポート
 
 class ReorderableListItem extends StatelessWidget {
   final String title;
@@ -7,8 +6,6 @@ class ReorderableListItem extends StatelessWidget {
   final String imagePath;
   final bool isFavorite;
   final VoidCallback? onFavoritePressed;
-  final VoidCallback onMoveUp;
-  final VoidCallback onMoveDown;
 
   const ReorderableListItem({
     super.key,
@@ -17,8 +14,6 @@ class ReorderableListItem extends StatelessWidget {
     required this.imagePath,
     required this.isFavorite,
     this.onFavoritePressed,
-    required this.onMoveUp,
-    required this.onMoveDown,
   });
 
   @override
@@ -32,10 +27,6 @@ class ReorderableListItem extends StatelessWidget {
       height: itemHeight,
       child: Row(
         children: [
-          MoveIcons( // ここでMoveIconsを使用
-            onMoveUp: onMoveUp,
-            onMoveDown: onMoveDown,
-          ),
           Expanded(
             child: Container(
               margin: const EdgeInsets.only(left: 8.0),
