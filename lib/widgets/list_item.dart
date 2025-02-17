@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fishing_app/screens/my_list_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:logger/logger.dart'; // 🔹 追加
 
 class ListItem extends StatefulWidget {
   final String title;
@@ -8,7 +9,7 @@ class ListItem extends StatefulWidget {
   final String imagePath;
   final bool isFavorite;
   final VoidCallback? onFavoritePressed;
-  final bool navigateToMyListScreen; // 受け取る
+  final bool navigateToMyListScreen;
   final String catchInfoUrl;
 
   const ListItem({
@@ -18,7 +19,7 @@ class ListItem extends StatefulWidget {
     required this.imagePath,
     required this.isFavorite,
     this.onFavoritePressed,
-    required this.navigateToMyListScreen, // 必須に
+    this.navigateToMyListScreen = false,
     required this.catchInfoUrl,
   });
 
@@ -28,11 +29,13 @@ class ListItem extends StatefulWidget {
 
 class ListItemState extends State<ListItem> {
   late bool _isFavorite;
+  final Logger _logger = Logger(); // 🔹 追加
 
   @override
   void initState() {
     super.initState();
     _isFavorite = widget.isFavorite;
+    _logger.d('ListItem initState: navigateToMyListScreen = ${widget.navigateToMyListScreen}'); // 🔹 ログ追加
   }
 
   void _toggleFavorite() {
@@ -43,8 +46,9 @@ class ListItemState extends State<ListItem> {
       widget.onFavoritePressed!();
     }
 
-    // 直接受け取ったフラグで遷移制御
-    if (widget.navigateToMyListScreen) {
+    _logger.d('ListItem _toggleFavorite: navigateToMyListScreen = ${widget.navigateToMyListScreen}'); // 🔹 ログ追加
+
+    if (widget.navigateToMyListScreen == true) {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const MyListScreen()),
@@ -63,6 +67,7 @@ class ListItemState extends State<ListItem> {
 
   @override
   Widget build(BuildContext context) {
+    _logger.d('ListItem build: navigateToMyListScreen = ${widget.navigateToMyListScreen}'); // 🔹 ログ追加
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 

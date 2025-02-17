@@ -38,12 +38,13 @@ class SearchResultsState extends State<SearchResults> {
   Widget build(BuildContext context) {
     final favoritesProvider = Provider.of<FavoritesProvider>(context);
 
+    _logger.d('🔍 SearchResults: navigateToMyListScreen = false');  // 🔹 ログ追加
+
     return Scaffold(
       backgroundColor: Colors.black,
       body: SafeArea(
         child: Column(
           children: [
-            // 検索バー
             SearchBarWithBackButton(
               onBackPressed: () {
                 Navigator.pop(context);
@@ -51,8 +52,6 @@ class SearchResultsState extends State<SearchResults> {
               onSubmitted: _onSearchSubmitted,
               searchController: _searchController,
             ),
-
-            // 検索結果タイトル
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 8.0),
               child: Align(
@@ -67,8 +66,6 @@ class SearchResultsState extends State<SearchResults> {
                 ),
               ),
             ),
-
-            // 検索結果リスト
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 0.1, vertical: 1.5),
@@ -85,7 +82,7 @@ class SearchResultsState extends State<SearchResults> {
                     : VendorList(
                         vendors: widget.searchResults,
                         favoritesProvider: favoritesProvider,
-                        navigateToMyListScreen: false, // 🔹 ここを修正して即座に遷移しない
+                        navigateToMyListScreen: false,
                       ),
               ),
             ),
