@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fishing_app/screens/my_list_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:logger/logger.dart'; // 🔹 追加
+import 'package:logger/logger.dart';
 
 class ListItem extends StatefulWidget {
   final String title;
@@ -29,32 +29,33 @@ class ListItem extends StatefulWidget {
 
 class ListItemState extends State<ListItem> {
   late bool _isFavorite;
-  final Logger _logger = Logger(); // 🔹 追加
+  final Logger _logger = Logger();
 
   @override
   void initState() {
     super.initState();
     _isFavorite = widget.isFavorite;
-    _logger.d('ListItem initState: navigateToMyListScreen = ${widget.navigateToMyListScreen}'); // 🔹 ログ追加
+    _logger.d('ListItem initState: navigateToMyListScreen = ${widget.navigateToMyListScreen}');
   }
 
-void _toggleFavorite() {
-  setState(() {
-    _isFavorite = !_isFavorite;
-  });
-  if (widget.onFavoritePressed != null) {
-    widget.onFavoritePressed!();
+  void _toggleFavorite() {
+    setState(() {
+      _isFavorite = !_isFavorite;
+    });
+    if (widget.onFavoritePressed != null) {
+      widget.onFavoritePressed!();
+    }
+
+    _logger.d('navigateToMyListScreen in _toggleFavorite: ${widget.navigateToMyListScreen}');
+
+    // 🔹 navigateToMyListScreenがtrueのときだけ遷移
+    if (widget.navigateToMyListScreen == true) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const MyListScreen()),
+      );
+    }
   }
-
-  _logger.d('navigateToMyListScreen in _toggleFavorite: ${widget.navigateToMyListScreen}');
-
-  if (widget.navigateToMyListScreen) {  // 🔹 `!= null`を削除
-  Navigator.pushReplacement(
-    context,
-    MaterialPageRoute(builder: (context) => const MyListScreen()),
-  );
-}
-}
 
   void _launchCatchInfo() async {
     final Uri url = Uri.parse(widget.catchInfoUrl);
@@ -67,7 +68,7 @@ void _toggleFavorite() {
 
   @override
   Widget build(BuildContext context) {
-    _logger.d('ListItem build: navigateToMyListScreen = ${widget.navigateToMyListScreen}'); // 🔹 ログ追加
+    _logger.d('ListItem build: navigateToMyListScreen = ${widget.navigateToMyListScreen}');
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 

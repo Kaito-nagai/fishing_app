@@ -29,7 +29,7 @@ class VendorList extends StatelessWidget {
   const VendorList({
     required this.vendors,
     required this.favoritesProvider,
-    required this.navigateToMyListScreen, // 必須に変更
+    this.navigateToMyListScreen = false, // 🔹 初期値をfalseに変更
     super.key,
   });
 
@@ -53,7 +53,7 @@ class VendorList extends StatelessWidget {
             location: vendor.location,
             imagePath: vendor.imagePath,
             isFavorite: isFavorite,
-            navigateToMyListScreen: navigateToMyListScreen, // ここで直接渡す
+            navigateToMyListScreen: navigateToMyListScreen, // 🔹 必要な場面でtrueに
             catchInfoUrl: vendor.catchInfo,
             onFavoritePressed: () {
               if (isFavorite) {
