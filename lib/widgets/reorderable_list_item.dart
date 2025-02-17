@@ -45,7 +45,7 @@ class ReorderableListItem extends StatelessWidget {
                 children: [
                   // 🔹 左に「上アイコン」 - 中央配置＆サイズ調整
                   Positioned(
-                    right: screenWidth * 0.10, // アイコン間の幅を狭く
+                    right: screenWidth * 0.08, // アイコン間の幅を狭く
                     top: itemHeight * 0.02,    // 高さの中央に配置
                     child: IconButton(
                       icon: const Icon(Icons.arrow_drop_up, color: Colors.blue),
@@ -55,7 +55,7 @@ class ReorderableListItem extends StatelessWidget {
                   ),
                   // 🔹 右に「下アイコン」 - 中央配置＆サイズ調整
                   Positioned(
-                    right: 3,                  // 右端に配置
+                    right: 1,                  // 右端に配置
                     top: itemHeight * 0.02,    // 高さの中央に配置
                     child: IconButton(
                       icon: const Icon(Icons.arrow_drop_down, color: Colors.blue),
@@ -65,7 +65,7 @@ class ReorderableListItem extends StatelessWidget {
                   ),
                   Positioned(
                     left: screenWidth * 0.332,
-                    top: itemHeight * 0.5,
+                    top: itemHeight * 0.53,
                     child: Opacity(
                       opacity: 0.50,
                       child: Text(
@@ -99,7 +99,7 @@ class ReorderableListItem extends StatelessWidget {
                         title,
                         style: const TextStyle(
                           color: Colors.white,
-                          fontSize: 16,
+                          fontSize: 18,
                           fontFamily: 'Noto Sans JP',
                           fontWeight: FontWeight.w900,
                           decoration: TextDecoration.none,

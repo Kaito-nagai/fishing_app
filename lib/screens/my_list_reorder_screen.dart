@@ -12,11 +12,11 @@ class MyListReorderScreen extends StatefulWidget {
 }
 
 class _MyListReorderScreenState extends State<MyListReorderScreen> {
-  void _moveItem(int oldIndex, int newIndex) { // 🔹 並べ替え処理を関数化
+  void _moveItem(int oldIndex, int newIndex, {bool isDown = false}) {
     final favoritesProvider = Provider.of<FavoritesProvider>(context, listen: false);
     final favoriteVendors = favoritesProvider.favorites;
     setState(() {
-      if (newIndex > oldIndex) newIndex -= 1;
+      if (newIndex > oldIndex && !isDown) newIndex -= 1; // ReorderableListViewの場合のみ調整
       final item = favoriteVendors.removeAt(oldIndex);
       favoriteVendors.insert(newIndex, item);
       favoritesProvider.updateFavorites();
@@ -55,7 +55,7 @@ class _MyListReorderScreenState extends State<MyListReorderScreen> {
           ),
           Expanded(
             child: ReorderableListView(
-              onReorder: (oldIndex, newIndex) => _moveItem(oldIndex, newIndex), // 🔹 関数を使用
+              onReorder: (oldIndex, newIndex) => _moveItem(oldIndex, newIndex),
               children: [
                 for (int index = 0; index < favoriteVendors.length; index++)
                   Padding(
@@ -67,10 +67,10 @@ class _MyListReorderScreenState extends State<MyListReorderScreen> {
                       location: favoriteVendors[index]['location'],
                       imagePath: favoriteVendors[index]['imagePath'],
                       onMoveUp: index > 0
-                          ? () => _moveItem(index, index - 1) // 🔹 上へ移動
+                          ? () => _moveItem(index, index - 1)
                           : null,
                       onMoveDown: index < favoriteVendors.length - 1
-                          ? () => _moveItem(index, index + 1) // 🔹 下へ移動
+                          ? () => _moveItem(index, index + 1, isDown: true)
                           : null,
                     ),
                   ),
