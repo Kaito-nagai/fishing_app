@@ -38,23 +38,23 @@ class ListItemState extends State<ListItem> {
     _logger.d('ListItem initState: navigateToMyListScreen = ${widget.navigateToMyListScreen}'); // 🔹 ログ追加
   }
 
-  void _toggleFavorite() {
-    setState(() {
-      _isFavorite = !_isFavorite;
-    });
-    if (widget.onFavoritePressed != null) {
-      widget.onFavoritePressed!();
-    }
-
-    _logger.d('ListItem _toggleFavorite: navigateToMyListScreen = ${widget.navigateToMyListScreen}'); // 🔹 ログ追加
-
-    if (widget.navigateToMyListScreen == true) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const MyListScreen()),
-      );
-    }
+void _toggleFavorite() {
+  setState(() {
+    _isFavorite = !_isFavorite;
+  });
+  if (widget.onFavoritePressed != null) {
+    widget.onFavoritePressed!();
   }
+
+  _logger.d('navigateToMyListScreen in _toggleFavorite: ${widget.navigateToMyListScreen}');
+
+  if (widget.navigateToMyListScreen) {  // 🔹 `!= null`を削除
+  Navigator.pushReplacement(
+    context,
+    MaterialPageRoute(builder: (context) => const MyListScreen()),
+  );
+}
+}
 
   void _launchCatchInfo() async {
     final Uri url = Uri.parse(widget.catchInfoUrl);
