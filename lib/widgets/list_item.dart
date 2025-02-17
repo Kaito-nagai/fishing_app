@@ -8,7 +8,7 @@ class ListItem extends StatefulWidget {
   final String imagePath;
   final bool isFavorite;
   final VoidCallback? onFavoritePressed;
-  final bool navigateToMyListScreen;
+  final bool navigateToMyListScreen; // 受け取る
   final String catchInfoUrl;
 
   const ListItem({
@@ -18,7 +18,7 @@ class ListItem extends StatefulWidget {
     required this.imagePath,
     required this.isFavorite,
     this.onFavoritePressed,
-    this.navigateToMyListScreen = true,
+    required this.navigateToMyListScreen, // 必須に
     required this.catchInfoUrl,
   });
 
@@ -43,8 +43,8 @@ class ListItemState extends State<ListItem> {
       widget.onFavoritePressed!();
     }
 
-    // 🔹 修正: 検索結果画面では遷移しないように条件分岐
-    if (widget.navigateToMyListScreen && ModalRoute.of(context)?.settings.name != '/searchResults') {
+    // 直接受け取ったフラグで遷移制御
+    if (widget.navigateToMyListScreen) {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const MyListScreen()),

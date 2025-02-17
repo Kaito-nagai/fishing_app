@@ -77,6 +77,7 @@ class _MyListScreenState extends State<MyListScreen> {
                     catchInfo: favorite['catchInfo'] ?? '',
                   )).toList(),
                   favoritesProvider: favoritesProvider,
+                  navigateToMyListScreen: true,
                 ),
               ),
             ),

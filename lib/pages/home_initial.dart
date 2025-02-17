@@ -72,6 +72,7 @@ class HomeInitialScreen extends StatelessWidget {
                           return VendorList(
                             vendors: snapshot.data!,
                             favoritesProvider: favoritesProvider,
+                            navigateToMyListScreen: true, 
                           );
                         } else {
                           return const Text('データが見つかりません');
