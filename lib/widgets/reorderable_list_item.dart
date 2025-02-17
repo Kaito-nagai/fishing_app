@@ -4,16 +4,16 @@ class ReorderableListItem extends StatelessWidget {
   final String title;
   final String location;
   final String imagePath;
-  final bool isFavorite;
-  final VoidCallback? onFavoritePressed;
+  final VoidCallback? onMoveUp;
+  final VoidCallback? onMoveDown;
 
   const ReorderableListItem({
     super.key,
     required this.title,
     required this.location,
     required this.imagePath,
-    required this.isFavorite,
-    this.onFavoritePressed,
+    this.onMoveUp,
+    this.onMoveDown,
   });
 
   @override
@@ -43,16 +43,24 @@ class ReorderableListItem extends StatelessWidget {
               ),
               child: Stack(
                 children: [
+                  // 🔹 左に「上アイコン」 - 中央配置＆サイズ調整
                   Positioned(
-                    right: 1,
-                    top: itemHeight * 0.15,
+                    right: screenWidth * 0.10, // アイコン間の幅を狭く
+                    top: itemHeight * 0.02,    // 高さの中央に配置
                     child: IconButton(
-                      icon: Icon(
-                        isFavorite ? Icons.favorite : Icons.favorite_border,
-                        color: isFavorite ? Colors.red : Colors.grey,
-                        size: screenWidth * 0.053,
-                      ),
-                      onPressed: onFavoritePressed,
+                      icon: const Icon(Icons.arrow_drop_up, color: Colors.blue),
+                      iconSize: screenWidth * 0.13, // サイズを大きく
+                      onPressed: onMoveUp,
+                    ),
+                  ),
+                  // 🔹 右に「下アイコン」 - 中央配置＆サイズ調整
+                  Positioned(
+                    right: 3,                  // 右端に配置
+                    top: itemHeight * 0.02,    // 高さの中央に配置
+                    child: IconButton(
+                      icon: const Icon(Icons.arrow_drop_down, color: Colors.blue),
+                      iconSize: screenWidth * 0.13, // サイズを大きく
+                      onPressed: onMoveDown,
                     ),
                   ),
                   Positioned(

@@ -12,6 +12,17 @@ class MyListReorderScreen extends StatefulWidget {
 }
 
 class _MyListReorderScreenState extends State<MyListReorderScreen> {
+  void _moveItem(int oldIndex, int newIndex) { // 🔹 並べ替え処理を関数化
+    final favoritesProvider = Provider.of<FavoritesProvider>(context, listen: false);
+    final favoriteVendors = favoritesProvider.favorites;
+    setState(() {
+      if (newIndex > oldIndex) newIndex -= 1;
+      final item = favoriteVendors.removeAt(oldIndex);
+      favoriteVendors.insert(newIndex, item);
+      favoritesProvider.updateFavorites();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final favoritesProvider = Provider.of<FavoritesProvider>(context);
@@ -44,14 +55,7 @@ class _MyListReorderScreenState extends State<MyListReorderScreen> {
           ),
           Expanded(
             child: ReorderableListView(
-              onReorder: (oldIndex, newIndex) {
-                setState(() {
-                  if (newIndex > oldIndex) newIndex -= 1;
-                  final item = favoriteVendors.removeAt(oldIndex);
-                  favoriteVendors.insert(newIndex, item);
-                  favoritesProvider.updateFavorites();
-                });
-              },
+              onReorder: (oldIndex, newIndex) => _moveItem(oldIndex, newIndex), // 🔹 関数を使用
               children: [
                 for (int index = 0; index < favoriteVendors.length; index++)
                   Padding(
@@ -62,10 +66,12 @@ class _MyListReorderScreenState extends State<MyListReorderScreen> {
                       title: favoriteVendors[index]['name'],
                       location: favoriteVendors[index]['location'],
                       imagePath: favoriteVendors[index]['imagePath'],
-                      isFavorite: favoritesProvider.isFavorite(favoriteVendors[index]['id']),
-                      onFavoritePressed: () {
-                        favoritesProvider.removeFavorite(favoriteVendors[index]['id']);
-                      },
+                      onMoveUp: index > 0
+                          ? () => _moveItem(index, index - 1) // 🔹 上へ移動
+                          : null,
+                      onMoveDown: index < favoriteVendors.length - 1
+                          ? () => _moveItem(index, index + 1) // 🔹 下へ移動
+                          : null,
                     ),
                   ),
               ],
