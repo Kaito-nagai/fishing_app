@@ -43,8 +43,8 @@ class ListItemState extends State<ListItem> {
       widget.onFavoritePressed!();
     }
 
-    // 🔹 条件分岐を追加
-    if (widget.navigateToMyListScreen && ModalRoute.of(context)?.settings.name != '/search_results') {
+    // 🔹 修正: 検索結果画面では遷移しないように条件分岐
+    if (widget.navigateToMyListScreen && ModalRoute.of(context)?.settings.name != '/searchResults') {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const MyListScreen()),

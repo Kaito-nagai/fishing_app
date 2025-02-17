@@ -42,18 +42,21 @@ class VendorList extends StatelessWidget {
       child: ListView.builder(
         padding: EdgeInsets.zero,
         physics: const AlwaysScrollableScrollPhysics(),
-        shrinkWrap: true, // 🔹 親の制約に合わせる
+        shrinkWrap: true,
         itemCount: vendors.length > 10 ? 10 : vendors.length,
         itemBuilder: (context, index) {
           final vendor = vendors[index];
           final isFavorite = favoritesProvider.isFavorite(vendor.id);
+
+          // 🔹 画面遷移の条件を調整
+          bool shouldNavigate = ModalRoute.of(context)?.settings.name == '/search_results' ? false : navigateToMyListScreen;
 
           return ListItem(
             title: vendor.title,
             location: vendor.location,
             imagePath: vendor.imagePath,
             isFavorite: isFavorite,
-            navigateToMyListScreen: navigateToMyListScreen,
+            navigateToMyListScreen: shouldNavigate,
             catchInfoUrl: vendor.catchInfo,
             onFavoritePressed: () {
               if (isFavorite) {
