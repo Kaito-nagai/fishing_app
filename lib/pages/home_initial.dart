@@ -4,12 +4,11 @@ import 'package:fishing_app/widgets/bottom_nav.dart';
 import 'package:fishing_app/widgets/label_text_widget.dart';
 import 'package:fishing_app/widgets/ad_banner.dart';
 import 'package:fishing_app/components/vendor_list.dart';
-import 'package:fishing_app/utils/json_loader.dart'; // loadVendorsFromJson をインポート
-import 'package:provider/provider.dart'; // Provider パッケージをインポート
-import 'package:fishing_app/providers/favorites_provider.dart'; // FavoritesProvider をインポート
-import 'package:fishing_app/screens/my_list_screen.dart'; // MyListScreen をインポート
+import 'package:fishing_app/utils/json_loader.dart';
+import 'package:provider/provider.dart';
+import 'package:fishing_app/providers/favorites_provider.dart';
+import 'package:fishing_app/screens/my_list_screen.dart';
 
-// グローバルスコープで Logger を初期化
 final logger = Logger();
 
 class HomeInitialScreen extends StatelessWidget {
@@ -19,13 +18,11 @@ class HomeInitialScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
-
-    // FavoritesProvider を使用してお気に入りリストを取得
     final favoritesProvider = context.watch<FavoritesProvider>();
 
-    // 🔹 お気に入りがある場合、自動的にMyListScreenへ遷移するよう修正
+    // 🔹 検索結果画面からは自動遷移しない
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (favoritesProvider.favorites.isNotEmpty) {
+      if (favoritesProvider.favorites.isNotEmpty && ModalRoute.of(context)?.settings.name != '/search_results') {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => const MyListScreen()),
@@ -34,7 +31,7 @@ class HomeInitialScreen extends StatelessWidget {
     });
 
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 0, 0, 0), // ダークモードの背景色を指定
+      backgroundColor: const Color.fromARGB(255, 0, 0, 0),
       body: Stack(
         children: [
           Positioned(
@@ -42,11 +39,10 @@ class HomeInitialScreen extends StatelessWidget {
             top: screenHeight * 0.240,
             child: SizedBox(
               width: screenWidth * 1,
-              height: screenHeight * 0.66, // 全体の高さを制限
+              height: screenHeight * 0.66,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // 上部テキスト
                   LabelTextWidget(
                     text: 'マイリストに業者を登録しよう',
                     fontSize: 0.06,
@@ -63,22 +59,19 @@ class HomeInitialScreen extends StatelessWidget {
                     width: 0.98,
                     height: 0.030,
                   ),
-                  const SizedBox(height: 8.0), // テキストとリストの間の余白を調整
-
-                  // 業者リスト（スクロール可能）
+                  const SizedBox(height: 8.0),
                   Expanded(
                     child: FutureBuilder<List<Vendor>>(
-                      future: loadVendorsFromJson(), // JSON データを読み込む
+                      future: loadVendorsFromJson(),
                       builder: (context, snapshot) {
                         if (snapshot.connectionState == ConnectionState.waiting) {
-                          return const Center(
-                              child: CircularProgressIndicator()); // ローディング表示
+                          return const Center(child: CircularProgressIndicator());
                         } else if (snapshot.hasError) {
                           return Text('エラー: ${snapshot.error}');
                         } else if (snapshot.hasData) {
                           return VendorList(
-                            vendors: snapshot.data!, // 業者リスト
-                            favoritesProvider: favoritesProvider, // 修正: FavoritesProviderを渡す
+                            vendors: snapshot.data!,
+                            favoritesProvider: favoritesProvider,
                           );
                         } else {
                           return const Text('データが見つかりません');

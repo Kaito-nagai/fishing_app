@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fishing_app/screens/my_list_screen.dart';
-import 'package:url_launcher/url_launcher.dart'; // 🔹 追加：URL遷移用パッケージ
+import 'package:url_launcher/url_launcher.dart';
 
 class ListItem extends StatefulWidget {
   final String title;
@@ -9,7 +9,7 @@ class ListItem extends StatefulWidget {
   final bool isFavorite;
   final VoidCallback? onFavoritePressed;
   final bool navigateToMyListScreen;
-  final String catchInfoUrl; // 🔹 新規追加：catch_infoのURL
+  final String catchInfoUrl;
 
   const ListItem({
     super.key,
@@ -19,7 +19,7 @@ class ListItem extends StatefulWidget {
     required this.isFavorite,
     this.onFavoritePressed,
     this.navigateToMyListScreen = true,
-    required this.catchInfoUrl, // 🔹 必須パラメータとして追加
+    required this.catchInfoUrl,
   });
 
   @override
@@ -43,7 +43,8 @@ class ListItemState extends State<ListItem> {
       widget.onFavoritePressed!();
     }
 
-    if (widget.navigateToMyListScreen) {
+    // 🔹 条件分岐を追加
+    if (widget.navigateToMyListScreen && ModalRoute.of(context)?.settings.name != '/search_results') {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const MyListScreen()),
@@ -51,11 +52,10 @@ class ListItemState extends State<ListItem> {
     }
   }
 
-  // 🔹 業者タップ時にURLを開くメソッド
   void _launchCatchInfo() async {
     final Uri url = Uri.parse(widget.catchInfoUrl);
     if (await canLaunchUrl(url)) {
-      await launchUrl(url, mode: LaunchMode.externalApplication); // 外部ブラウザで開く
+      await launchUrl(url, mode: LaunchMode.externalApplication);
     } else {
       throw 'このURLを開けません: $url';
     }
@@ -66,8 +66,8 @@ class ListItemState extends State<ListItem> {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 
-    return GestureDetector( // 🔹 タップ検出を追加
-      onTap: _launchCatchInfo, // 🔹 タップ時にURL遷移
+    return GestureDetector(
+      onTap: _launchCatchInfo,
       child: SizedBox(
         width: double.infinity,
         height: screenHeight * 0.07,
@@ -167,4 +167,3 @@ class ListItemState extends State<ListItem> {
     );
   }
 }
-

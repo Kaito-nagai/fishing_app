@@ -21,11 +21,10 @@ class _MyListScreenState extends State<MyListScreen> {
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    // お気に入りリストを取得
     final favoritesProvider = Provider.of<FavoritesProvider>(context, listen: false);
 
-    // 🔹 お気に入りが空なら即座に home_initial.dart に戻る
-    if (favoritesProvider.favorites.isEmpty) {
+    // 🔹 検索結果画面では自動遷移しない
+    if (favoritesProvider.favorites.isEmpty && ModalRoute.of(context)?.settings.name != '/search_results') {
       logger.i('お気に入りが空になったため、ホーム画面に戻ります');
       WidgetsBinding.instance.addPostFrameCallback((_) {
         Navigator.pushReplacement(
@@ -46,15 +45,11 @@ class _MyListScreenState extends State<MyListScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            // 広告エリア
             AdBanner(
-              positionTop: 0.02, // 画面の上部に配置
+              positionTop: 0.02,
               onTap: () => logger.i('広告がタップされました'),
             ),
-
-            const SizedBox(height: 20), // 広告エリアの高さ分の余白を追加
-
-            // マイリストタイトル
+            const SizedBox(height: 20),
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 10.0),
               child: Align(
@@ -70,20 +65,18 @@ class _MyListScreenState extends State<MyListScreen> {
               ),
             ),
             const SizedBox(height: 10),
-
-            // お気に入り業者リスト
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.only(top: 10.0), // 広告との間にスペースを確保
+                padding: const EdgeInsets.only(top: 10.0),
                 child: VendorList(
                   vendors: favoriteItems.map((favorite) => Vendor(
-                    id: favorite['id'], // Map型なのでキーで取得
+                    id: favorite['id'],
                     title: favorite['name'],
-                    location: favorite['location'] ?? '', // 必要なら location を適切に設定
-                    imagePath: 'assets/images/placeholder_image.png', // 仮の画像パスを使用
-                    catchInfo: favorite['catchInfo'] ?? '', // 🔹 追加
+                    location: favorite['location'] ?? '',
+                    imagePath: 'assets/images/placeholder_image.png',
+                    catchInfo: favorite['catchInfo'] ?? '',
                   )).toList(),
-                  favoritesProvider: favoritesProvider, // 必要なプロバイダーを渡す
+                  favoritesProvider: favoritesProvider,
                 ),
               ),
             ),

@@ -10,14 +10,14 @@ class Vendor {
   final String title;
   final String location;
   final String imagePath;
-  final String catchInfo; // 🔹 新規追加：catch_infoを保持
+  final String catchInfo;
 
   Vendor({
     required this.id,
     required this.title,
     required this.location,
     required this.imagePath,
-    required this.catchInfo, // 🔹 コンストラクタに追加
+    required this.catchInfo,
   });
 }
 
@@ -37,23 +37,24 @@ class VendorList extends StatelessWidget {
   Widget build(BuildContext context) {
     logger.i("VendorList - navigateToMyListScreen: $navigateToMyListScreen");
 
-    return ListView.builder(
-      padding: EdgeInsets.zero,
-      physics: const AlwaysScrollableScrollPhysics(),
-      itemCount: vendors.length > 10 ? 10 : vendors.length,
-      itemBuilder: (context, index) {
-        final vendor = vendors[index];
-        final isFavorite = favoritesProvider.isFavorite(vendor.id);
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 0.1, vertical: 1.5),
+      child: ListView.builder(
+        padding: EdgeInsets.zero,
+        physics: const AlwaysScrollableScrollPhysics(),
+        shrinkWrap: true, // 🔹 親の制約に合わせる
+        itemCount: vendors.length > 10 ? 10 : vendors.length,
+        itemBuilder: (context, index) {
+          final vendor = vendors[index];
+          final isFavorite = favoritesProvider.isFavorite(vendor.id);
 
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 0.1, vertical: 1.5),
-          child: ListItem(
+          return ListItem(
             title: vendor.title,
             location: vendor.location,
             imagePath: vendor.imagePath,
             isFavorite: isFavorite,
             navigateToMyListScreen: navigateToMyListScreen,
-            catchInfoUrl: vendor.catchInfo, // 🔹 ListItemにcatch_infoを渡す
+            catchInfoUrl: vendor.catchInfo,
             onFavoritePressed: () {
               if (isFavorite) {
                 favoritesProvider.removeFavorite(vendor.id);
@@ -63,13 +64,13 @@ class VendorList extends StatelessWidget {
                   'name': vendor.title,
                   'location': vendor.location,
                   'imagePath': vendor.imagePath,
-                  'catchInfo': vendor.catchInfo, // 🔹 お気に入りにもcatch_infoを追加
+                  'catchInfo': vendor.catchInfo,
                 });
               }
             },
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }

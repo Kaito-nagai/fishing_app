@@ -85,7 +85,7 @@ class SearchResultsState extends State<SearchResults> {
                     : VendorList(
                         vendors: widget.searchResults,
                         favoritesProvider: favoritesProvider,
-                        navigateToMyListScreen: false, // 即座に遷移しない
+                        navigateToMyListScreen: false, // 🔹 ここを修正して即座に遷移しない
                       ),
               ),
             ),
