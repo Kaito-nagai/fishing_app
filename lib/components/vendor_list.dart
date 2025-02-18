@@ -38,7 +38,7 @@ class VendorList extends StatelessWidget {
     logger.i("VendorList - navigateToMyListScreen: $navigateToMyListScreen");
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 0.1, vertical: 1.5),
+      padding: const EdgeInsets.symmetric(horizontal: 0.1, vertical: 2.5),
       child: ListView.builder(
         padding: EdgeInsets.zero,
         physics: const AlwaysScrollableScrollPhysics(),

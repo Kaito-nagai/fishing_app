@@ -48,7 +48,6 @@ class ListItemState extends State<ListItem> {
 
     _logger.d('navigateToMyListScreen in _toggleFavorite: ${widget.navigateToMyListScreen}');
 
-    // 🔹 navigateToMyListScreenがtrueのときだけ遷移
     if (widget.navigateToMyListScreen == true) {
       Navigator.pushReplacement(
         context,
@@ -72,102 +71,105 @@ class ListItemState extends State<ListItem> {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 
-    return GestureDetector(
-      onTap: _launchCatchInfo,
-      child: SizedBox(
-        width: double.infinity,
-        height: screenHeight * 0.07,
-        child: Stack(
-          children: [
-            Container(
-              width: double.infinity,
-              height: screenHeight * 0.07,
-              decoration: BoxDecoration(
-                color: const Color(0xFF2E2E2E),
-                borderRadius: BorderRadius.circular(5),
-                boxShadow: const [
-                  BoxShadow(
-                    color: Color.fromARGB(64, 0, 0, 0),
-                    offset: Offset(4, 4),
-                    blurRadius: 4,
-                  ),
-                ],
-              ),
-            ),
-            Positioned(
-              left: screenWidth * 0.87,
-              top: screenHeight * 0.011,
-              child: IconButton(
-                icon: Icon(
-                  _isFavorite ? Icons.favorite : Icons.favorite_border,
-                  color: _isFavorite ? Colors.red : Colors.grey,
-                  size: screenWidth * 0.053,
-                ),
-                onPressed: _toggleFavorite,
-              ),
-            ),
-            Positioned(
-              left: screenWidth * 0.332,
-              top: screenHeight * 0.036,
-              child: Opacity(
-                opacity: 0.50,
-                child: Text(
-                  widget.location,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: screenWidth * 0.034,
-                    fontFamily: 'Noto Sans JP',
-                    fontWeight: FontWeight.w500,
-                    decoration: TextDecoration.none,
-                  ),
-                ),
-              ),
-            ),
-            Positioned(
-              left: screenWidth * 0.295,
-              top: screenHeight * 0.039,
-              child: Icon(
-                Icons.location_pin,
-                size: screenWidth * 0.035,
-                color: const Color(0xFF777777),
-              ),
-            ),
-            Positioned(
-              left: screenWidth * 0.30,
-              top: screenHeight * 0.008,
-              child: SizedBox(
-                width: screenWidth * 0.3,
-                height: screenHeight * 0.06,
-                child: Text(
-                  widget.title,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: screenWidth * 0.045,
-                    fontFamily: 'Noto Sans JP',
-                    fontWeight: FontWeight.w900,
-                    decoration: TextDecoration.none,
-                  ),
-                ),
-              ),
-            ),
-            Positioned(
-              left: 0,
-              top: 0,
-              child: Container(
-                width: screenWidth * 0.25,
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 2.0), // 🔹 リスト間の間隔を追加
+      child: GestureDetector(
+        onTap: _launchCatchInfo,
+        child: SizedBox(
+          width: double.infinity,
+          height: screenHeight * 0.07,
+          child: Stack(
+            children: [
+              Container(
+                width: double.infinity,
                 height: screenHeight * 0.07,
-                decoration: ShapeDecoration(
-                  image: DecorationImage(
-                    image: AssetImage(widget.imagePath),
-                    fit: BoxFit.fill,
+                decoration: BoxDecoration(
+                  color: const Color(0xFF2E2E2E),
+                  borderRadius: BorderRadius.circular(5),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Color.fromARGB(64, 0, 0, 0),
+                      offset: Offset(4, 4),
+                      blurRadius: 4,
+                    ),
+                  ],
+                ),
+              ),
+              Positioned(
+                left: screenWidth * 0.87,
+                top: screenHeight * 0.011,
+                child: IconButton(
+                  icon: Icon(
+                    _isFavorite ? Icons.favorite : Icons.favorite_border,
+                    color: _isFavorite ? Colors.red : Colors.grey,
+                    size: screenWidth * 0.053,
                   ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5),
+                  onPressed: _toggleFavorite,
+                ),
+              ),
+              Positioned(
+                left: screenWidth * 0.332,
+                top: screenHeight * 0.039,
+                child: Opacity(
+                  opacity: 0.50,
+                  child: Text(
+                    widget.location,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: screenWidth * 0.034,
+                      fontFamily: 'Noto Sans JP',
+                      fontWeight: FontWeight.w500,
+                      decoration: TextDecoration.none,
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+              Positioned(
+                left: screenWidth * 0.297,
+                top: screenHeight * 0.041,
+                child: Icon(
+                  Icons.location_pin,
+                  size: screenWidth * 0.035,
+                  color: const Color(0xFF777777),
+                ),
+              ),
+              Positioned(
+                left: screenWidth * 0.30,
+                top: screenHeight * 0.008,
+                child: SizedBox(
+                  width: screenWidth * 0.3,
+                  height: screenHeight * 0.06,
+                  child: Text(
+                    widget.title,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: screenWidth * 0.045,
+                      fontFamily: 'Noto Sans JP',
+                      fontWeight: FontWeight.w900,
+                      decoration: TextDecoration.none,
+                    ),
+                  ),
+                ),
+              ),
+              Positioned(
+                left: 0,
+                top: 0,
+                child: Container(
+                  width: screenWidth * 0.25,
+                  height: screenHeight * 0.07,
+                  decoration: ShapeDecoration(
+                    image: DecorationImage(
+                      image: AssetImage(widget.imagePath),
+                      fit: BoxFit.fill,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -5,6 +5,7 @@ import '../widgets/bottom_nav.dart';
 import '../widgets/search_bar.dart';
 import '../providers/favorites_provider.dart';
 import 'package:provider/provider.dart';
+import '../utils/json_loader.dart'; // 🔹 JSONデータ読み込み用
 
 class SearchResults extends StatefulWidget {
   final List<Vendor> searchResults;
@@ -23,28 +24,45 @@ class SearchResults extends StatefulWidget {
 class SearchResultsState extends State<SearchResults> {
   late TextEditingController _searchController;
   final Logger _logger = Logger();
+  List<Vendor> _displayedResults = [];
 
   @override
   void initState() {
     super.initState();
     _searchController = TextEditingController(text: widget.initialQuery);
+    _displayedResults = widget.searchResults;
   }
 
-  void _onSearchSubmitted(String query) {
+  // 🔹 再検索を実行する処理
+  void _onSearchSubmitted(String query) async {
+    if (query.isEmpty) return;
+
     _logger.d('再検索: $query');
+
+    // 🔹 JSONデータを再読み込みして検索
+    List<Vendor> allVendors = await loadVendorsFromJson();
+    List<Vendor> results = allVendors.where((vendor) {
+      final title = vendor.title.toLowerCase();
+      final location = vendor.location.toLowerCase();
+      return title.contains(query.toLowerCase()) || location.contains(query.toLowerCase());
+    }).toList();
+
+    // 🔹 検索結果を更新
+    setState(() {
+      _displayedResults = results;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     final favoritesProvider = Provider.of<FavoritesProvider>(context);
 
-    _logger.d('🔍 SearchResults: navigateToMyListScreen = false');  // 🔹 ログ追加
-
     return Scaffold(
       backgroundColor: Colors.black,
       body: SafeArea(
         child: Column(
           children: [
+            // 🔹 再検索可能な検索バー
             SearchBarWithBackButton(
               onBackPressed: () {
                 Navigator.pop(context);
@@ -69,7 +87,7 @@ class SearchResultsState extends State<SearchResults> {
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 0.1, vertical: 1.5),
-                child: widget.searchResults.isEmpty
+                child: _displayedResults.isEmpty
                     ? const Center(
                         child: Text(
                           '該当する結果が見つかりません',
@@ -80,7 +98,7 @@ class SearchResultsState extends State<SearchResults> {
                         ),
                       )
                     : VendorList(
-                        vendors: widget.searchResults,
+                        vendors: _displayedResults,
                         favoritesProvider: favoritesProvider,
                         navigateToMyListScreen: false,
                       ),

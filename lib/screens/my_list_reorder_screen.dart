@@ -60,7 +60,7 @@ class _MyListReorderScreenState extends State<MyListReorderScreen> {
                 for (int index = 0; index < favoriteVendors.length; index++)
                   Padding(
                     key: ValueKey(favoriteVendors[index]['id']),
-                    padding: const EdgeInsets.symmetric(vertical: 3.0),
+                    padding: const EdgeInsets.symmetric(vertical: 2.0),
                     child: ReorderableListItem(
                       key: ValueKey(favoriteVendors[index]['id']),
                       title: favoriteVendors[index]['name'],
